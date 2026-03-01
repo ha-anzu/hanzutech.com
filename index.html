@@ -1,26 +1,747 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; block-all-mixed-content">
-    <script>
-        if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-            location.replace('https://' + location.host + location.pathname + location.search + location.hash);
-        }
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanzu Tech</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 20vh; background: #f0f0f0; color: #333; }
-        h1 { font-size: 3em; }
-        p { font-size: 1.5em; }
-    </style>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; upgrade-insecure-requests; block-all-mixed-content">
+  <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark">
+  <title>Hanzu Tech</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; }
+    h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
+    .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
+    .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    .card { background-color: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.6); padding: 2rem; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s, background-color 0.35s; position: relative; overflow: hidden; }
+    .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 0, 51, 0.12), transparent 40%, rgba(255, 204, 0, 0.08)); opacity: 0.7; pointer-events: none; }
+    .card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 24px rgba(255, 204, 0, 0.24); border-color: rgba(255, 204, 0, 0.85); background-color: rgba(8, 2, 5, 0.84); }
+    .button {
+      padding: 1rem 2rem;
+      border: 2px solid #ffcc00;
+      color: black;
+      background: linear-gradient(135deg, #ff0033, #ff4a32 60%, #ffcc00 120%);
+      background-size: 200% 200%;
+      transition: background-position 0.35s, transform 0.35s, box-shadow 0.35s, border-color 0.35s, color 0.35s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      position: relative;
+      overflow: hidden;
+    }
+    .button::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent); transform: translateX(-140%); transition: transform 0.45s ease; pointer-events: none; }
+    .button:hover { background-position: 100% 50%; border-color: #ff0033; transform: translateY(-3px) scale(1.015); box-shadow: 0 0 24px rgba(255, 204, 0, 0.32), 0 0 42px rgba(255, 0, 51, 0.18); color: black; }
+    .button:hover::before { transform: translateX(140%); }
+    .flicker { animation: flicker 2s infinite; }
+    .pulse-drift { animation: pulseDrift 8s ease-in-out infinite; }
+    .grid-shell::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 0, 51, 0.16), transparent 24%),
+        radial-gradient(circle at 78% 12%, rgba(255, 204, 0, 0.1), transparent 18%),
+        linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px);
+      background-size: auto, auto, 72px 72px, 72px 72px;
+      pointer-events: none;
+      z-index: -2;
+    }
+    .hero-shell {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.82)),
+        radial-gradient(circle at center, rgba(255, 0, 51, 0.12), transparent 38%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1600 1000'%3E%3Cg fill='none'%3E%3Cpath d='M60 760 540 480 860 620 1540 260' stroke='rgba(255,0,51,0.16)' stroke-width='2'/%3E%3Cpath d='M120 920 520 650 860 730 1280 460' stroke='rgba(255,204,0,0.12)' stroke-width='2'/%3E%3Cpath d='M860 0 860 1000' stroke='rgba(255,0,51,0.08)' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .hero-shell::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.12), transparent); transform: translateX(-120%); animation: sweep 11s linear infinite; pointer-events: none; }
+    .console-panel { background: rgba(0, 0, 0, 0.64); border: 1px solid rgba(255, 0, 51, 0.45); box-shadow: 0 0 28px rgba(255, 0, 51, 0.14); backdrop-filter: blur(8px); }
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr); gap: 2rem; align-items: center; }
+    .hero-visual {
+      position: relative;
+      min-height: 38rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-visual::before {
+      content: "";
+      position: absolute;
+      inset: 8% 10% 12%;
+      border: 1px solid rgba(255, 0, 51, 0.18);
+      background:
+        radial-gradient(circle at center, rgba(255, 0, 51, 0.12), transparent 52%),
+        linear-gradient(135deg, rgba(255, 0, 51, 0.08), transparent 36%, rgba(255, 204, 0, 0.06));
+      pointer-events: none;
+    }
+    .chat-demo {
+      position: relative;
+      z-index: 1;
+      width: min(38rem, 100%);
+      padding: 1rem;
+      border: 1px solid rgba(255, 0, 51, 0.32);
+      background: rgba(5, 5, 9, 0.7);
+      box-shadow: 0 0 32px rgba(255, 0, 51, 0.12);
+      backdrop-filter: blur(10px);
+    }
+    .chat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 0.9rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 0, 51, 0.24);
+    }
+    .chat-stage {
+      position: relative;
+      min-height: 36rem;
+      overflow: hidden;
+    }
+    .chat-sequence {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(12px);
+      transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
+    }
+    .chat-sequence.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .chat-sequence.clearing {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    .chat-bubble {
+      max-width: 88%;
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+    .chat-bubble.client {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 204, 0, 0.18);
+    }
+    .chat-bubble.team {
+      align-self: flex-end;
+      background: rgba(255, 0, 51, 0.08);
+      border-color: rgba(255, 0, 51, 0.32);
+      box-shadow: 0 0 18px rgba(255, 0, 51, 0.12);
+    }
+    .chat-sequence.active .chat-bubble.live {
+      opacity: 1;
+      transform: translateY(0);
+      animation: chatArrival 1.2s ease forwards, chatFloat 7s ease-in-out 1.2s infinite;
+    }
+    .chat-role {
+      display: block;
+      margin-bottom: 0.35rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+    .chat-note {
+      margin-top: 1rem;
+      padding-top: 0.95rem;
+      border-top: 1px solid rgba(255, 0, 51, 0.22);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      color: #9ca3af;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .chat-dots {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .chat-dots span {
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 999px;
+      background: rgba(255, 204, 0, 0.78);
+      box-shadow: 0 0 12px rgba(255, 204, 0, 0.25);
+      animation: dotPulse 1.4s ease-in-out infinite;
+    }
+    .chat-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .chat-dots span:nth-child(3) { animation-delay: 0.4s; }
+    .wise-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-top: 0.4rem;
+      padding: 0.28rem 0.52rem;
+      border: 1px solid rgba(90, 255, 190, 0.35);
+      background: rgba(90, 255, 190, 0.08);
+      color: #8dffd3;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .wise-mark {
+      width: 1.2rem;
+      height: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(90, 255, 190, 0.45);
+      color: #8dffd3;
+      font-weight: 700;
+      font-size: 0.62rem;
+    }
+    .technically { font-size: 1.45rem; font-weight: 700; color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.45); letter-spacing: 0.26em; text-transform: uppercase; display: inline-block; }
+    .signal { border: 1px solid rgba(255, 204, 0, 0.36); background: rgba(255, 204, 0, 0.06); color: #ffcc00; }
+    .micro-glitch { position: relative; isolation: isolate; }
+    .micro-glitch::before,
+    .micro-glitch::after { content: attr(data-text); position: absolute; inset: 0; opacity: 0.12; pointer-events: none; }
+    .micro-glitch::before { color: #ff0033; animation: glitch 6s infinite; }
+    .micro-glitch::after { color: #ffcc00; animation: glitch 6s infinite reverse; }
+    .nav-shell { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.25rem; }
+    .nav-right { justify-self: end; display: flex; align-items: center; gap: 1.75rem; }
+    .service-hub { position: relative; justify-self: center; }
+    .service-hub::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 1rem;
+    }
+    .service-trigger {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.7rem 1rem;
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      background: rgba(12, 12, 18, 0.72);
+      color: #ffcc00;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      box-shadow: 0 0 14px rgba(255, 0, 51, 0.12);
+    }
+    .service-trigger::after { content: "[]"; color: #ff0033; text-shadow: 0 0 10px #ff0033; }
+    .service-mega {
+      position: absolute;
+      top: calc(100% + 0.2rem);
+      left: 50%;
+      width: min(90vw, 760px);
+      transform: translateX(-50%) translateY(12px);
+      border: 1px solid rgba(255, 0, 51, 0.62);
+      background: rgba(3, 3, 6, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 26px rgba(255, 0, 51, 0.18);
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+      overflow: hidden;
+    }
+    .service-mega::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.08), transparent),
+        repeating-linear-gradient(to bottom, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 34px);
+      transform: translateX(-100%);
+      animation: retroSweep 8s linear infinite;
+      pointer-events: none;
+    }
+    .service-hub:hover .service-mega,
+    .service-hub:focus-within .service-mega {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+      transform: translateX(-50%) translateY(0);
+    }
+    .service-caption { position: relative; z-index: 1; margin-bottom: 0.9rem; padding-bottom: 0.7rem; border-bottom: 1px solid rgba(255, 0, 51, 0.28); }
+    .service-grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.55rem; }
+    .service-link {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.65rem 0.75rem;
+      min-width: 0;
+      border: 1px solid rgba(255, 0, 51, 0.18);
+      background: rgba(255,255,255,0.02);
+      transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+    }
+    .service-link:hover { transform: translateX(4px); border-color: rgba(255, 204, 0, 0.58); background: rgba(255, 204, 0, 0.05); }
+    .service-thumb {
+      width: 2.3rem;
+      height: 2.3rem;
+      flex: 0 0 2.3rem;
+      border: 1px solid rgba(255, 204, 0, 0.38);
+      background: linear-gradient(135deg, rgba(255, 0, 51, 0.18), rgba(255, 204, 0, 0.1));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .service-label { min-width: 0; line-height: 1.3; }
+    .page-wrap { width: 100%; max-width: 1480px; margin: 0 auto; min-width: 0; }
+    .section-grid::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top left, rgba(255, 0, 51, 0.12), transparent 34%); pointer-events: none; }
+    .mini-kicker { font-size: 0.72rem; letter-spacing: 0.34em; text-transform: uppercase; color: #9ca3af; }
+    .proof-drop { background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.52); transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+    .proof-drop[open] { border-color: rgba(255, 204, 0, 0.72); box-shadow: 0 0 20px rgba(255, 204, 0, 0.16); }
+    .proof-drop:hover { transform: translateY(-3px); }
+    .proof-drop summary { list-style: none; cursor: pointer; padding: 1.1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .proof-drop summary::-webkit-details-marker { display: none; }
+    .proof-drop summary > span:first-child { min-width: 0; }
+    .proof-shot { margin: 0 1.25rem 1.25rem; background: linear-gradient(180deg, rgba(20, 20, 26, 0.98), rgba(8, 8, 14, 0.98)); border: 1px solid rgba(255,255,255,0.08); padding: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02); }
+    .faq-item { background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.44); }
+    .faq-item summary { list-style: none; cursor: pointer; padding: 1.15rem 1.25rem; color: white; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary > span:first-child { min-width: 0; }
+    .faq-item[open] { border-color: rgba(255, 204, 0, 0.72); box-shadow: 0 0 18px rgba(255, 204, 0, 0.12); }
+    .faq-copy { padding: 0 1.25rem 1.25rem; color: #d1d5db; line-height: 1.9; }
+    .terminal-line { position: relative; padding-left: 1.4rem; }
+    .terminal-line::before { content: '>'; position: absolute; left: 0; color: #ff0033; }
+    @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
+    @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
+    @keyframes sweep { 0% { transform: translateX(-120%); opacity: 0; } 20% { opacity: 0.18; } 100% { transform: translateX(120%); opacity: 0; } }
+    @keyframes glitch { 0%, 88%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); } 90% { transform: translate(2px, -1px); clip-path: inset(12% 0 70% 0); } 92% { transform: translate(-2px, 1px); clip-path: inset(58% 0 16% 0); } }
+    @keyframes pulseDrift { 0%, 100% { transform: translateY(0); box-shadow: 0 0 28px rgba(255, 0, 51, 0.14); } 50% { transform: translateY(-4px); box-shadow: 0 0 36px rgba(255, 204, 0, 0.16); } }
+    @keyframes chatArrival {
+      0% {
+        box-shadow: 0 0 0 rgba(255, 204, 0, 0);
+        filter: brightness(1.25);
+      }
+      35% {
+        box-shadow: 0 0 22px rgba(255, 204, 0, 0.3), 0 0 34px rgba(255, 0, 51, 0.18);
+        filter: brightness(1.5);
+      }
+      100% {
+        box-shadow: 0 0 0 rgba(255, 204, 0, 0);
+        filter: brightness(1);
+      }
+    }
+    @keyframes chatFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+    @keyframes dotPulse { 0%, 100% { opacity: 0.35; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.08); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+    @media (max-width: 768px) {
+      .hero-layout { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .button { width: 100%; }
+      .nav-shell { grid-template-columns: 1fr; }
+      .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; }
+      .service-hub { justify-self: start; width: 100%; }
+      .service-trigger { width: 100%; justify-content: space-between; }
+      .service-mega { display: none !important; }
+      .proof-drop summary,
+      .faq-item summary { align-items: flex-start; }
+    }
+  </style>
 </head>
-<body>
-    <h1>Hanzu Tech OU</h1>
-    <p>We will launch in June 2026.</p>
-    <p>Building precision tools for real-world problems. Stay tuned.</p>
+<body class="grid-shell overflow-x-hidden">
+  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 z-50 border-b border-red-600/30 backdrop-blur-md">
+    <div class="nav-shell">
+      <div class="text-3xl font-bold neon-red">HANZU TECH</div>
+      <div class="service-hub">
+        <a href="/services" class="service-trigger">Services</a>
+        <div class="service-mega">
+          <div class="service-caption">
+            <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500">At Your Service</p>
+            <p class="mt-2 text-sm text-gray-300">Design, build, automate, and ship.</p>
+          </div>
+          <div class="service-grid">
+            <a href="/services#jewelry-design" class="service-link neon-yellow"><span class="service-thumb">JD</span><span class="service-label">Jewelry Design</span></a>
+            <a href="/services#3d-sculpting" class="service-link neon-yellow"><span class="service-thumb">3D</span><span class="service-label">3D Sculpting</span></a>
+            <a href="/services#jewelry-cad-design" class="service-link neon-yellow"><span class="service-thumb">CD</span><span class="service-label">Jewelry CAD Design</span></a>
+            <a href="/services#jewelry-rendering" class="service-link neon-yellow"><span class="service-thumb">RV</span><span class="service-label">Jewelry Rendering/Visualization</span></a>
+            <a href="/services#graphic-design" class="service-link neon-yellow"><span class="service-thumb">GD</span><span class="service-label">Graphic Design</span></a>
+            <a href="/services#ecommerce-shopify" class="service-link neon-yellow"><span class="service-thumb">EC</span><span class="service-label">E-Commerce Shopify Setup</span></a>
+            <a href="/services#portfolio-website" class="service-link neon-yellow"><span class="service-thumb">WB</span><span class="service-label">Portfolio Website Design</span></a>
+            <a href="/services#technical-consultation" class="service-link neon-yellow"><span class="service-thumb">TC</span><span class="service-label">Technical and Design Consultation</span></a>
+            <a href="/services#custom-software" class="service-link neon-yellow"><span class="service-thumb">SW</span><span class="service-label">Custom Software Development</span></a>
+            <a href="/services#ai-agent-design" class="service-link neon-yellow"><span class="service-thumb">AI</span><span class="service-label">AI Agent Design</span></a>
+          </div>
+        </div>
+      </div>
+      <div class="nav-right text-sm md:text-base">
+        <a href="/jewelers" class="neon-yellow">Jewelers Tools</a>
+        <a href="/reel" class="neon-yellow">Intro Reel</a>
+        <a href="/about" class="neon-yellow">About Us</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="pt-28">
+    <section class="hero-shell min-h-screen flex items-center px-6 py-16">
+      <div class="page-wrap hero-layout">
+        <div class="console-panel pulse-drift w-full px-6 py-10 md:px-12 md:py-14">
+          <div class="flex flex-wrap gap-3 mb-8 text-[11px] uppercase tracking-[0.34em]">
+            <span class="signal px-3 py-1 rounded-full">AI-Leveraged Team</span>
+            <span class="signal px-3 py-1 rounded-full">Jewelry Ops First</span>
+            <span class="signal px-3 py-1 rounded-full">Factory-Ready Design</span>
+          </div>
+          <p class="text-xs md:text-sm uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
+          <h1 class="uppercase max-w-5xl">
+            <span class="block text-xl md:text-2xl text-gray-300 tracking-[0.26em]">Build</span>
+            <span class="block text-3xl md:text-5xl neon-yellow leading-tight mt-2">AI-leveraged gadgets</span>
+            <span class="block text-2xl md:text-4xl leading-tight mt-2">for jewelry production</span>
+            <span class="block text-lg md:text-2xl text-gray-300 leading-relaxed mt-4">that cut friction, boost efficiency, and turn operational pain into profit.</span>
+          </h1>
+          <div class="mt-8">
+            <span class="technically">Technically</span>
+            <h2 class="micro-glitch neon-red text-5xl md:text-8xl leading-none uppercase mt-2" data-text="Designer">Designer</h2>
+            <p class="mt-3 text-base md:text-xl uppercase tracking-[0.24em] text-gray-300">AKA Jack of All Trades</p>
+          </div>
+          <p class="mt-8 max-w-3xl text-sm md:text-lg text-gray-300 leading-8">
+            Hanzu Tech is HQ for a high-efficiency build team using AI, agents, 3D modeling, manufacturing knowledge, and custom pipelines to ship serious products. We start with jewelry workflows, but the target is any tool worth building and deploying.
+          </p>
+          <div class="mt-10 flex flex-col md:flex-row gap-4 max-w-3xl">
+            <a href="/jewelers" class="button">Jewelers Tools</a>
+            <a href="/reel" class="button">Intro Reel</a>
+            <a href="/services" class="button">Services</a>
+          </div>
+        </div>
+        <div class="hero-visual hidden md:block" id="hero-visual">
+          <div class="chat-demo">
+            <div class="chat-head">
+              <div>
+                <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500">Live Comms</p>
+                <p class="mt-2 text-sm text-gray-300">One-stop delivery thread // rotating scenarios</p>
+              </div>
+              <div class="signal px-3 py-1 rounded-full text-[11px] uppercase tracking-[0.24em]">Secure Thread</div>
+            </div>
+            <div class="chat-stage" id="chat-stage">
+              <div class="chat-sequence active" data-sequence>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  We need a ring concept, 3D model, and renders fast. Can you handle the whole design side in one place?
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  Yes. Concept direction, sketch logic, ZBrush sculpting, CAD handoff, and clean visuals stay in one thread so you are not juggling separate vendors.
+                </div>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  Good. We want one-stop, not another patchwork pipeline.
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  That is the setup. One technically designed pipeline from idea to factory-ready output.
+                </div>
+              </div>
+              <div class="chat-sequence" data-sequence>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  Our production files keep bouncing back from the workshop. Can you clean up the CAD and casting prep?
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  We audit the weak spots, rebuild the model logic, and shape the output for casting, print, and bench reality before it hits the floor.
+                </div>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  So the design side and the production side stay connected?
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  Exactly. Better geometry, fewer revisions, cleaner manufacturing handoff.
+                </div>
+              </div>
+              <div class="chat-sequence" data-sequence>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  Quotes, revisions, and approvals are eating hours every week. Can this be systemized?
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  Yes. We build custom quote flows, approval packs, and admin tools around the real bottlenecks so the team stops repeating manual cleanup.
+                </div>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  We need privacy too. No client data leaking into random systems.
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  Private-first setup. Lean stack, no unnecessary storage, and process design that keeps sensitive job data under control.
+                </div>
+              </div>
+              <div class="chat-sequence" data-sequence>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  We also need renders, a cleaner website presence, and help using AI without turning the brand into noise.
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  That stays in the same lane. Product visuals, portfolio systems, AI agent support, and sharp delivery standards under one roof.
+                </div>
+                <div class="chat-bubble client" data-bubble>
+                  <span class="chat-role neon-yellow">Client</span>
+                  So if the job grows, we do not need to rebuild the team around it?
+                </div>
+                <div class="chat-bubble team" data-bubble>
+                  <span class="chat-role neon-red">Hanzu Team</span>
+                  Correct. Start with the pain point, then extend the stack only where it creates speed, clarity, and profit.
+                </div>
+              </div>
+            </div>
+            <div class="chat-note">
+              <span>Thread resets after each scenario</span>
+              <span class="chat-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 pb-16 -mt-14 relative z-10">
+      <div class="page-wrap grid md:grid-cols-3 gap-6">
+        <article class="card">
+          <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
+          <h2 class="text-3xl neon-red mb-4">Solve Real Operational Problems</h2>
+          <p class="text-gray-300 leading-7">The point is not generic design. The point is building technically designed products that remove wasted motion, protect margin, and make workshops run sharper.</p>
+        </article>
+        <article class="card">
+          <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Current Focus</p>
+          <h2 class="text-3xl neon-yellow mb-4">Jewelry Workflows First</h2>
+          <p class="text-gray-300 leading-7">Custom quoting tools, production helpers, AI-assisted systems, and manufacturing-aware interfaces for jewelers, factories, and precision shops.</p>
+        </article>
+        <article class="card">
+          <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Services</p>
+          <h2 class="text-3xl neon-red mb-4">Design, Build, Ship</h2>
+          <p class="text-gray-300 leading-7">From ZBrush sculpting and CAD to software pipelines, AI agent design, and technical consultation, Hanzu Tech moves concepts into production-grade outputs.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="px-6 pb-16 relative">
+      <div class="page-wrap grid md:grid-cols-3 gap-6">
+        <article class="card">
+          <p class="mini-kicker mb-4">How It Works</p>
+          <h2 class="text-2xl neon-yellow mb-4">Research Meets Workshop Reality</h2>
+          <p class="text-gray-300 leading-7">AI and agents accelerate exploration, but every output still gets filtered through real production, tolerance, and workflow logic.</p>
+        </article>
+        <article class="card">
+          <p class="mini-kicker mb-4">Pipeline</p>
+          <h2 class="text-2xl neon-red mb-4">Design To Factory To Client</h2>
+          <p class="text-gray-300 leading-7">The system spans concept development, manufacturing files, custom internal tools, and polished client-facing outputs instead of stopping at visuals.</p>
+        </article>
+        <article class="card">
+          <p class="mini-kicker mb-4">Target</p>
+          <h2 class="text-2xl neon-yellow mb-4">Useful Tech Only</h2>
+          <p class="text-gray-300 leading-7">If it does not save time, increase control, improve quality, or create margin, it does not belong in the stack.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="px-6 pb-16 relative section-grid">
+      <div class="page-wrap">
+        <div class="mb-8">
+          <p class="mini-kicker mb-3">Customer Satisfaction</p>
+          <h2 class="text-3xl md:text-5xl neon-red">Proof From The Field</h2>
+          <p class="mt-4 max-w-3xl text-gray-300 leading-8">A few comments from long-time customers.</p>
+        </div>
+        <div class="space-y-4">
+          <details class="proof-drop" open>
+            <summary>
+              <span>
+                <span class="block text-xs uppercase tracking-[0.34em] text-gray-500">WhatsApp Comment</span>
+                <span class="block mt-2 text-lg text-white">Client approved faster because the design file and explanation were finally clean.</span>
+              </span>
+              <span class="neon-yellow text-xs uppercase tracking-[0.24em]">Open Capture</span>
+            </summary>
+            <div class="proof-shot">
+              <div class="flex items-center justify-between text-[11px] text-gray-500 mb-4">
+                <span>WhatsApp // workshop thread</span>
+                <span>08:41</span>
+              </div>
+              <div class="max-w-xl bg-[#111827] border border-green-400/20 rounded-2xl px-4 py-3 text-sm text-gray-200 ml-auto">
+                The client loved the render pack. They signed off right away because everything was easy to understand this time.
+              </div>
+              <div class="max-w-lg bg-[#1f2937] border border-white/10 rounded-2xl px-4 py-3 text-sm text-gray-300 mt-3">
+                That is exactly the target. Less back and forth, more clean approvals, more margin protection.
+              </div>
+            </div>
+          </details>
+          <details class="proof-drop">
+            <summary>
+              <span>
+                <span class="block text-xs uppercase tracking-[0.34em] text-gray-500">CGTrader Review</span>
+                <span class="block mt-2 text-lg text-white">Production-ready file quality and strong communication.</span>
+              </span>
+              <span class="neon-yellow text-xs uppercase tracking-[0.24em]">Open Capture</span>
+            </summary>
+            <div class="proof-shot">
+              <div class="border border-yellow-400/20 bg-[#0d0d12] p-4">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm uppercase tracking-[0.22em] text-gray-500">CGTrader // rating</p>
+                  <p class="neon-yellow">★★★★★</p>
+                </div>
+                <p class="mt-4 text-white">“Excellent detail, fast revisions, and a model that actually worked for production instead of just looking good on screen.”</p>
+                <p class="mt-3 text-sm text-gray-400">Verified marketplace feedback style block</p>
+              </div>
+            </div>
+          </details>
+          <details class="proof-drop">
+            <summary>
+              <span>
+                <span class="block text-xs uppercase tracking-[0.34em] text-gray-500">WhatsApp Comment</span>
+                <span class="block mt-2 text-lg text-white">The tool removed hours of manual quote cleanup.</span>
+              </span>
+              <span class="neon-yellow text-xs uppercase tracking-[0.24em]">Open Capture</span>
+            </summary>
+            <div class="proof-shot">
+              <div class="flex items-center justify-between text-[11px] text-gray-500 mb-4">
+                <span>WhatsApp // admin ops</span>
+                <span>19:14</span>
+              </div>
+              <div class="max-w-xl bg-[#111827] border border-green-400/20 rounded-2xl px-4 py-3 text-sm text-gray-200 ml-auto">
+                Quote prep is way faster now. We stopped rewriting the same things and the team finally has a clean flow.
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 pb-20">
+      <div class="page-wrap console-panel p-8">
+        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Directive</p>
+        <p class="terminal-line text-gray-300 leading-7">Start with jewelry workflows because the pain is real and the upside is measurable.</p>
+        <p class="terminal-line text-gray-300 leading-7">Expand into any tool, gadget, or pipeline worth shipping once the value is obvious.</p>
+      </div>
+    </section>
+
+    <section class="px-6 pb-24">
+      <div class="page-wrap">
+        <div class="mb-8">
+          <p class="mini-kicker mb-3">FAQ</p>
+          <h2 class="text-3xl md:text-5xl neon-yellow">Frequently Asked Questions</h2>
+        </div>
+        <div class="space-y-4">
+          <details class="faq-item" open>
+            <summary>
+              <span>What exactly is Hanzu Tech building?</span>
+              <span class="neon-red">01</span>
+            </summary>
+            <div class="faq-copy">Technically designed products, internal tools, and production-aware systems. The first wave is focused on jewelry operations, but the broader mission is any useful tool that solves real workflow pain and can be shipped responsibly.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>Why focus on jewelry first?</span>
+              <span class="neon-red">02</span>
+            </summary>
+            <div class="faq-copy">Because the bottlenecks are obvious: quoting, design translation, admin cleanup, manufacturing handoff, and repetitive manual work. That makes the value of better tools visible very fast.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>Where does AI actually help here?</span>
+              <span class="neon-red">03</span>
+            </summary>
+            <div class="faq-copy">AI speeds research, reference discovery, workflow automation, internal agents, and structured outputs. It is leverage, not decoration. The system still needs technical taste and production knowledge to stay useful.</div>
+          </details>
+          <details class="faq-item">
+            <summary>
+              <span>Is this design only or full product execution?</span>
+              <span class="neon-red">04</span>
+            </summary>
+            <div class="faq-copy">Both. Hanzu Tech spans visual direction, 3D work, CAD logic, factory-aware process design, AI pipelines, and software tools where needed. The objective is execution, not isolated deliverables.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
+    <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
+      <p>Designed by Hanzu</p>
+      <p><span class="wise-badge"><span class="wise-mark">W</span> WISE Payment Gateway</span></p>
+      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a></p>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      const sequences = Array.from(document.querySelectorAll('[data-sequence]'));
+      if (!sequences.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const firstSequence = sequences[0];
+        if (!firstSequence) return;
+        firstSequence.classList.add('active');
+        firstSequence.querySelectorAll('[data-bubble]').forEach((bubble) => bubble.classList.add('live'));
+        return;
+      }
+
+      const revealGap = 1650;
+      const clearDelay = 3600;
+      let activeIndex = 0;
+      let revealTimers = [];
+      let cycleTimer;
+
+      function clearTimers() {
+        revealTimers.forEach((timer) => window.clearTimeout(timer));
+        revealTimers = [];
+        window.clearTimeout(cycleTimer);
+      }
+
+      function playSequence(index) {
+        clearTimers();
+
+        sequences.forEach((sequence, sequenceIndex) => {
+          sequence.classList.remove('active', 'clearing');
+          sequence.querySelectorAll('[data-bubble]').forEach((bubble) => bubble.classList.remove('live'));
+          if (sequenceIndex !== index) return;
+          sequence.classList.add('active');
+          const bubbles = Array.from(sequence.querySelectorAll('[data-bubble]'));
+          bubbles.forEach((bubble, bubbleIndex) => {
+            const timer = window.setTimeout(() => bubble.classList.add('live'), bubbleIndex * revealGap + 220);
+            revealTimers.push(timer);
+          });
+
+          const totalVisibleTime = bubbles.length * revealGap + clearDelay;
+          cycleTimer = window.setTimeout(() => {
+            sequence.classList.add('clearing');
+            const nextIndex = (index + 1) % sequences.length;
+            window.setTimeout(() => {
+              activeIndex = nextIndex;
+              playSequence(activeIndex);
+            }, 420);
+          }, totalVisibleTime);
+        });
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          clearTimers();
+          return;
+        }
+        playSequence(activeIndex);
+      });
+
+      playSequence(activeIndex);
+    }());
+  </script>
 </body>
 </html>
-
-
