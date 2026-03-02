@@ -31,12 +31,15 @@
     .technically { font-size: 1.45rem; font-weight: 700; color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.45); letter-spacing: 0.26em; text-transform: uppercase; display: inline-block; }
     .panel { background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.4); box-shadow: 0 0 24px rgba(255, 0, 51, 0.1); }
     .hero { background: linear-gradient(180deg, rgba(0,0,0,0.24), rgba(0,0,0,0.84)), radial-gradient(circle at center, rgba(255, 0, 51, 0.1), transparent 34%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1600 1000'%3E%3Cg fill='none'%3E%3Cpath d='M0 760 540 520 860 620 1600 280' stroke='rgba(255,0,51,0.16)' stroke-width='2'/%3E%3Cpath d='M140 930 500 650 860 740 1320 440' stroke='rgba(255,204,0,0.12)' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E"); background-size: cover; background-position: center; }
+    .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
+    .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
     .nav-shell { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.25rem; }
     .nav-right { justify-self: end; display: flex; align-items: center; gap: 1.75rem; }
     .service-hub { position: relative; justify-self: center; }
     .service-hub::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1rem; }
     .service-trigger { display: inline-flex; align-items: center; gap: 0.65rem; padding: 0.7rem 1rem; border: 1px solid rgba(255, 0, 51, 0.42); background: rgba(12, 12, 18, 0.72); color: #ffcc00; text-transform: uppercase; letter-spacing: 0.28em; box-shadow: 0 0 14px rgba(255, 0, 51, 0.12); }
-    .service-trigger::after { content: "[]"; color: #ff0033; text-shadow: 0 0 10px #ff0033; }
+    .service-trigger-icon { width: 1rem; height: 1rem; color: #ff0033; filter: drop-shadow(0 0 8px rgba(255, 0, 51, 0.38)); }
     .service-mega { position: absolute; top: calc(100% + 0.2rem); left: 50%; width: min(90vw, 760px); transform: translateX(-50%) translateY(12px); border: 1px solid rgba(255, 0, 51, 0.62); background: rgba(3, 3, 6, 0.92); backdrop-filter: blur(12px); box-shadow: 0 0 26px rgba(255, 0, 51, 0.18); padding: 1rem; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease; overflow: hidden; }
     .service-mega::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.08), transparent), repeating-linear-gradient(to bottom, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 34px); transform: translateX(-100%); animation: retroSweep 8s linear infinite; pointer-events: none; }
     .service-hub:hover .service-mega, .service-hub:focus-within .service-mega { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%) translateY(0); }
@@ -45,38 +48,66 @@
     .service-link { display: flex; align-items: center; gap: 0.85rem; padding: 0.65rem 0.75rem; min-width: 0; border: 1px solid rgba(255, 0, 51, 0.18); background: rgba(255,255,255,0.02); transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease; }
     .service-link:hover { transform: translateX(4px); border-color: rgba(255, 204, 0, 0.58); background: rgba(255, 204, 0, 0.05); }
     .service-thumb { width: 2.3rem; height: 2.3rem; flex: 0 0 2.3rem; border: 1px solid rgba(255, 204, 0, 0.38); background: linear-gradient(135deg, rgba(255, 0, 51, 0.18), rgba(255, 204, 0, 0.1)); display: inline-flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.82); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; }
+    .service-thumb svg { width: 1.05rem; height: 1.05rem; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
     .service-label { min-width: 0; line-height: 1.3; }
     .service-anchor { scroll-margin-top: 7rem; }
+    .service-block { scroll-margin-top: 7rem; }
+    .portfolio-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .portfolio-shot {
+      min-height: 11rem;
+      border: 1px dashed rgba(255, 204, 0, 0.34);
+      background:
+        linear-gradient(135deg, rgba(255, 0, 51, 0.12), rgba(255, 204, 0, 0.08)),
+        radial-gradient(circle at top left, rgba(255,255,255,0.08), transparent 42%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .portfolio-shot::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.03) 0, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 18px);
+      pointer-events: none;
+    }
+    .portfolio-shot > * { position: relative; z-index: 1; }
+    .service-points { display: grid; gap: 0.65rem; color: #d1d5db; }
+    .service-points li { position: relative; padding-left: 1rem; }
+    .service-points li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.4rem; height: 1px; background: #ffcc00; box-shadow: 0 0 10px rgba(255, 204, 0, 0.4); }
     input, textarea { width: 100%; background: rgba(0, 0, 0, 0.88); border: 1px solid rgba(255, 0, 51, 0.42); color: white; padding: 0.9rem 1rem; }
     input:focus, textarea:focus { outline: none; border-color: rgba(255, 204, 0, 0.9); box-shadow: 0 0 0 1px rgba(255, 204, 0, 0.16); }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-    @media (max-width: 768px) { .nav-shell { grid-template-columns: 1fr; } .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } }
+    @media (max-width: 1024px) { .portfolio-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .nav-shell { grid-template-columns: 1fr; } .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } .portfolio-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body class="overflow-x-hidden">
   <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 z-50 border-b border-red-600/30 backdrop-blur-md">
     <div class="nav-shell">
-      <div class="text-3xl font-bold neon-red">HANZU TECH</div>
+      <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
       <div class="service-hub">
-        <a href="/services" class="service-trigger">Services</a>
+        <a href="/services" class="service-trigger"><svg class="service-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.2 8.5 10v4L12 15.8 15.5 14v-4Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Services</a>
         <div class="service-mega">
           <div class="service-caption">
             <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500">At Your Service</p>
             <p class="mt-2 text-sm text-gray-300">Design, build, automate, and ship.</p>
           </div>
           <div class="service-grid">
-            <a href="/services#jewelry-design" class="service-link neon-yellow"><span class="service-thumb">JD</span><span class="service-label">Jewelry Design</span></a>
-            <a href="/services#3d-sculpting" class="service-link neon-yellow"><span class="service-thumb">3D</span><span class="service-label">3D Sculpting</span></a>
-            <a href="/services#jewelry-cad-design" class="service-link neon-yellow"><span class="service-thumb">CD</span><span class="service-label">Jewelry CAD Design</span></a>
-            <a href="/services#jewelry-rendering" class="service-link neon-yellow"><span class="service-thumb">RV</span><span class="service-label">Jewelry Rendering/Visualization</span></a>
-            <a href="/services#graphic-design" class="service-link neon-yellow"><span class="service-thumb">GD</span><span class="service-label">Graphic Design</span></a>
-            <a href="/services#ecommerce-shopify" class="service-link neon-yellow"><span class="service-thumb">EC</span><span class="service-label">E-Commerce Shopify Setup</span></a>
-            <a href="/services#portfolio-website" class="service-link neon-yellow"><span class="service-thumb">WB</span><span class="service-label">Portfolio Website Design</span></a>
-            <a href="/services#technical-consultation" class="service-link neon-yellow"><span class="service-thumb">TC</span><span class="service-label">Technical and Design Consultation</span></a>
-            <a href="/services#custom-software" class="service-link neon-yellow"><span class="service-thumb">SW</span><span class="service-label">Custom Software Development</span></a>
-            <a href="/services#ai-agent-design" class="service-link neon-yellow"><span class="service-thumb">AI</span><span class="service-label">AI Agent Design</span></a>
+            <a href="/services#jewelry-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 7 9l5 11 5-11-5-5Z"/><path d="M9.4 9h5.2"/></svg></span><span class="service-label">Jewelry Design</span></a>
+            <a href="/services#3d-sculpting" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 7 4v10l-7 4-7-4V7Z"/><path d="M12 7v10M5 7l7 4 7-4"/></svg></span><span class="service-label">3D Sculpting</span></a>
+            <a href="/services#jewelry-cad-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4Z"/><path d="M8 10h8M8 14h5"/></svg></span><span class="service-label">Jewelry CAD Design</span></a>
+            <a href="/services#jewelry-rendering" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v12H5Z"/><path d="m8 14 2.5-3 2 2 2.5-4 1.5 5"/><circle cx="9" cy="10" r="1"/></svg></span><span class="service-label">Jewelry Rendering/Visualization</span></a>
+            <a href="/services#graphic-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5Z"/><path d="m8 16 8-8"/><path d="M8 8h.01M16 16h.01"/></svg></span><span class="service-label">Graphic Design</span></a>
+            <a href="/services#ecommerce-shopify" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 10H7L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="service-label">E-Commerce Shopify Setup</span></a>
+            <a href="/services#portfolio-website" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4Z"/><path d="M4 10h16"/><path d="M8 8h.01"/></svg></span><span class="service-label">Portfolio Website Design</span></a>
+            <a href="/services#technical-consultation" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="M8 12h8"/><path d="M10 16h4"/></svg></span><span class="service-label">Technical and Design Consultation</span></a>
+            <a href="/services#custom-software" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8 5 12l3 4"/><path d="m16 8 3 4-3 4"/><path d="m13 6-2 12"/></svg></span><span class="service-label">Custom Software Development</span></a>
+            <a href="/services#ai-agent-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg></span><span class="service-label">AI Agent Design</span></a>
           </div>
         </div>
       </div>
@@ -103,17 +134,197 @@
     </section>
 
     <section class="px-6 pb-20">
-      <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-6">
-        <article id="jewelry-design" class="card service-anchor"><h2 class="text-2xl neon-red mb-4">Jewelry Design</h2><p class="text-gray-300 leading-7">Creative direction and original jewelry concepts built with wearability, story, and production intent in mind. AI-assisted research and reference synthesis can accelerate direction without flattening originality.</p></article>
-        <article id="3d-sculpting" class="card service-anchor"><h2 class="text-2xl neon-yellow mb-4">3D Sculpting</h2><p class="text-gray-300 leading-7">ZBrush-driven sculpting for organic forms, character pieces, bold surface language, and factory-ready model development where hand-feel matters as much as file cleanliness.</p></article>
-        <article id="jewelry-cad-design" class="card service-anchor"><h2 class="text-2xl neon-red mb-4">Jewelry CAD Design</h2><p class="text-gray-300 leading-7">Precise CAD preparation for stone settings, casting allowances, production revisions, and manufacturing handoff. Built for jewelers who need models that survive real fabrication.</p></article>
-        <article id="jewelry-rendering" class="card service-anchor"><h2 class="text-2xl neon-yellow mb-4">Jewelry Rendering/Visualization</h2><p class="text-gray-300 leading-7">Clean renders and visual presentation assets for approvals, marketing, investor decks, or factory communication. High polish without losing technical clarity.</p></article>
-        <article id="graphic-design" class="card service-anchor"><h2 class="text-2xl neon-red mb-4">Graphic Design</h2><p class="text-gray-300 leading-7">Brand assets, packaging direction, launch visuals, interface styling, and technical diagrams shaped to feel intentional, premium, and production-aware.</p></article>
-        <article id="ecommerce-shopify" class="card service-anchor"><h2 class="text-2xl neon-yellow mb-4">E-Commerce Shopify Setup</h2><p class="text-gray-300 leading-7">Shopify setups tuned for clear structure, good merchandising, fast launch cycles, and smooth handoff into real sales operations.</p></article>
-        <article id="portfolio-website" class="card service-anchor"><h2 class="text-2xl neon-red mb-4">Portfolio Website Design</h2><p class="text-gray-300 leading-7">Portfolio sites and product pages built to present complex work cleanly, load fast, and frame expertise with less fluff and more proof.</p></article>
-        <article id="technical-consultation" class="card service-anchor"><h2 class="text-2xl neon-yellow mb-4">Technical and Design Consultation</h2><p class="text-gray-300 leading-7">Practical consultation for workshops, brands, and founders who need direction on tooling, design systems, workflows, manufacturing strategy, or production bottlenecks.</p></article>
-        <article id="custom-software" class="card service-anchor"><h2 class="text-2xl neon-red mb-4">Custom Software Development</h2><p class="text-gray-300 leading-7">Internal tools, quoting apps, factory dashboards, workflow automations, and private utilities designed for the real operational edge cases generic software ignores.</p></article>
-        <article id="ai-agent-design" class="card service-anchor"><h2 class="text-2xl neon-yellow mb-4">AI Agent Design</h2><p class="text-gray-300 leading-7">AI agent workflows for research, operations, intake, document handling, and internal leverage. The goal is disciplined automation that increases quality instead of adding noise.</p></article>
+      <div class="max-w-6xl mx-auto space-y-6">
+        <article id="jewelry-design" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelry Design</p>
+              <h2 class="text-3xl neon-red mb-4">Concept direction with production awareness</h2>
+              <p class="text-gray-300 leading-8">Original jewelry design work shaped for brands, custom clients, and workshops that want creative direction without losing the manufacturing plot. The service covers reference research, concept structure, silhouette logic, and decision-making that actually survives the bench.</p>
+              <ul class="service-points mt-6">
+                <li>Concept boards, ring families, and collection direction.</li>
+                <li>Design language that fits casting, wearability, and client approval.</li>
+                <li>Space for hero shots, sketches, and before/after iterations.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Hero concept image</p><p class="mt-2 text-sm text-gray-200">Collection or solitaire direction</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Reference board</p><p class="mt-2 text-sm text-gray-200">Mood, stone logic, metal language</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Client approval slide</p><p class="mt-2 text-sm text-gray-200">Notes and rationale space</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="3d-sculpting" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">3D Sculpting</p>
+              <h2 class="text-3xl neon-yellow mb-4">ZBrush forms with real surface intent</h2>
+              <p class="text-gray-300 leading-8">For pieces that need organic volume, surface control, and a stronger hand-feel before they move into production. This is where expressive forms, unusual silhouettes, and premium detail work get sharpened into usable digital assets.</p>
+              <ul class="service-points mt-6">
+                <li>Organic surfaces, sculpted details, and advanced form shaping.</li>
+                <li>Presentation-ready screenshots and review captures.</li>
+                <li>Space for clay-style views, turntables, and detail crops.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Viewport capture</p><p class="mt-2 text-sm text-gray-200">Primary sculpt angle</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Detail crop</p><p class="mt-2 text-sm text-gray-200">Texture or ornament zone</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Turntable still</p><p class="mt-2 text-sm text-gray-200">Form validation frame</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="jewelry-cad-design" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelry CAD Design</p>
+              <h2 class="text-3xl neon-red mb-4">Factory-ready models, not fragile files</h2>
+              <p class="text-gray-300 leading-8">Precise CAD work for stone settings, tolerances, casting allowances, and revisions that need to move cleanly into fabrication. The emphasis is file logic that respects bench reality and avoids expensive back-and-forth.</p>
+              <ul class="service-points mt-6">
+                <li>Stone seat logic, wall thickness control, and structural cleanup.</li>
+                <li>Revision support for production problems and client changes.</li>
+                <li>Space for CAD screenshots, section views, and measurement callouts.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">CAD viewport</p><p class="mt-2 text-sm text-gray-200">Primary model angle</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Section view</p><p class="mt-2 text-sm text-gray-200">Construction logic space</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Revision sheet</p><p class="mt-2 text-sm text-gray-200">Before / after fixes</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="jewelry-rendering" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelry Rendering / Visualization</p>
+              <h2 class="text-3xl neon-yellow mb-4">Approval visuals that sell the idea cleanly</h2>
+              <p class="text-gray-300 leading-8">Render packs for client approvals, product decks, launch assets, and factory communication. The output should look premium, explain clearly, and shorten the path from concept to decision.</p>
+              <ul class="service-points mt-6">
+                <li>Hero images, material variations, and marketing-ready shots.</li>
+                <li>Client approval visuals with clean annotation space.</li>
+                <li>Space for lifestyle, studio, and exploded component renders.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Hero render</p><p class="mt-2 text-sm text-gray-200">Front-facing premium frame</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Material variation</p><p class="mt-2 text-sm text-gray-200">Yellow / white / rose comparison</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval panel</p><p class="mt-2 text-sm text-gray-200">Render plus note space</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="graphic-design" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Graphic Design</p>
+              <h2 class="text-3xl neon-red mb-4">Brand systems, packaging, and launch material</h2>
+              <p class="text-gray-300 leading-8">Visual support for premium brands, technical products, and launch campaigns that need more than generic layout work. This includes brand materials, packaging direction, campaign graphics, and interface visuals with stronger taste and production logic.</p>
+              <ul class="service-points mt-6">
+                <li>Packaging directions, sales assets, and system graphics.</li>
+                <li>Presentation documents and technical communication boards.</li>
+                <li>Space for posters, dielines, and brand composition samples.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Packaging mockup</p><p class="mt-2 text-sm text-gray-200">Box, card, or insert layout</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Campaign visual</p><p class="mt-2 text-sm text-gray-200">Launch or promo treatment</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System graphic</p><p class="mt-2 text-sm text-gray-200">Diagram or branded document</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="ecommerce-shopify" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">E-Commerce Shopify Setup</p>
+              <h2 class="text-3xl neon-yellow mb-4">Storefronts with cleaner structure and merch logic</h2>
+              <p class="text-gray-300 leading-8">Shopify setups for brands that need a sharper storefront, clearer product organization, and launch-ready foundations. The work focuses on reducing clutter and creating sales paths that feel direct and premium.</p>
+              <ul class="service-points mt-6">
+                <li>Collection structure, product page hierarchy, and launch cleanup.</li>
+                <li>Visual systems aligned to the brand and product type.</li>
+                <li>Space for homepage, PDP, and collection screenshots.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage capture</p><p class="mt-2 text-sm text-gray-200">Storefront direction</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Product page</p><p class="mt-2 text-sm text-gray-200">Conversion-focused layout</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Collection view</p><p class="mt-2 text-sm text-gray-200">Catalog structure sample</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="portfolio-website" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Portfolio Website Design</p>
+              <h2 class="text-3xl neon-red mb-4">Fast, sharp sites that frame expertise properly</h2>
+              <p class="text-gray-300 leading-8">Portfolio sites for designers, studios, and product builders who need to present complex work cleanly. The emphasis is strong hierarchy, better storytelling, and proof-forward layouts instead of template noise.</p>
+              <ul class="service-points mt-6">
+                <li>Portfolio structure, project pages, and direct service messaging.</li>
+                <li>Mobile-aware layouts with cleaner visual pacing.</li>
+                <li>Space for project page, homepage, and case-study screenshots.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage layout</p><p class="mt-2 text-sm text-gray-200">Portfolio landing direction</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Case study page</p><p class="mt-2 text-sm text-gray-200">Project narrative sample</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Mobile view</p><p class="mt-2 text-sm text-gray-200">Responsive proof area</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="technical-consultation" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Technical and Design Consultation</p>
+              <h2 class="text-3xl neon-yellow mb-4">Direction for production bottlenecks and design systems</h2>
+              <p class="text-gray-300 leading-8">Consultation for teams that need clarity on tooling, workflow design, production handoff, and design decisions that are slowing the pipeline down. This is where the weak parts of the system get mapped and cleaned up.</p>
+              <ul class="service-points mt-6">
+                <li>Workflow audits, handoff analysis, and process recommendations.</li>
+                <li>Design and manufacturing strategy with AI leverage where useful.</li>
+                <li>Space for audit snapshots, diagrams, and process maps.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Workflow diagnosis board</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Decision matrix</p><p class="mt-2 text-sm text-gray-200">Fix priority notes</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Implementation plan</p><p class="mt-2 text-sm text-gray-200">Action item space</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="custom-software" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Custom Software Development</p>
+              <h2 class="text-3xl neon-red mb-4">Private tools built around real edge cases</h2>
+              <p class="text-gray-300 leading-8">Internal tools, quote systems, factory dashboards, calculators, and workflow utilities for teams whose problems do not fit generic software. The priority is fast, low-friction systems that actually match the operation.</p>
+              <ul class="service-points mt-6">
+                <li>Private calculators, dashboards, quoting tools, and ops helpers.</li>
+                <li>Lean interfaces built for speed, privacy, and direct use.</li>
+                <li>Space for app screenshots, workflow states, and logic maps.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Interface screen</p><p class="mt-2 text-sm text-gray-200">Tool dashboard view</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Logic flow</p><p class="mt-2 text-sm text-gray-200">Process or formula path</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Result panel</p><p class="mt-2 text-sm text-gray-200">Output / report area</p></div>
+            </div>
+          </div>
+        </article>
+        <article id="ai-agent-design" class="card service-block">
+          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">AI Agent Design</p>
+              <h2 class="text-3xl neon-yellow mb-4">Agent systems that increase leverage without noise</h2>
+              <p class="text-gray-300 leading-8">AI workflows for research, intake, operations, document handling, and team support. The value is not gimmicks. The value is more structured output, cleaner decisions, and fewer repetitive tasks for the human team.</p>
+              <ul class="service-points mt-6">
+                <li>Agent orchestration for internal ops, reference discovery, and admin help.</li>
+                <li>Careful prompting, system logic, and workflow integration.</li>
+                <li>Space for agent maps, interface states, and output examples.</li>
+              </ul>
+            </div>
+            <div class="portfolio-grid">
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Agent console</p><p class="mt-2 text-sm text-gray-200">Task orchestration view</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Output sample</p><p class="mt-2 text-sm text-gray-200">Structured result space</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Multi-agent workflow diagram</p></div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 

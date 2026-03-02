@@ -30,6 +30,9 @@
       color: #ffcc00;
       text-shadow: 0 0 14px rgba(255, 204, 0, 0.4);
     }
+    .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
+    .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
     .card { background-color: black; border: 1px solid #ff0033; padding: 2rem; transition: transform 0.3s; }
     .card:hover { transform: scale(1.01); box-shadow: 0 0 20px #ffcc00; }
     .button { padding: 1rem 2rem; border: 2px solid #ffcc00; color: black; background-color: #ff0033; transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; }
@@ -145,7 +148,7 @@
 </head>
 <body>
   <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md no-print">
-    <div class="text-3xl font-bold neon-red">HANZU TECH</div>
+    <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
     <div class="space-x-8">
       <a href="/jewelers" class="neon-yellow">Jewelers Tools</a>
       <a href="https://hanzu.dev" class="neon-yellow">The DEV</a>
