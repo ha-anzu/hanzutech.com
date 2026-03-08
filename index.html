@@ -24,7 +24,7 @@
     h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
     .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
     .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
-    .card { background-color: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.6); padding: 2rem; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s, background-color 0.35s; position: relative; overflow: hidden; }
+    .card { background-color: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.6); padding: 2rem; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s, background-color 0.35s; position: relative; overflow: hidden; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
     .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 0, 51, 0.12), transparent 40%, rgba(255, 204, 0, 0.08)); opacity: 0.7; pointer-events: none; }
     .card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 24px rgba(255, 204, 0, 0.24); border-color: rgba(255, 204, 0, 0.85); background-color: rgba(8, 2, 5, 0.84); }
     .button {
@@ -47,7 +47,6 @@
     .button:hover { background-position: 100% 50%; border-color: #ff0033; transform: translateY(-3px) scale(1.015); box-shadow: 0 0 24px rgba(255, 204, 0, 0.32), 0 0 42px rgba(255, 0, 51, 0.18); color: black; }
     .button:hover::before { transform: translateX(140%); }
     .flicker { animation: flicker 2s infinite; }
-    .pulse-drift { animation: pulseDrift 8s ease-in-out infinite; }
     .grid-shell::before {
       content: "";
       position: fixed;
@@ -70,155 +69,21 @@
       background-position: center;
       position: relative;
     }
-    .hero-shell::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.12), transparent); transform: translateX(-120%); animation: sweep 11s linear infinite; pointer-events: none; }
-    .console-panel { background: rgba(0, 0, 0, 0.64); border: 1px solid rgba(255, 0, 51, 0.45); box-shadow: 0 0 28px rgba(255, 0, 51, 0.14); backdrop-filter: blur(8px); }
-    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr); gap: 2rem; align-items: center; }
-    .hero-visual {
-      position: relative;
-      min-height: 38rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .hero-visual::before {
-      content: "";
-      position: absolute;
-      inset: 8% 10% 12%;
-      border: 1px solid rgba(255, 0, 51, 0.18);
-      background:
-        radial-gradient(circle at center, rgba(255, 0, 51, 0.12), transparent 52%),
-        linear-gradient(135deg, rgba(255, 0, 51, 0.08), transparent 36%, rgba(255, 204, 0, 0.06));
-      pointer-events: none;
-    }
-    .chat-demo {
-      position: relative;
-      z-index: 1;
-      width: min(38rem, 100%);
-      padding: 1rem;
-      border: 1px solid rgba(255, 0, 51, 0.32);
-      background: rgba(5, 5, 9, 0.7);
-      box-shadow: 0 0 32px rgba(255, 0, 51, 0.12);
-      backdrop-filter: blur(10px);
-    }
-    .chat-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-bottom: 0.9rem;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid rgba(255, 0, 51, 0.24);
-    }
-    .chat-stage {
-      position: relative;
-      min-height: 36rem;
-      overflow: hidden;
-    }
-    .chat-sequence {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.9rem;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(12px);
-      transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s ease;
-    }
-    .chat-sequence.active {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    .chat-sequence.clearing {
-      opacity: 0;
-      transform: translateY(-12px);
-    }
-    .chat-bubble {
-      max-width: 88%;
-      padding: 0.95rem 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      line-height: 1.7;
-      opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.45s ease, transform 0.45s ease;
-    }
-    .chat-bubble.client {
-      align-self: flex-start;
-      background: rgba(255, 255, 255, 0.04);
-      border-color: rgba(255, 204, 0, 0.18);
-    }
-    .chat-bubble.team {
-      align-self: flex-end;
-      background: rgba(255, 0, 51, 0.08);
-      border-color: rgba(255, 0, 51, 0.32);
-      box-shadow: 0 0 18px rgba(255, 0, 51, 0.12);
-    }
-    .chat-sequence.active .chat-bubble.live {
-      opacity: 1;
-      transform: translateY(0);
-      animation: chatArrival 1.2s ease forwards, chatFloat 7s ease-in-out 1.2s infinite;
-    }
-    .chat-role {
-      display: block;
-      margin-bottom: 0.35rem;
-      font-size: 0.72rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-    }
-    .chat-note {
-      margin-top: 1rem;
-      padding-top: 0.95rem;
-      border-top: 1px solid rgba(255, 0, 51, 0.22);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      color: #9ca3af;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-    .chat-dots {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-    .chat-dots span {
-      width: 0.42rem;
-      height: 0.42rem;
-      border-radius: 999px;
-      background: rgba(255, 204, 0, 0.78);
-      box-shadow: 0 0 12px rgba(255, 204, 0, 0.25);
-      animation: dotPulse 1.4s ease-in-out infinite;
-    }
-    .chat-dots span:nth-child(2) { animation-delay: 0.2s; }
-    .chat-dots span:nth-child(3) { animation-delay: 0.4s; }
-    .wise-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      margin-top: 0.4rem;
-      padding: 0.28rem 0.52rem;
-      border: 1px solid rgba(90, 255, 190, 0.35);
-      background: rgba(90, 255, 190, 0.08);
-      color: #8dffd3;
-      font-size: 0.72rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    .wise-mark {
-      width: 1.2rem;
-      height: 1.2rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(90, 255, 190, 0.45);
-      color: #8dffd3;
-      font-weight: 700;
-      font-size: 0.62rem;
-    }
-    .technically { font-size: 1.45rem; font-weight: 700; color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.45); letter-spacing: 0.26em; text-transform: uppercase; display: inline-block; }
+    .hero-shell::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.08), transparent); transform: translateX(-120%); animation: sweep 15s linear infinite; pointer-events: none; }
+    .console-panel { background: rgba(0, 0, 0, 0.62); border: 1px solid rgba(255, 0, 51, 0.4); box-shadow: 0 0 28px rgba(255, 0, 51, 0.12); backdrop-filter: blur(8px); clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; }
+    .hero-copy { max-width: 42rem; }
+    .hero-title { max-width: 28rem; font-size: clamp(1.6rem, 3.6vw, 2.8rem); line-height: 1.16; font-weight: 700; }
+    .hero-subtitle { max-width: 30rem; color: #d1d5db; line-height: 1.95; font-size: clamp(0.98rem, 1.55vw, 1.12rem); }
+    .hero-footnote { max-width: 28rem; color: #9ca3af; line-height: 1.8; font-size: 0.92rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
+    .hero-actions .button { width: auto; }
+    .button.button-secondary { background: rgba(255, 204, 0, 0.08); color: #ffcc00; border-color: rgba(255, 204, 0, 0.54); }
+    .button.button-tertiary { padding: 0.82rem 1rem; font-size: 0.84rem; letter-spacing: 0.16em; background: transparent; color: #d1d5db; border-color: rgba(255,255,255,0.18); }
+    .button.button-reel { min-width: 14rem; justify-content: center; }
+    .technically { font-size: 0.88rem; font-weight: 600; color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); letter-spacing: 0.34em; text-transform: uppercase; display: inline-block; }
+    .aka-signature { font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(1.15rem, 2vw, 1.6rem); font-weight: 700; line-height: 1.35; letter-spacing: 0.22em; text-transform: uppercase; color: #f3f4f6; }
+    .hero-tagline { margin-top: 2rem; }
     .signal { border: 1px solid rgba(255, 204, 0, 0.36); background: rgba(255, 204, 0, 0.06); color: #ffcc00; }
     .micro-glitch { position: relative; isolation: isolate; }
     .micro-glitch::before,
@@ -381,23 +246,25 @@
       animation: glitchSliceB 4.1s infinite;
       opacity: 0.2;
     }
-    .type-loop {
-      display: inline-flex;
-      align-items: center;
-      min-height: 1.6em;
+    .card-visual {
+      position: relative;
+      min-height: 9.5rem;
+      margin-bottom: 1.4rem;
+      border: 1px solid rgba(255, 204, 0, 0.28);
+      background: linear-gradient(135deg, rgba(255, 0, 51, 0.14), rgba(255, 204, 0, 0.08));
+      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      overflow: hidden;
     }
-    .type-cursor {
-      display: inline-block;
-      width: 0.7ch;
-      margin-left: 0.15rem;
-      color: #ffcc00;
-      animation: cursorBlink 1s steps(1, end) infinite;
-    }
+    .card-visual::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(180deg, rgba(0,0,0,0.95), transparent); }
+    .card-visual::after { content: ""; position: absolute; inset: 0.8rem; border-top: 1px solid rgba(255, 0, 51, 0.38); border-left: 1px solid rgba(255, 204, 0, 0.24); border-right: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
+    .card-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+    .card-visual-copy { position: absolute; left: 1rem; right: 1rem; bottom: 0.95rem; z-index: 1; }
+    .card-visual-copy strong { display: block; color: #ffcc00; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .card-visual-copy span { display: block; margin-top: 0.45rem; color: #e5e7eb; font-size: 0.88rem; line-height: 1.45; max-width: 16rem; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
     @keyframes sweep { 0% { transform: translateX(-120%); opacity: 0; } 20% { opacity: 0.18; } 100% { transform: translateX(120%); opacity: 0; } }
     @keyframes glitch { 0%, 88%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); } 90% { transform: translate(2px, -1px); clip-path: inset(12% 0 70% 0); } 92% { transform: translate(-2px, 1px); clip-path: inset(58% 0 16% 0); } }
-    @keyframes pulseDrift { 0%, 100% { transform: translateY(0); box-shadow: 0 0 28px rgba(255, 0, 51, 0.14); } 50% { transform: translateY(-4px); box-shadow: 0 0 36px rgba(255, 204, 0, 0.16); } }
     @keyframes glitchPulse { 0%, 88%, 100% { filter: none; } 89% { filter: brightness(1.2) saturate(1.3); } 90% { filter: contrast(1.35); } 91% { filter: none; } }
     @keyframes glitchSliceA {
       0%, 83%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
@@ -409,27 +276,9 @@
       78% { transform: translate(3px, 0); clip-path: inset(18% 0 54% 0); }
       80% { transform: translate(-2px, 1px); clip-path: inset(62% 0 10% 0); }
     }
-    @keyframes chatArrival {
-      0% {
-        box-shadow: 0 0 0 rgba(255, 204, 0, 0);
-        filter: brightness(1.25);
-      }
-      35% {
-        box-shadow: 0 0 22px rgba(255, 204, 0, 0.3), 0 0 34px rgba(255, 0, 51, 0.18);
-        filter: brightness(1.5);
-      }
-      100% {
-        box-shadow: 0 0 0 rgba(255, 204, 0, 0);
-        filter: brightness(1);
-      }
-    }
-    @keyframes chatFloat { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
-    @keyframes dotPulse { 0%, 100% { opacity: 0.35; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.08); } }
-    @keyframes cursorBlink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
     @media (max-width: 768px) {
       .hero-layout { grid-template-columns: 1fr; }
-      .hero-visual { display: none; }
       .button { width: 100%; }
       .nav-shell { grid-template-columns: 1fr; }
       .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; }
@@ -438,6 +287,10 @@
       .service-mega { display: none !important; }
       .proof-drop summary,
       .faq-item summary { align-items: flex-start; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .button.button-reel,
+      .button.button-tertiary { min-width: 0; }
+      .card-visual { min-height: 8.5rem; }
     }
   </style>
 </head>
@@ -477,119 +330,29 @@
   <main class="pt-28">
     <section class="hero-shell min-h-screen flex items-center px-6 py-16">
       <div class="page-wrap hero-layout">
-        <div class="console-panel pulse-drift w-full px-6 py-10 md:px-12 md:py-14">
+        <div class="console-panel w-full px-6 py-10 md:px-12 md:py-14">
           <div class="flex flex-wrap gap-3 mb-8 text-[11px] uppercase tracking-[0.34em]">
-            <span class="signal px-3 py-1 rounded-full">AI-Leveraged</span>
             <span class="signal px-3 py-1 rounded-full">Jewelry Ops</span>
             <span class="signal px-3 py-1 rounded-full">Factory-Ready Design</span>
           </div>
-          <p class="text-xs md:text-sm uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
-          <h1 class="uppercase max-w-4xl">
-            <span class="block text-3xl md:text-6xl neon-yellow leading-tight">AI-leveraged systems for jewelry operations.</span>
-            <span class="block text-xl md:text-3xl leading-tight mt-3 text-gray-200">Technically designed, factory-ready, and built to remove friction.</span>
-          </h1>
-          <p class="mt-6 max-w-2xl text-sm md:text-lg text-gray-300 leading-7">
-            Hanzu Tech combines design, tooling, automation, and production awareness into one direct build pipeline for workshops, brands, and factory-facing teams.
-          </p>
-          <div class="mt-6">
-            <p class="text-base md:text-xl uppercase tracking-[0.24em] text-gray-300"><span id="hero-type" class="type-loop"></span><span class="type-cursor">|</span></p>
-          </div>
-          <p class="mt-6 max-w-2xl text-sm md:text-base text-gray-400 leading-7">
-            Start with the bottleneck. Ship the fix. Keep the handoff clean from concept to production.
-          </p>
-          <div class="mt-10 flex flex-col md:flex-row gap-4 max-w-3xl">
+          <div class="hero-copy">
+            <p class="text-xs md:text-sm uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
+            <h1 class="hero-title uppercase text-gray-100">Technically designed, factory-ready systems for jewelry operations.</h1>
+            <p class="hero-subtitle mt-8">
+              Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
+            </p>
+            <div class="hero-tagline">
+              <span class="technically">Technically</span>
+              <h2 class="designer-glitch neon-red text-5xl md:text-7xl uppercase leading-none mt-2" data-text="Designer">Designer</h2>
+              <p class="aka-signature mt-4">AKA JACK OF ALL TRADES</p>
+            </div>
+            <p class="hero-footnote mt-8">
+              AI stays in the stack as support for research, automation, and workflow speed when it is actually useful.
+            </p>
+          <div class="hero-actions mt-10">
             <a href="/services" class="button">Services</a>
-            <a href="/jewelers" class="button bg-transparent text-yellow-300">Open Tools</a>
-            <a href="/reel" class="button bg-transparent text-yellow-300">Intro Reel</a>
-          </div>
-        </div>
-        <div class="hero-visual hidden md:block" id="hero-visual">
-          <div class="chat-demo">
-            <div class="chat-head">
-              <div>
-                <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500">Live Comms</p>
-                <p class="mt-2 text-sm text-gray-300">One-stop delivery thread // rotating scenarios</p>
-              </div>
-              <div class="signal px-3 py-1 rounded-full text-[11px] uppercase tracking-[0.24em]">Secure Thread</div>
-            </div>
-            <div class="chat-stage" id="chat-stage">
-              <div class="chat-sequence active" data-sequence>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  We need a ring concept, 3D model, and renders fast. Can you handle the whole design side in one place?
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  Yes. Concept direction, sketch logic, ZBrush sculpting, CAD handoff, and clean visuals stay in one thread so you are not juggling separate vendors.
-                </div>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  Good. We want one-stop, not another patchwork pipeline.
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  That is the setup. One technically designed pipeline from idea to factory-ready output.
-                </div>
-              </div>
-              <div class="chat-sequence" data-sequence>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  Our production files keep bouncing back from the workshop. Can you clean up the CAD and casting prep?
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  We audit the weak spots, rebuild the model logic, and shape the output for casting, print, and bench reality before it hits the floor.
-                </div>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  So the design side and the production side stay connected?
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  Exactly. Better geometry, fewer revisions, cleaner manufacturing handoff.
-                </div>
-              </div>
-              <div class="chat-sequence" data-sequence>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  Quotes, revisions, and approvals are eating hours every week. Can this be systemized?
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  Yes. We build custom quote flows, approval packs, and admin tools around the real bottlenecks so the team stops repeating manual cleanup.
-                </div>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  We need privacy too. No client data leaking into random systems.
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  Private-first setup. Lean stack, no unnecessary storage, and process design that keeps sensitive job data under control.
-                </div>
-              </div>
-              <div class="chat-sequence" data-sequence>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  We also need renders, a cleaner website presence, and help using AI without turning the brand into noise.
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  That stays in the same lane. Product visuals, portfolio systems, AI agent support, and sharp delivery standards under one roof.
-                </div>
-                <div class="chat-bubble client" data-bubble>
-                  <span class="chat-role neon-yellow">Client</span>
-                  So if the job grows, we do not need to rebuild the team around it?
-                </div>
-                <div class="chat-bubble team" data-bubble>
-                  <span class="chat-role neon-red">Hanzu Team</span>
-                  Correct. Start with the pain point, then extend the stack only where it creates speed, clarity, and profit.
-                </div>
-              </div>
-            </div>
-            <div class="chat-note">
-              <span>Thread resets after each scenario</span>
-              <span class="chat-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-            </div>
+            <a href="/reel" class="button button-secondary button-reel">Intro Reel</a>
+            <a href="/jewelers" class="button button-tertiary">Open Tools</a>
           </div>
         </div>
       </div>
@@ -598,16 +361,28 @@
     <section class="px-6 pb-16 -mt-14 relative z-10">
       <div class="page-wrap grid md:grid-cols-3 gap-6">
         <article class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/home-mission-overview.svg" alt="Mission overview placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Mission Frame</strong><span>Map the friction point before the fix touches production.</span></div>
+          </div>
           <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
           <h2 class="text-3xl neon-red mb-4">Solve Real Operational Problems</h2>
           <p class="text-gray-300 leading-7">The point is not generic design. The point is building technically designed products that remove wasted motion, protect margin, and make workshops run sharper.</p>
         </article>
         <article class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/home-current-focus.svg" alt="Current focus placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Current Focus</strong><span>Jewelry workflows first, then anything worth building properly.</span></div>
+          </div>
           <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Current Focus</p>
           <h2 class="text-3xl neon-yellow mb-4">Jewelry Workflows First</h2>
           <p class="text-gray-300 leading-7">Custom quoting tools, production helpers, AI-assisted systems, and manufacturing-aware interfaces for jewelers, factories, and precision shops.</p>
         </article>
         <article class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/home-services-stack.svg" alt="Service stack placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Service Stack</strong><span>Design, systems, and delivery moving in one lane.</span></div>
+          </div>
           <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Services</p>
           <h2 class="text-3xl neon-red mb-4">Design, Build, Ship</h2>
           <p class="text-gray-300 leading-7">From ZBrush sculpting and CAD to software pipelines, AI agent design, and technical consultation, Hanzu Tech moves concepts into production-grade outputs.</p>
@@ -618,16 +393,28 @@
     <section class="px-6 pb-16 relative">
       <div class="page-wrap grid md:grid-cols-3 gap-6">
         <article class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/home-research-logic.svg" alt="Research logic placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Research Logic</strong><span>AI can help when it speeds the work, not when it dominates the story.</span></div>
+          </div>
           <p class="mini-kicker mb-4">How It Works</p>
           <h2 class="text-2xl neon-yellow mb-4">Research Meets Workshop Reality</h2>
           <p class="text-gray-300 leading-7">AI and agents accelerate exploration, but every output still gets filtered through real production, tolerance, and workflow logic.</p>
         </article>
         <article class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/home-pipeline-handoff.svg" alt="Pipeline handoff placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Pipeline</strong><span>Concept, factory handoff, and client delivery stay connected.</span></div>
+          </div>
           <p class="mini-kicker mb-4">Pipeline</p>
           <h2 class="text-2xl neon-red mb-4">Design To Factory To Client</h2>
           <p class="text-gray-300 leading-7">The system spans concept development, manufacturing files, custom internal tools, and polished client-facing outputs instead of stopping at visuals.</p>
         </article>
         <article class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/home-useful-tech-only.svg" alt="Useful tech placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Filter</strong><span>If it does not improve control, quality, or margin, it stays out.</span></div>
+          </div>
           <p class="mini-kicker mb-4">Target</p>
           <h2 class="text-2xl neon-yellow mb-4">Useful Tech Only</h2>
           <p class="text-gray-300 leading-7">If it does not save time, increase control, improve quality, or create margin, it does not belong in the stack.</p>
@@ -743,102 +530,32 @@
         </div>
       </div>
     </section>
+
+    <section class="px-6 pb-24">
+      <div class="page-wrap max-w-6xl">
+        <div class="card">
+          <div class="card-visual">
+            <img src="/assets/placeholders/journal-feed-preview.svg" alt="Journal preview placeholder" loading="lazy">
+            <div class="card-visual-copy"><strong>Journal</strong><span>A quiet slot for future shipping logs, process notes, and updates.</span></div>
+          </div>
+          <p class="mini-kicker mb-3">Updates / Journal</p>
+          <h2 class="text-2xl neon-red">A low-visibility archive entry point is now in place.</h2>
+          <p class="mt-4 max-w-3xl text-gray-300 leading-7">The page stays intentionally quiet for now. When you are ready, replace the placeholder art in `assets/placeholders/` and start dropping entries into the journal page.</p>
+          <div class="mt-6">
+            <a href="/journal" class="text-sm uppercase tracking-[0.24em] text-gray-400 hover:text-yellow-300 transition-colors">Open Journal</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
     <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
       <p>Designed by Hanzu</p>
-      <p><span class="wise-badge"><span class="wise-mark">W</span> WISE Payment Gateway</span></p>
-      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a></p>
+      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a> • <a href="/journal">Journal</a></p>
     </div>
   </footer>
   <script>
-    (function () {
-      const typeTarget = document.getElementById('hero-type');
-      const typePhrase = 'AKA JACK OF ALL TRADES';
-      if (typeTarget && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        let typeIndex = 0;
-        let deleting = false;
-        let holdTimer = 0;
-        function loopType() {
-          typeTarget.textContent = typePhrase.slice(0, typeIndex);
-          if (!deleting && typeIndex < typePhrase.length) {
-            typeIndex += 1;
-            holdTimer = 95;
-          } else if (!deleting && typeIndex === typePhrase.length) {
-            deleting = true;
-            holdTimer = 1250;
-          } else if (deleting && typeIndex > 0) {
-            typeIndex -= 1;
-            holdTimer = 50;
-          } else {
-            deleting = false;
-            holdTimer = 420;
-          }
-          window.setTimeout(loopType, holdTimer);
-        }
-        loopType();
-      } else if (typeTarget) {
-        typeTarget.textContent = typePhrase;
-      }
-
-      const sequences = Array.from(document.querySelectorAll('[data-sequence]'));
-      if (!sequences.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const firstSequence = sequences[0];
-        if (!firstSequence) return;
-        firstSequence.classList.add('active');
-        firstSequence.querySelectorAll('[data-bubble]').forEach((bubble) => bubble.classList.add('live'));
-        return;
-      }
-
-      const revealGap = 1650;
-      const clearDelay = 3600;
-      let activeIndex = 0;
-      let revealTimers = [];
-      let cycleTimer;
-
-      function clearTimers() {
-        revealTimers.forEach((timer) => window.clearTimeout(timer));
-        revealTimers = [];
-        window.clearTimeout(cycleTimer);
-      }
-
-      function playSequence(index) {
-        clearTimers();
-
-        sequences.forEach((sequence, sequenceIndex) => {
-          sequence.classList.remove('active', 'clearing');
-          sequence.querySelectorAll('[data-bubble]').forEach((bubble) => bubble.classList.remove('live'));
-          if (sequenceIndex !== index) return;
-          sequence.classList.add('active');
-          const bubbles = Array.from(sequence.querySelectorAll('[data-bubble]'));
-          bubbles.forEach((bubble, bubbleIndex) => {
-            const timer = window.setTimeout(() => bubble.classList.add('live'), bubbleIndex * revealGap + 220);
-            revealTimers.push(timer);
-          });
-
-          const totalVisibleTime = bubbles.length * revealGap + clearDelay;
-          cycleTimer = window.setTimeout(() => {
-            sequence.classList.add('clearing');
-            const nextIndex = (index + 1) % sequences.length;
-            window.setTimeout(() => {
-              activeIndex = nextIndex;
-              playSequence(activeIndex);
-            }, 420);
-          }, totalVisibleTime);
-        });
-      }
-
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-          clearTimers();
-          return;
-        }
-        playSequence(activeIndex);
-      });
-
-      playSequence(activeIndex);
-    }());
   </script>
 </body>
 </html>

@@ -68,6 +68,7 @@
       padding: 1rem;
       position: relative;
       overflow: hidden;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
     }
     .portfolio-shot::before {
       content: "";
@@ -77,6 +78,7 @@
       pointer-events: none;
     }
     .portfolio-shot > * { position: relative; z-index: 1; }
+    .portfolio-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.68; }
     .service-points { display: grid; gap: 0.65rem; color: #d1d5db; }
     .service-points li { position: relative; padding-left: 1rem; }
     .service-points li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.4rem; height: 1px; background: #ffcc00; box-shadow: 0 0 10px rgba(255, 204, 0, 0.4); }
@@ -132,7 +134,7 @@
         <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">Services</p>
         <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Services</h1>
         <p class="page-quote mt-3">Precision pays when the design handoff reaches the factory clean.</p>
-        <p class="mt-5 max-w-3xl text-gray-300 leading-7">AI-leveraged design, technical execution, and factory-ready delivery for teams that need fewer revisions, cleaner visuals, and stronger ops.</p>
+        <p class="mt-5 max-w-3xl text-gray-300 leading-7">Technical design, production-aware execution, and custom systems for teams that need fewer revisions, cleaner visuals, and stronger ops. AI comes in at the workflow layer when it earns its place.</p>
       </div>
     </section>
 
@@ -151,9 +153,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Concept Key Visual</p><p class="mt-2 text-sm text-gray-200">Collection or solitaire direction</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Design Language Board</p><p class="mt-2 text-sm text-gray-200">Mood, stone logic, metal language</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval Presentation</p><p class="mt-2 text-sm text-gray-200">Rationale, notes, and decision support</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-jewelry-design.svg" alt="Jewelry design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Concept Key Visual</p><p class="mt-2 text-sm text-gray-200">Collection or solitaire direction</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-jewelry-design.svg" alt="Jewelry design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Design Language Board</p><p class="mt-2 text-sm text-gray-200">Mood, stone logic, metal language</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-jewelry-design.svg" alt="Jewelry design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval Presentation</p><p class="mt-2 text-sm text-gray-200">Rationale, notes, and decision support</p></div>
             </div>
           </div>
         </article>
@@ -170,9 +172,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Sculpt Overview</p><p class="mt-2 text-sm text-gray-200">Primary sculpt angle</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Surface Detail</p><p class="mt-2 text-sm text-gray-200">Texture or ornament zone</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Validation Still</p><p class="mt-2 text-sm text-gray-200">Form and proportion checkpoint</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-3d-sculpting.svg" alt="3D sculpting placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Sculpt Overview</p><p class="mt-2 text-sm text-gray-200">Primary sculpt angle</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-3d-sculpting.svg" alt="3D sculpting placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Surface Detail</p><p class="mt-2 text-sm text-gray-200">Texture or ornament zone</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-3d-sculpting.svg" alt="3D sculpting placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Validation Still</p><p class="mt-2 text-sm text-gray-200">Form and proportion checkpoint</p></div>
             </div>
           </div>
         </article>
@@ -189,9 +191,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Model Overview</p><p class="mt-2 text-sm text-gray-200">Primary production angle</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Engineering Cut</p><p class="mt-2 text-sm text-gray-200">Construction and tolerance logic</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Revision Record</p><p class="mt-2 text-sm text-gray-200">Before and after fixes</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-cad-modeling.svg" alt="CAD modeling placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Model Overview</p><p class="mt-2 text-sm text-gray-200">Primary production angle</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-cad-modeling.svg" alt="CAD modeling placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Engineering Cut</p><p class="mt-2 text-sm text-gray-200">Construction and tolerance logic</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-cad-modeling.svg" alt="CAD modeling placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Revision Record</p><p class="mt-2 text-sm text-gray-200">Before and after fixes</p></div>
             </div>
           </div>
         </article>
@@ -208,9 +210,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Hero render</p><p class="mt-2 text-sm text-gray-200">Front-facing premium frame</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Material variation</p><p class="mt-2 text-sm text-gray-200">Yellow / white / rose comparison</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval panel</p><p class="mt-2 text-sm text-gray-200">Render plus note space</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-rendering-visualization.svg" alt="Rendering placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Hero render</p><p class="mt-2 text-sm text-gray-200">Front-facing premium frame</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-rendering-visualization.svg" alt="Rendering placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Material variation</p><p class="mt-2 text-sm text-gray-200">Yellow / white / rose comparison</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-rendering-visualization.svg" alt="Rendering placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval panel</p><p class="mt-2 text-sm text-gray-200">Render plus note space</p></div>
             </div>
           </div>
         </article>
@@ -227,9 +229,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Packaging mockup</p><p class="mt-2 text-sm text-gray-200">Box, card, or insert layout</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Campaign visual</p><p class="mt-2 text-sm text-gray-200">Launch or promo treatment</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System graphic</p><p class="mt-2 text-sm text-gray-200">Diagram or branded document</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-graphic-design.svg" alt="Graphic design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Packaging mockup</p><p class="mt-2 text-sm text-gray-200">Box, card, or insert layout</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-graphic-design.svg" alt="Graphic design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Campaign visual</p><p class="mt-2 text-sm text-gray-200">Launch or promo treatment</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-graphic-design.svg" alt="Graphic design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System graphic</p><p class="mt-2 text-sm text-gray-200">Diagram or branded document</p></div>
             </div>
           </div>
         </article>
@@ -246,9 +248,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage capture</p><p class="mt-2 text-sm text-gray-200">Storefront direction</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Product page</p><p class="mt-2 text-sm text-gray-200">Conversion-focused layout</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Collection view</p><p class="mt-2 text-sm text-gray-200">Catalog structure sample</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-shopify-setup.svg" alt="Shopify setup placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage capture</p><p class="mt-2 text-sm text-gray-200">Storefront direction</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-shopify-setup.svg" alt="Shopify setup placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Product page</p><p class="mt-2 text-sm text-gray-200">Conversion-focused layout</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-shopify-setup.svg" alt="Shopify setup placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Collection view</p><p class="mt-2 text-sm text-gray-200">Catalog structure sample</p></div>
             </div>
           </div>
         </article>
@@ -265,9 +267,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage layout</p><p class="mt-2 text-sm text-gray-200">Portfolio landing direction</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Case study page</p><p class="mt-2 text-sm text-gray-200">Project narrative sample</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Mobile view</p><p class="mt-2 text-sm text-gray-200">Responsive proof area</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-portfolio-website.svg" alt="Portfolio website placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage layout</p><p class="mt-2 text-sm text-gray-200">Portfolio landing direction</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-portfolio-website.svg" alt="Portfolio website placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Case study page</p><p class="mt-2 text-sm text-gray-200">Project narrative sample</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-portfolio-website.svg" alt="Portfolio website placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Mobile view</p><p class="mt-2 text-sm text-gray-200">Responsive proof area</p></div>
             </div>
           </div>
         </article>
@@ -284,9 +286,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Workflow diagnosis board</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Decision matrix</p><p class="mt-2 text-sm text-gray-200">Fix priority notes</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Implementation plan</p><p class="mt-2 text-sm text-gray-200">Action item space</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-consultation.svg" alt="Consultation placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Workflow diagnosis board</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-consultation.svg" alt="Consultation placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Decision matrix</p><p class="mt-2 text-sm text-gray-200">Fix priority notes</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-consultation.svg" alt="Consultation placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Implementation plan</p><p class="mt-2 text-sm text-gray-200">Action item space</p></div>
             </div>
           </div>
         </article>
@@ -303,9 +305,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Interface screen</p><p class="mt-2 text-sm text-gray-200">Tool dashboard view</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Logic flow</p><p class="mt-2 text-sm text-gray-200">Process or formula path</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Result panel</p><p class="mt-2 text-sm text-gray-200">Output / report area</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-custom-software.svg" alt="Custom software placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Interface screen</p><p class="mt-2 text-sm text-gray-200">Tool dashboard view</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-custom-software.svg" alt="Custom software placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Logic flow</p><p class="mt-2 text-sm text-gray-200">Process or formula path</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-custom-software.svg" alt="Custom software placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Result panel</p><p class="mt-2 text-sm text-gray-200">Output / report area</p></div>
             </div>
           </div>
         </article>
@@ -322,9 +324,9 @@
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Agent console</p><p class="mt-2 text-sm text-gray-200">Task orchestration view</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Output sample</p><p class="mt-2 text-sm text-gray-200">Structured result space</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Multi-agent workflow diagram</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-ai-agents.svg" alt="AI agents placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Agent console</p><p class="mt-2 text-sm text-gray-200">Task orchestration view</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-ai-agents.svg" alt="AI agents placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Output sample</p><p class="mt-2 text-sm text-gray-200">Structured result space</p></div>
+              <div class="portfolio-shot"><img src="/assets/placeholders/services-ai-agents.svg" alt="AI agents placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Multi-agent workflow diagram</p></div>
             </div>
           </div>
         </article>
@@ -349,8 +351,7 @@
   <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
     <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
       <p>Designed by Hanzu</p>
-      <p><span style="display:inline-flex;align-items:center;gap:0.45rem;margin-top:0.4rem;padding:0.28rem 0.52rem;border:1px solid rgba(90,255,190,0.35);background:rgba(90,255,190,0.08);color:#8dffd3;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;"><span style="width:1.2rem;height:1.2rem;display:inline-flex;align-items:center;justify-content:center;border:1px solid rgba(90,255,190,0.45);color:#8dffd3;font-weight:700;font-size:0.62rem;">W</span> WISE Payment Gateway</span></p>
-      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a></p>
+      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a> • <a href="/journal">Journal</a></p>
     </div>
   </footer>
 </body>

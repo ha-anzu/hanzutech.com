@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#09090f"/><path d="M160 360h880" stroke="#ff0033" stroke-width="6"/><path d="M360 280l-80 80 80 80M680 280l-80 80 80 80M980 280l-80 80 80 80" stroke="#ffcc00" stroke-width="4" fill="none"/><text x="120" y="140" fill="#ffcc00" font-family="monospace" font-size="42">PIPELINE HANDOFF</text><text x="120" y="194" fill="#d1d5db" font-family="monospace" font-size="24">concept / production / client delivery</text>
+</svg>

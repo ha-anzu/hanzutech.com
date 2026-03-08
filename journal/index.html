@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; upgrade-insecure-requests; block-all-mixed-content">
+  <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Hanzu Tech</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; }
+    h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
+    .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
+    .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
+    .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
+    .card { background: rgba(0, 0, 0, 0.74); border: 1px solid rgba(255, 0, 51, 0.44); padding: 2rem; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
+    .nav-shell { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.25rem; }
+    .nav-right { justify-self: end; display: flex; align-items: center; gap: 1.75rem; }
+    .service-hub { position: relative; justify-self: center; }
+    .service-hub::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 1rem; }
+    .service-trigger { display: inline-flex; align-items: center; gap: 0.65rem; padding: 0.7rem 1rem; border: 1px solid rgba(255, 0, 51, 0.42); background: rgba(12, 12, 18, 0.72); color: #ffcc00; text-transform: uppercase; letter-spacing: 0.28em; box-shadow: 0 0 14px rgba(255, 0, 51, 0.12); }
+    .service-trigger-icon { width: 1rem; height: 1rem; color: #ff0033; filter: drop-shadow(0 0 8px rgba(255, 0, 51, 0.38)); }
+    .service-mega { display: none !important; }
+    .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); }
+    .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    .journal-preview { position: relative; min-height: 14rem; border: 1px solid rgba(255, 204, 0, 0.28); overflow: hidden; clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
+    .journal-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.72; }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
+    @media (max-width: 768px) { .nav-shell { grid-template-columns: 1fr; } .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } }
+  </style>
+</head>
+<body class="overflow-x-hidden">
+  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 z-50 border-b border-red-600/30 backdrop-blur-md">
+    <div class="nav-shell">
+      <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <div class="service-hub">
+        <a href="/services" class="service-trigger"><svg class="service-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.2 8.5 10v4L12 15.8 15.5 14v-4Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Services</a>
+        <div class="service-mega"></div>
+      </div>
+      <div class="nav-right text-sm md:text-base">
+        <a href="/jewelers" class="neon-yellow">Open Tools</a>
+        <a href="/reel" class="neon-yellow">Intro Reel</a>
+        <a href="/about" class="neon-yellow">About</a>
+      </div>
+    </div>
+  </div>
+  <main class="pt-28 px-6 pb-20">
+    <section class="max-w-5xl mx-auto page-header p-6 md:p-8">
+      <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">Journal</p>
+      <h1 class="faulty-neon text-5xl md:text-7xl uppercase">Journal</h1>
+      <p class="page-quote mt-3">Archive layer online. Entries pending.</p>
+      <p class="mt-5 max-w-3xl text-gray-300 leading-7">This page is a quiet container for future updates, process notes, project fragments, and shipping logs. Keep it lean until you are ready to publish real entries.</p>
+    </section>
+    <section class="max-w-5xl mx-auto mt-6 grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+      <div class="card">
+        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">First Slot</p>
+        <h2 class="text-3xl neon-yellow mb-4">No posts yet. Structure only.</h2>
+        <p class="text-gray-300 leading-8">When you want to start using the archive, duplicate this card or swap it for linked entries. Placeholder image assets live in `assets/placeholders/` so the replacement path stays obvious.</p>
+      </div>
+      <div class="card">
+        <div class="journal-preview">
+          <img src="/assets/placeholders/journal-feed-preview.svg" alt="Journal feed placeholder" loading="lazy">
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
+    <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
+      <p>Designed by Hanzu</p>
+      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a> • <a href="/journal">Journal</a></p>
+    </div>
+  </footer>
+</body>
+</html>

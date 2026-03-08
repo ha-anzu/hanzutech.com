@@ -1,0 +1,3 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720">
+<rect width="1200" height="720" fill="#09090f"/><path d="M140 540h920" stroke="#ffffff" stroke-opacity=".18" stroke-width="3"/><path d="M220 520V260M540 520V200M860 520V320" stroke="#ff0033" stroke-width="4"/><circle cx="220" cy="260" r="18" fill="#ffcc00"/><circle cx="540" cy="200" r="18" fill="#ffcc00"/><circle cx="860" cy="320" r="18" fill="#ffcc00"/><text x="120" y="140" fill="#ffcc00" font-family="monospace" font-size="42">RESEARCH LOGIC</text><text x="120" y="194" fill="#d1d5db" font-family="monospace" font-size="24">use AI at the edge / keep judgment human</text>
+</svg>
