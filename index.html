@@ -70,20 +70,103 @@
       position: relative;
     }
     .hero-shell::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.08), transparent); transform: translateX(-120%); animation: sweep 15s linear infinite; pointer-events: none; }
-    .console-panel { background: rgba(0, 0, 0, 0.62); border: 1px solid rgba(255, 0, 51, 0.4); box-shadow: 0 0 28px rgba(255, 0, 51, 0.12); backdrop-filter: blur(8px); clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
-    .hero-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; }
-    .hero-copy { max-width: 42rem; }
-    .hero-title { max-width: 28rem; font-size: clamp(1.6rem, 3.6vw, 2.8rem); line-height: 1.16; font-weight: 700; }
-    .hero-subtitle { max-width: 30rem; color: #d1d5db; line-height: 1.95; font-size: clamp(0.98rem, 1.55vw, 1.12rem); }
-    .hero-footnote { max-width: 28rem; color: #9ca3af; line-height: 1.8; font-size: 0.92rem; }
+    .console-panel {
+      background: linear-gradient(180deg, rgba(2, 2, 6, 0.86), rgba(0, 0, 0, 0.78));
+      border: 1px solid rgba(255, 0, 51, 0.36);
+      box-shadow: 0 0 32px rgba(255, 0, 51, 0.1);
+      backdrop-filter: blur(8px);
+      clip-path: polygon(0 0, calc(100% - 38px) 0, 100% 38px, 100% 100%, 26px 100%, 0 calc(100% - 26px));
+      position: relative;
+      overflow: hidden;
+    }
+    .console-panel::before,
+    .console-panel::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+    }
+    .console-panel::before {
+      inset: 1rem;
+      border: 1px solid rgba(255, 204, 0, 0.16);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+    }
+    .console-panel::after {
+      top: 1rem;
+      right: 1rem;
+      width: 7rem;
+      height: 7rem;
+      background: linear-gradient(135deg, rgba(255, 204, 0, 0.18), transparent 70%);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      opacity: 0.8;
+    }
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: start; }
+    .hero-copy { max-width: 46rem; }
+    .hero-title { max-width: 25rem; font-size: clamp(1.45rem, 3vw, 2.3rem); line-height: 1.12; font-weight: 600; letter-spacing: 0.01em; }
+    .hero-subtitle { max-width: 34rem; color: #d1d5db; line-height: 1.9; font-size: clamp(0.96rem, 1.4vw, 1.06rem); }
+    .hero-footnote { max-width: 27rem; color: #9ca3af; line-height: 1.75; font-size: 0.88rem; }
     .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
     .hero-actions .button { width: auto; }
     .button.button-secondary { background: rgba(255, 204, 0, 0.08); color: #ffcc00; border-color: rgba(255, 204, 0, 0.54); }
-    .button.button-tertiary { padding: 0.82rem 1rem; font-size: 0.84rem; letter-spacing: 0.16em; background: transparent; color: #d1d5db; border-color: rgba(255,255,255,0.18); }
-    .button.button-reel { min-width: 14rem; justify-content: center; }
-    .technically { font-size: 0.88rem; font-weight: 600; color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); letter-spacing: 0.34em; text-transform: uppercase; display: inline-block; }
-    .aka-signature { font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(1.15rem, 2vw, 1.6rem); font-weight: 700; line-height: 1.35; letter-spacing: 0.22em; text-transform: uppercase; color: #f3f4f6; }
-    .hero-tagline { margin-top: 2rem; }
+    .button.button-tertiary { padding: 0.68rem 0.88rem; font-size: 0.76rem; letter-spacing: 0.15em; background: transparent; color: #d1d5db; border-color: rgba(255,255,255,0.18); }
+    .button.button-reel { min-width: 17rem; justify-content: center; }
+    .hero-kicker { display: inline-flex; align-items: center; gap: 0.9rem; text-transform: uppercase; letter-spacing: 0.32em; color: #9ca3af; font-size: 0.73rem; }
+    .hero-kicker::before { content: ""; width: 2.8rem; height: 1px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.8), rgba(255, 0, 51, 0.2)); }
+    .hero-track {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.75rem;
+      max-width: 40rem;
+    }
+    .hero-track-item {
+      position: relative;
+      min-height: 4.8rem;
+      padding: 0.95rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.02), rgba(255, 0, 51, 0.04));
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+    }
+    .hero-track-item::before {
+      content: "";
+      position: absolute;
+      inset: 0.55rem;
+      border: 1px solid rgba(255, 204, 0, 0.12);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+    .hero-track-item strong,
+    .hero-track-item span { position: relative; z-index: 1; display: block; }
+    .hero-track-item strong { color: #ffcc00; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; }
+    .hero-track-item span { margin-top: 0.5rem; color: #e5e7eb; font-size: 0.9rem; line-height: 1.45; }
+    .technically {
+      position: relative;
+      font-size: 1.14rem;
+      font-weight: 700;
+      color: #ffcc00;
+      text-shadow: 0 0 12px rgba(255, 204, 0, 0.42);
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      display: inline-block;
+      animation: technicallyFlicker 4.6s steps(1, end) infinite;
+    }
+    .technically::before,
+    .technically::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+    }
+    .technically::before { color: #ff0033; animation: glitchSliceA 3.2s infinite; }
+    .technically::after { color: #ffcc00; animation: glitchSliceB 4.1s infinite reverse; }
+    .designer-glow {
+      color: #ff3b30;
+      text-shadow: 0 0 14px rgba(255, 59, 48, 0.72), 0 0 34px rgba(255, 0, 51, 0.42), 0 0 62px rgba(255, 0, 51, 0.2);
+      animation: designerGlow 3.6s ease-in-out infinite;
+    }
+    .aka-signature { font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(1.3rem, 2.3vw, 1.95rem); font-weight: 800; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; color: #f3f4f6; }
+    .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
+    .hero-tagline { margin-top: 2.6rem; max-width: 34rem; }
+    .hero-story { margin-top: 1.2rem; max-width: 31rem; color: #9ca3af; line-height: 1.75; font-size: 0.9rem; }
     .signal { border: 1px solid rgba(255, 204, 0, 0.36); background: rgba(255, 204, 0, 0.06); color: #ffcc00; }
     .micro-glitch { position: relative; isolation: isolate; }
     .micro-glitch::before,
@@ -220,43 +303,35 @@
     .faq-copy { padding: 0 1.25rem 1.25rem; color: #d1d5db; line-height: 1.9; }
     .terminal-line { position: relative; padding-left: 1.4rem; }
     .terminal-line::before { content: '>'; position: absolute; left: 0; color: #ff0033; }
-    .designer-glitch {
-      position: relative;
-      display: inline-block;
-      text-shadow: 0 0 12px rgba(255, 0, 51, 0.55), 0 0 30px rgba(255, 0, 51, 0.28);
-      animation: glitchPulse 5.5s steps(1, end) infinite;
-    }
-    .designer-glitch::before,
-    .designer-glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-    .designer-glitch::before {
-      color: #ff0033;
-      transform: translateX(0);
-      animation: glitchSliceA 3.4s infinite;
-      opacity: 0.24;
-    }
-    .designer-glitch::after {
-      color: #ffcc00;
-      transform: translateX(0);
-      animation: glitchSliceB 4.1s infinite;
-      opacity: 0.2;
-    }
     .card-visual {
       position: relative;
-      min-height: 9.5rem;
+      min-height: 12rem;
       margin-bottom: 1.4rem;
       border: 1px solid rgba(255, 204, 0, 0.28);
-      background: linear-gradient(135deg, rgba(255, 0, 51, 0.14), rgba(255, 204, 0, 0.08));
-      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 18px 100%, 0 calc(100% - 18px));
+      background: linear-gradient(135deg, rgba(255, 0, 51, 0.12), rgba(255, 204, 0, 0.06));
+      clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
       overflow: hidden;
     }
-    .card-visual::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(180deg, rgba(0,0,0,0.95), transparent); }
-    .card-visual::after { content: ""; position: absolute; inset: 0.8rem; border-top: 1px solid rgba(255, 0, 51, 0.38); border-left: 1px solid rgba(255, 204, 0, 0.24); border-right: 1px solid rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.06); clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
+    .card-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: linear-gradient(180deg, rgba(0,0,0,0.95), transparent);
+    }
+    .card-visual::after {
+      content: "";
+      position: absolute;
+      inset: 0.8rem;
+      border-top: 1px solid rgba(255, 0, 51, 0.42);
+      border-left: 1px solid rgba(255, 204, 0, 0.24);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    }
     .card-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
     .card-visual-copy { position: absolute; left: 1rem; right: 1rem; bottom: 0.95rem; z-index: 1; }
     .card-visual-copy strong { display: block; color: #ffcc00; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; }
@@ -266,6 +341,17 @@
     @keyframes sweep { 0% { transform: translateX(-120%); opacity: 0; } 20% { opacity: 0.18; } 100% { transform: translateX(120%); opacity: 0; } }
     @keyframes glitch { 0%, 88%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); } 90% { transform: translate(2px, -1px); clip-path: inset(12% 0 70% 0); } 92% { transform: translate(-2px, 1px); clip-path: inset(58% 0 16% 0); } }
     @keyframes glitchPulse { 0%, 88%, 100% { filter: none; } 89% { filter: brightness(1.2) saturate(1.3); } 90% { filter: contrast(1.35); } 91% { filter: none; } }
+    @keyframes technicallyFlicker {
+      0%, 12%, 16%, 21%, 57%, 100% { opacity: 1; filter: none; }
+      13%, 20% { opacity: 0.48; filter: saturate(1.2); }
+      14% { opacity: 0.18; }
+      58% { opacity: 0.7; }
+    }
+    @keyframes designerGlow {
+      0%, 100% { text-shadow: 0 0 14px rgba(255, 59, 48, 0.66), 0 0 34px rgba(255, 0, 51, 0.38), 0 0 58px rgba(255, 0, 51, 0.16); filter: brightness(0.98); }
+      50% { text-shadow: 0 0 18px rgba(255, 59, 48, 0.95), 0 0 44px rgba(255, 0, 51, 0.56), 0 0 78px rgba(255, 0, 51, 0.26); filter: brightness(1.08); }
+    }
+    @keyframes caretBlink { 0%, 49%, 100% { opacity: 1; } 50%, 99% { opacity: 0; } }
     @keyframes glitchSliceA {
       0%, 83%, 100% { transform: translate(0, 0); clip-path: inset(0 0 0 0); }
       84% { transform: translate(-3px, 1px); clip-path: inset(0 0 62% 0); }
@@ -290,7 +376,11 @@
       .hero-actions { flex-direction: column; align-items: stretch; }
       .button.button-reel,
       .button.button-tertiary { min-width: 0; }
-      .card-visual { min-height: 8.5rem; }
+      .card-visual { min-height: 10rem; }
+      .hero-track { grid-template-columns: 1fr; }
+      .hero-title { max-width: 18rem; }
+      .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
+      .aka-signature { font-size: 1.15rem; letter-spacing: 0.14em; }
     }
   </style>
 </head>
@@ -328,7 +418,7 @@
   </div>
 
   <main class="pt-28">
-    <section class="hero-shell min-h-screen flex items-center px-6 py-16">
+    <section class="hero-shell min-h-[88vh] flex items-start px-6 pt-24 pb-16">
       <div class="page-wrap hero-layout">
         <div class="console-panel w-full px-6 py-10 md:px-12 md:py-14">
           <div class="flex flex-wrap gap-3 mb-8 text-[11px] uppercase tracking-[0.34em]">
@@ -336,23 +426,39 @@
             <span class="signal px-3 py-1 rounded-full">Factory-Ready Design</span>
           </div>
           <div class="hero-copy">
-            <p class="text-xs md:text-sm uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
-            <h1 class="hero-title uppercase text-gray-100">Technically designed, factory-ready systems for jewelry operations.</h1>
-            <p class="hero-subtitle mt-8">
+            <p class="hero-kicker mb-5">Operator Stack</p>
+            <h1 class="hero-title uppercase text-gray-100">Factory-ready systems for jewelry operations.</h1>
+            <p class="hero-subtitle mt-6">
               Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
             </p>
+            <div class="hero-track" aria-label="Homepage narrative">
+              <div class="hero-track-item">
+                <strong>Legitimacy</strong>
+                <span>Clear presentation and proof that the work is real.</span>
+              </div>
+              <div class="hero-track-item">
+                <strong>Portfolio</strong>
+                <span>Case-study level output that looks deliberate, not improvised.</span>
+              </div>
+              <div class="hero-track-item">
+                <strong>Working Systems</strong>
+                <span>Tools and process fixes that survive contact with production.</span>
+              </div>
+            </div>
             <div class="hero-tagline">
-              <span class="technically">Technically</span>
-              <h2 class="designer-glitch neon-red text-5xl md:text-7xl uppercase leading-none mt-2" data-text="Designer">Designer</h2>
-              <p class="aka-signature mt-4">AKA JACK OF ALL TRADES</p>
+              <span class="technically" data-text="TECHNICALLY">TECHNICALLY</span>
+              <h2 class="designer-glow text-5xl md:text-7xl uppercase leading-none mt-2">Designer</h2>
+              <p class="hero-story">Design direction, technical problem-solving, and production logic in one lane instead of split across five people.</p>
+              <p class="aka-signature mt-8"><span class="aka-typing" id="aka-typing" data-text="AKA JACK OF ALL TRADES"></span></p>
             </div>
             <p class="hero-footnote mt-8">
               AI stays in the stack as support for research, automation, and workflow speed when it is actually useful.
             </p>
-          <div class="hero-actions mt-10">
-            <a href="/services" class="button">Services</a>
-            <a href="/reel" class="button button-secondary button-reel">Intro Reel</a>
-            <a href="/jewelers" class="button button-tertiary">Open Tools</a>
+            <div class="hero-actions mt-10">
+              <a href="/services" class="button">Services</a>
+              <a href="/reel" class="button button-secondary button-reel">Intro Reel</a>
+              <a href="/jewelers" class="button button-tertiary">Open Tools</a>
+            </div>
           </div>
         </div>
       </div>
@@ -556,6 +662,40 @@
     </div>
   </footer>
   <script>
+    (() => {
+      const target = document.getElementById('aka-typing');
+      if (!target) return;
+
+      const text = target.dataset.text || '';
+      let index = 0;
+      let direction = 1;
+
+      const tick = () => {
+        target.textContent = text.slice(0, index);
+
+        if (direction === 1) {
+          if (index < text.length) {
+            index += 1;
+            setTimeout(tick, index === text.length ? 1200 : 75);
+            return;
+          }
+          direction = -1;
+          setTimeout(tick, 1200);
+          return;
+        }
+
+        if (index > 0) {
+          index -= 1;
+          setTimeout(tick, 28);
+          return;
+        }
+
+        direction = 1;
+        setTimeout(tick, 480);
+      };
+
+      tick();
+    })();
   </script>
 </body>
 </html>
