@@ -175,7 +175,20 @@
       text-shadow: 0 0 14px rgba(255, 59, 48, 0.72), 0 0 34px rgba(255, 0, 51, 0.42), 0 0 62px rgba(255, 0, 51, 0.2);
       animation: designerGlow 3.6s ease-in-out infinite;
     }
-    .aka-signature { font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.15rem); font-weight: 800; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; color: #f3f4f6; }
+    .aka-signature {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: clamp(1rem, 1.7vw, 1.75rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #f3f4f6;
+      white-space: nowrap;
+    }
+    .aka-typing {
+      display: inline-block;
+      white-space: nowrap;
+    }
     .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
     .hero-tagline { margin-top: 0; max-width: 36rem; }
     .hero-story { margin-top: 1.3rem; max-width: 33rem; color: #9ca3af; line-height: 1.82; font-size: 0.98rem; }
@@ -617,7 +630,7 @@
       .hero-copy { display: block; min-height: 0; }
       .hero-title { max-width: 18rem; }
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
-      .aka-signature { font-size: 1.15rem; letter-spacing: 0.14em; }
+      .aka-signature { font-size: 0.94rem; letter-spacing: 0.08em; }
       .hero-media { padding-top: 0; }
       .hero-reel-panel { width: 100%; max-width: 100%; }
       .hero-tall-screen { height: auto; min-height: 0; aspect-ratio: 9 / 16; }
@@ -701,7 +714,7 @@
       </div>
     </section>
 
-    <section class="px-6 pb-16 -mt-14 relative z-10">
+    <section class="px-6 pt-8 pb-16 relative z-10">
       <div class="page-wrap grid md:grid-cols-3 gap-6">
         <article class="card">
           <div class="card-visual">
@@ -940,9 +953,23 @@
       const text = target.dataset.text || '';
       let index = 0;
       let direction = 1;
+      const signature = target.parentElement;
+      const defaultFontSize = getComputedStyle(signature).fontSize;
+
+      const fitAka = () => {
+        signature.style.fontSize = defaultFontSize;
+
+        let guard = 0;
+        while (signature.scrollWidth > signature.clientWidth && guard < 24) {
+          const currentSize = parseFloat(getComputedStyle(signature).fontSize);
+          signature.style.fontSize = `${currentSize - 0.5}px`;
+          guard += 1;
+        }
+      };
 
       const tick = () => {
         target.textContent = text.slice(0, index);
+        fitAka();
 
         if (direction === 1) {
           if (index < text.length) {
@@ -965,6 +992,7 @@
         setTimeout(tick, 480);
       };
 
+      window.addEventListener('resize', fitAka);
       tick();
     })();
   </script>
