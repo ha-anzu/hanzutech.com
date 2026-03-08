@@ -99,11 +99,23 @@
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
       opacity: 0.8;
     }
-    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(380px, 520px); gap: 2.5rem; align-items: start; }
-    .hero-copy { max-width: 46rem; }
-    .hero-title { max-width: 25rem; font-size: clamp(1.45rem, 3vw, 2.3rem); line-height: 1.12; font-weight: 600; letter-spacing: 0.01em; }
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(400px, 540px);
+      gap: 2.5rem;
+      align-items: stretch;
+      min-height: calc(100svh - 10rem);
+    }
+    .hero-copy {
+      max-width: 48rem;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero-title { max-width: 27rem; font-size: clamp(1.65rem, 3.45vw, 2.7rem); line-height: 1.08; font-weight: 700; letter-spacing: 0.01em; }
     .hero-subtitle { max-width: 34rem; color: #d1d5db; line-height: 1.9; font-size: clamp(0.96rem, 1.4vw, 1.06rem); }
-    .hero-footnote { max-width: 27rem; color: #9ca3af; line-height: 1.75; font-size: 0.88rem; }
+    .hero-footnote { max-width: 30rem; color: #9ca3af; line-height: 1.82; font-size: 0.92rem; }
     .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
     .hero-actions .button { width: auto; }
     .button.button-secondary { background: rgba(255, 204, 0, 0.08); color: #ffcc00; border-color: rgba(255, 204, 0, 0.54); }
@@ -139,7 +151,7 @@
     .hero-track-item span { margin-top: 0.5rem; color: #e5e7eb; font-size: 0.9rem; line-height: 1.45; }
     .technically {
       position: relative;
-      font-size: 1.14rem;
+      font-size: 1.24rem;
       font-weight: 700;
       color: #ffcc00;
       text-shadow: 0 0 12px rgba(255, 204, 0, 0.42);
@@ -163,10 +175,10 @@
       text-shadow: 0 0 14px rgba(255, 59, 48, 0.72), 0 0 34px rgba(255, 0, 51, 0.42), 0 0 62px rgba(255, 0, 51, 0.2);
       animation: designerGlow 3.6s ease-in-out infinite;
     }
-    .aka-signature { font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(1.3rem, 2.3vw, 1.95rem); font-weight: 800; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; color: #f3f4f6; }
+    .aka-signature { font-family: 'IBM Plex Sans', sans-serif; font-size: clamp(1.45rem, 2.5vw, 2.15rem); font-weight: 800; line-height: 1.2; letter-spacing: 0.18em; text-transform: uppercase; color: #f3f4f6; }
     .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
-    .hero-tagline { margin-top: 2.6rem; max-width: 34rem; }
-    .hero-story { margin-top: 1.2rem; max-width: 31rem; color: #9ca3af; line-height: 1.75; font-size: 0.9rem; }
+    .hero-tagline { margin-top: 0; max-width: 36rem; }
+    .hero-story { margin-top: 1.3rem; max-width: 33rem; color: #9ca3af; line-height: 1.82; font-size: 0.98rem; }
     .contact-shard {
       display: inline-flex;
       align-items: center;
@@ -201,12 +213,13 @@
       display: flex;
       justify-content: center;
       align-self: stretch;
-      padding-top: 0.25rem;
+      min-height: 100%;
     }
     .hero-reel-panel {
       position: relative;
       width: min(100%, 32rem);
       min-height: 100%;
+      height: 100%;
       padding: 1rem;
       border: 1px solid rgba(255, 0, 51, 0.34);
       background: linear-gradient(180deg, rgba(8, 8, 14, 0.94), rgba(2, 2, 6, 0.96));
@@ -279,7 +292,8 @@
     .reel-caption strong { color: #ffcc00; font-weight: 700; }
     .hero-tall-screen {
       position: relative;
-      aspect-ratio: 9 / 16;
+      height: calc(100% - 2rem);
+      min-height: 34rem;
       overflow: hidden;
       border: 1px solid rgba(255, 204, 0, 0.16);
       background: #06060b;
@@ -586,7 +600,7 @@
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
     @media (max-width: 768px) {
-      .hero-layout { grid-template-columns: 1fr; }
+      .hero-layout { grid-template-columns: 1fr; min-height: auto; }
       .button { width: 100%; }
       .nav-shell { grid-template-columns: 1fr; }
       .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; }
@@ -600,11 +614,13 @@
       .button.button-tertiary { min-width: 0; }
       .card-visual { min-height: 10rem; }
       .hero-track { grid-template-columns: 1fr; }
+      .hero-copy { display: block; min-height: 0; }
       .hero-title { max-width: 18rem; }
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
       .aka-signature { font-size: 1.15rem; letter-spacing: 0.14em; }
       .hero-media { padding-top: 0; }
       .hero-reel-panel { width: 100%; max-width: 100%; }
+      .hero-tall-screen { height: auto; min-height: 0; aspect-ratio: 9 / 16; }
       .story-layout { grid-template-columns: 1fr; }
     }
   </style>
@@ -643,7 +659,7 @@
   </div>
 
   <main class="pt-28">
-    <section class="hero-shell min-h-[88vh] flex items-start px-6 pt-24 pb-16">
+    <section class="hero-shell min-h-[calc(100svh-7rem)] flex items-center px-6 py-8">
       <div class="page-wrap hero-layout">
         <div class="console-panel w-full px-6 py-10 md:px-12 md:py-14">
           <div class="flex flex-wrap gap-3 mb-8 text-[11px] uppercase tracking-[0.34em]">
@@ -653,7 +669,7 @@
           <div class="hero-copy">
             <div class="hero-tagline">
               <span class="technically" data-text="TECHNICALLY">TECHNICALLY</span>
-              <h2 class="designer-glow text-5xl md:text-7xl uppercase leading-none mt-2">Designer</h2>
+              <h2 class="designer-glow text-6xl md:text-[5.8rem] uppercase leading-none mt-2">Designer</h2>
               <p class="hero-story">Design direction, technical problem-solving, and production logic in one lane instead of split across five people.</p>
               <p class="aka-signature mt-8"><span class="aka-typing" id="aka-typing" data-text="AKA JACK OF ALL TRADES"></span></p>
             </div>
