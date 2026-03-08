@@ -99,7 +99,7 @@
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
       opacity: 0.8;
     }
-    .hero-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: start; }
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, 420px); gap: 2.5rem; align-items: start; }
     .hero-copy { max-width: 46rem; }
     .hero-title { max-width: 25rem; font-size: clamp(1.45rem, 3vw, 2.3rem); line-height: 1.12; font-weight: 600; letter-spacing: 0.01em; }
     .hero-subtitle { max-width: 34rem; color: #d1d5db; line-height: 1.9; font-size: clamp(0.96rem, 1.4vw, 1.06rem); }
@@ -167,6 +167,225 @@
     .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
     .hero-tagline { margin-top: 2.6rem; max-width: 34rem; }
     .hero-story { margin-top: 1.2rem; max-width: 31rem; color: #9ca3af; line-height: 1.75; font-size: 0.9rem; }
+    .contact-shard {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid rgba(255, 204, 0, 0.28);
+      background: linear-gradient(135deg, rgba(255, 204, 0, 0.08), rgba(255, 0, 51, 0.06));
+      color: #f3f4f6;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.75rem;
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .contact-shard::before {
+      content: "";
+      width: 0.55rem;
+      height: 0.55rem;
+      background: #ff0033;
+      box-shadow: 0 0 10px rgba(255, 0, 51, 0.55);
+      transform: rotate(45deg);
+      flex: 0 0 0.55rem;
+    }
+    .contact-shard:hover {
+      border-color: rgba(255, 204, 0, 0.72);
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.16);
+      transform: translateY(-2px);
+    }
+    .hero-media {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      padding-top: 1.5rem;
+    }
+    .phone-rig {
+      position: relative;
+      width: min(100%, 24rem);
+      padding: 1.2rem;
+      border: 1px solid rgba(255, 0, 51, 0.34);
+      background: linear-gradient(180deg, rgba(8, 8, 14, 0.94), rgba(2, 2, 6, 0.96));
+      clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+      box-shadow: 0 0 36px rgba(255, 0, 51, 0.14);
+      overflow: hidden;
+    }
+    .phone-rig::before {
+      content: "";
+      position: absolute;
+      inset: 0.85rem;
+      border: 1px solid rgba(255, 204, 0, 0.14);
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+      pointer-events: none;
+    }
+    .phone-rig::after {
+      content: "";
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 5rem;
+      height: 5rem;
+      background: linear-gradient(135deg, rgba(255, 204, 0, 0.16), transparent 72%);
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+    .phone-rails {
+      position: absolute;
+      inset: -0.8rem -1rem auto auto;
+      width: 8rem;
+      height: 8rem;
+      border-top: 1px solid rgba(255, 204, 0, 0.22);
+      border-right: 1px solid rgba(255, 0, 51, 0.22);
+      clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 76%, 0 0);
+      pointer-events: none;
+    }
+    .phone-label,
+    .reel-caption {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.68rem;
+      color: #9ca3af;
+    }
+    .phone-label strong,
+    .reel-caption strong { color: #ffcc00; font-weight: 700; }
+    .phone-frame {
+      position: relative;
+      width: 100%;
+      max-width: 21rem;
+      margin: 0 auto;
+      padding: 0.95rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(24, 24, 30, 0.94), rgba(4, 4, 8, 0.96));
+      border-radius: 2.25rem;
+      box-shadow: inset 0 0 0 1px rgba(255, 204, 0, 0.08), 0 0 24px rgba(255, 0, 51, 0.12);
+    }
+    .phone-frame::before {
+      content: "";
+      position: absolute;
+      top: 0.55rem;
+      left: 50%;
+      width: 5.6rem;
+      height: 0.36rem;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+    }
+    .phone-frame::after {
+      content: "";
+      position: absolute;
+      right: -0.32rem;
+      top: 5rem;
+      width: 0.22rem;
+      height: 5rem;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+    }
+    .phone-screen {
+      position: relative;
+      aspect-ratio: 9 / 16;
+      border-radius: 1.55rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 204, 0, 0.16);
+      background: #06060b;
+    }
+    .phone-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 24%),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: auto, 28px 28px, 28px 28px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .placeholder-screen::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 5rem;
+      height: 5rem;
+      transform: translate(-50%, -50%);
+      border: 3px solid #ffcc00;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.12);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .placeholder-screen::before {
+      content: "X";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 3.15rem;
+      line-height: 1;
+      color: #ff0033;
+      text-shadow: 0 0 12px rgba(255, 0, 51, 0.35);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .reel-video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      background: #05050a;
+    }
+    .story-layout {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.88fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .story-copy { min-width: 0; }
+    .story-reel {
+      position: relative;
+      min-width: 0;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, rgba(12, 12, 18, 0.92), rgba(5, 5, 8, 0.96));
+      clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+    }
+    .story-reel::before {
+      content: "";
+      position: absolute;
+      inset: 0.7rem;
+      border: 1px solid rgba(255, 204, 0, 0.12);
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      pointer-events: none;
+    }
+    .wide-screen {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: 1px solid rgba(255, 204, 0, 0.16);
+      background: #06060b;
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+    .wide-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 24%),
+        linear-gradient(90deg, rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px);
+      background-size: auto, 30px 30px, 30px 30px;
+      pointer-events: none;
+      z-index: 1;
+    }
     .story-panel {
       position: relative;
       padding: 2rem;
@@ -394,6 +613,9 @@
       .hero-title { max-width: 18rem; }
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
       .aka-signature { font-size: 1.15rem; letter-spacing: 0.14em; }
+      .hero-media { padding-top: 0; }
+      .phone-rig { width: 100%; max-width: 22rem; }
+      .story-layout { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -453,8 +675,25 @@
               <a href="/reel" class="button button-secondary button-reel">Intro Reel</a>
               <a href="/jewelers" class="button button-tertiary">Open Tools</a>
             </div>
+            <a href="/about" class="contact-shard">Contact Shard</a>
           </div>
         </div>
+        <aside class="hero-media">
+          <div class="phone-rig">
+            <span class="phone-rails" aria-hidden="true"></span>
+            <div class="phone-label">
+              <strong>Vertical Reel</strong>
+              <span>01 / Home Feed</span>
+            </div>
+            <div class="phone-frame">
+              <div class="phone-screen placeholder-screen">
+                <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Homepage vertical reel placeholder">
+                  <source src="/assets/reels/home-hero-vertical-placeholder.mp4" type="video/mp4">
+                </video>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
 
@@ -490,23 +729,38 @@
     <section class="px-6 pb-16 relative">
       <div class="page-wrap">
         <div class="story-panel">
-          <p class="hero-kicker mb-5">Operator Stack</p>
-          <h2 class="hero-title uppercase text-gray-100">Factory-ready systems for jewelry operations.</h2>
-          <p class="hero-subtitle mt-6">
-            Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
-          </p>
-          <div class="hero-track" aria-label="Homepage narrative">
-            <div class="hero-track-item">
-              <strong>Legitimacy</strong>
-              <span>Clear presentation and proof that the work is real.</span>
+          <div class="story-layout">
+            <div class="story-copy">
+              <p class="hero-kicker mb-5">Operator Stack</p>
+              <h2 class="hero-title uppercase text-gray-100">Factory-ready systems for jewelry operations.</h2>
+              <p class="hero-subtitle mt-6">
+                Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
+              </p>
+              <div class="hero-track" aria-label="Homepage narrative">
+                <div class="hero-track-item">
+                  <strong>Legitimacy</strong>
+                  <span>Clear presentation and proof that the work is real.</span>
+                </div>
+                <div class="hero-track-item">
+                  <strong>Portfolio</strong>
+                  <span>Case-study level output that looks deliberate, not improvised.</span>
+                </div>
+                <div class="hero-track-item">
+                  <strong>Working Systems</strong>
+                  <span>Tools and process fixes that survive contact with production.</span>
+                </div>
+              </div>
             </div>
-            <div class="hero-track-item">
-              <strong>Portfolio</strong>
-              <span>Case-study level output that looks deliberate, not improvised.</span>
-            </div>
-            <div class="hero-track-item">
-              <strong>Working Systems</strong>
-              <span>Tools and process fixes that survive contact with production.</span>
+            <div class="story-reel">
+              <div class="reel-caption">
+                <strong>System Reel</strong>
+                <span>16:9 Placeholder</span>
+              </div>
+              <div class="wide-screen placeholder-screen">
+                <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Operator stack horizontal reel placeholder">
+                  <source src="/assets/reels/operator-stack-horizontal-placeholder.mp4" type="video/mp4">
+                </video>
+              </div>
             </div>
           </div>
         </div>
