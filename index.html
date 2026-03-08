@@ -99,7 +99,7 @@
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
       opacity: 0.8;
     }
-    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(320px, 420px); gap: 2.5rem; align-items: start; }
+    .hero-layout { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(380px, 520px); gap: 2.5rem; align-items: start; }
     .hero-copy { max-width: 46rem; }
     .hero-title { max-width: 25rem; font-size: clamp(1.45rem, 3vw, 2.3rem); line-height: 1.12; font-weight: 600; letter-spacing: 0.01em; }
     .hero-subtitle { max-width: 34rem; color: #d1d5db; line-height: 1.9; font-size: clamp(0.96rem, 1.4vw, 1.06rem); }
@@ -200,48 +200,70 @@
       position: relative;
       display: flex;
       justify-content: center;
-      padding-top: 1.5rem;
+      align-self: stretch;
+      padding-top: 0.25rem;
     }
-    .phone-rig {
+    .hero-reel-panel {
       position: relative;
-      width: min(100%, 24rem);
-      padding: 1.2rem;
+      width: min(100%, 32rem);
+      min-height: 100%;
+      padding: 1rem;
       border: 1px solid rgba(255, 0, 51, 0.34);
       background: linear-gradient(180deg, rgba(8, 8, 14, 0.94), rgba(2, 2, 6, 0.96));
-      clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
+      clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% calc(100% - 22px), calc(100% - 22px) 100%, 0 100%, 0 18px);
       box-shadow: 0 0 36px rgba(255, 0, 51, 0.14);
       overflow: hidden;
     }
-    .phone-rig::before {
+    .hero-reel-panel::before {
       content: "";
       position: absolute;
-      inset: 0.85rem;
+      inset: 0.8rem;
       border: 1px solid rgba(255, 204, 0, 0.14);
-      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
       pointer-events: none;
     }
-    .phone-rig::after {
+    .hero-reel-panel::after {
       content: "";
       position: absolute;
       top: 1rem;
       right: 1rem;
-      width: 5rem;
-      height: 5rem;
+      width: 6rem;
+      height: 6rem;
       background: linear-gradient(135deg, rgba(255, 204, 0, 0.16), transparent 72%);
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
       pointer-events: none;
     }
-    .phone-rails {
+    .hero-reel-rails {
       position: absolute;
-      inset: -0.8rem -1rem auto auto;
+      inset: 0 auto auto 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .hero-reel-rails::before,
+    .hero-reel-rails::after {
+      content: "";
+      position: absolute;
+    }
+    .hero-reel-rails::before {
+      top: 1.3rem;
+      right: 1.2rem;
       width: 8rem;
       height: 8rem;
       border-top: 1px solid rgba(255, 204, 0, 0.22);
       border-right: 1px solid rgba(255, 0, 51, 0.22);
       clip-path: polygon(100% 0, 100% 100%, 24% 100%, 0 76%, 0 0);
-      pointer-events: none;
     }
-    .phone-label,
+    .hero-reel-rails::after {
+      left: 1.15rem;
+      bottom: 1.2rem;
+      width: 9rem;
+      height: 5rem;
+      border-left: 1px solid rgba(255, 0, 51, 0.18);
+      border-bottom: 1px solid rgba(255, 204, 0, 0.18);
+      clip-path: polygon(0 0, 100% 0, 100% 66%, 78% 100%, 0 100%);
+    }
+    .hero-reel-label,
     .reel-caption {
       display: flex;
       justify-content: space-between;
@@ -253,49 +275,17 @@
       font-size: 0.68rem;
       color: #9ca3af;
     }
-    .phone-label strong,
+    .hero-reel-label strong,
     .reel-caption strong { color: #ffcc00; font-weight: 700; }
-    .phone-frame {
-      position: relative;
-      width: 100%;
-      max-width: 21rem;
-      margin: 0 auto;
-      padding: 0.95rem;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, rgba(24, 24, 30, 0.94), rgba(4, 4, 8, 0.96));
-      border-radius: 2.25rem;
-      box-shadow: inset 0 0 0 1px rgba(255, 204, 0, 0.08), 0 0 24px rgba(255, 0, 51, 0.12);
-    }
-    .phone-frame::before {
-      content: "";
-      position: absolute;
-      top: 0.55rem;
-      left: 50%;
-      width: 5.6rem;
-      height: 0.36rem;
-      transform: translateX(-50%);
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.22), rgba(255,255,255,0.08));
-    }
-    .phone-frame::after {
-      content: "";
-      position: absolute;
-      right: -0.32rem;
-      top: 5rem;
-      width: 0.22rem;
-      height: 5rem;
-      border-radius: 999px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
-    }
-    .phone-screen {
+    .hero-tall-screen {
       position: relative;
       aspect-ratio: 9 / 16;
-      border-radius: 1.55rem;
       overflow: hidden;
       border: 1px solid rgba(255, 204, 0, 0.16);
       background: #06060b;
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
     }
-    .phone-screen::before {
+    .hero-tall-screen::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -614,7 +604,7 @@
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
       .aka-signature { font-size: 1.15rem; letter-spacing: 0.14em; }
       .hero-media { padding-top: 0; }
-      .phone-rig { width: 100%; max-width: 22rem; }
+      .hero-reel-panel { width: 100%; max-width: 100%; }
       .story-layout { grid-template-columns: 1fr; }
     }
   </style>
@@ -679,18 +669,16 @@
           </div>
         </div>
         <aside class="hero-media">
-          <div class="phone-rig">
-            <span class="phone-rails" aria-hidden="true"></span>
-            <div class="phone-label">
+          <div class="hero-reel-panel">
+            <span class="hero-reel-rails" aria-hidden="true"></span>
+            <div class="hero-reel-label">
               <strong>Vertical Reel</strong>
               <span>01 / Home Feed</span>
             </div>
-            <div class="phone-frame">
-              <div class="phone-screen placeholder-screen">
-                <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Homepage vertical reel placeholder">
-                  <source src="/assets/reels/home-hero-vertical-placeholder.mp4" type="video/mp4">
-                </video>
-              </div>
+            <div class="hero-tall-screen placeholder-screen">
+              <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Homepage vertical reel placeholder">
+                <source src="/assets/reels/home-hero-vertical-placeholder.mp4" type="video/mp4">
+              </video>
             </div>
           </div>
         </aside>
