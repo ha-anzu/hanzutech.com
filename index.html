@@ -167,6 +167,22 @@
     .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
     .hero-tagline { margin-top: 2.6rem; max-width: 34rem; }
     .hero-story { margin-top: 1.2rem; max-width: 31rem; color: #9ca3af; line-height: 1.75; font-size: 0.9rem; }
+    .story-panel {
+      position: relative;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.66);
+      border: 1px solid rgba(255, 0, 51, 0.36);
+      clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+      overflow: hidden;
+    }
+    .story-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0.8rem;
+      border: 1px solid rgba(255, 204, 0, 0.12);
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      pointer-events: none;
+    }
     .signal { border: 1px solid rgba(255, 204, 0, 0.36); background: rgba(255, 204, 0, 0.06); color: #ffcc00; }
     .micro-glitch { position: relative; isolation: isolate; }
     .micro-glitch::before,
@@ -333,9 +349,6 @@
       clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
     }
     .card-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-    .card-visual-copy { position: absolute; left: 1rem; right: 1rem; bottom: 0.95rem; z-index: 1; }
-    .card-visual-copy strong { display: block; color: #ffcc00; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; }
-    .card-visual-copy span { display: block; margin-top: 0.45rem; color: #e5e7eb; font-size: 0.88rem; line-height: 1.45; max-width: 16rem; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
     @keyframes sweep { 0% { transform: translateX(-120%); opacity: 0; } 20% { opacity: 0.18; } 100% { transform: translateX(120%); opacity: 0; } }
@@ -426,25 +439,6 @@
             <span class="signal px-3 py-1 rounded-full">Factory-Ready Design</span>
           </div>
           <div class="hero-copy">
-            <p class="hero-kicker mb-5">Operator Stack</p>
-            <h1 class="hero-title uppercase text-gray-100">Factory-ready systems for jewelry operations.</h1>
-            <p class="hero-subtitle mt-6">
-              Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
-            </p>
-            <div class="hero-track" aria-label="Homepage narrative">
-              <div class="hero-track-item">
-                <strong>Legitimacy</strong>
-                <span>Clear presentation and proof that the work is real.</span>
-              </div>
-              <div class="hero-track-item">
-                <strong>Portfolio</strong>
-                <span>Case-study level output that looks deliberate, not improvised.</span>
-              </div>
-              <div class="hero-track-item">
-                <strong>Working Systems</strong>
-                <span>Tools and process fixes that survive contact with production.</span>
-              </div>
-            </div>
             <div class="hero-tagline">
               <span class="technically" data-text="TECHNICALLY">TECHNICALLY</span>
               <h2 class="designer-glow text-5xl md:text-7xl uppercase leading-none mt-2">Designer</h2>
@@ -469,7 +463,6 @@
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-mission-overview.svg" alt="Mission overview placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Mission Frame</strong><span>Map the friction point before the fix touches production.</span></div>
           </div>
           <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
           <h2 class="text-3xl neon-red mb-4">Solve Real Operational Problems</h2>
@@ -478,7 +471,6 @@
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-current-focus.svg" alt="Current focus placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Current Focus</strong><span>Jewelry workflows first, then anything worth building properly.</span></div>
           </div>
           <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Current Focus</p>
           <h2 class="text-3xl neon-yellow mb-4">Jewelry Workflows First</h2>
@@ -487,7 +479,6 @@
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-services-stack.svg" alt="Service stack placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Service Stack</strong><span>Design, systems, and delivery moving in one lane.</span></div>
           </div>
           <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Services</p>
           <h2 class="text-3xl neon-red mb-4">Design, Build, Ship</h2>
@@ -497,11 +488,36 @@
     </section>
 
     <section class="px-6 pb-16 relative">
+      <div class="page-wrap">
+        <div class="story-panel">
+          <p class="hero-kicker mb-5">Operator Stack</p>
+          <h2 class="hero-title uppercase text-gray-100">Factory-ready systems for jewelry operations.</h2>
+          <p class="hero-subtitle mt-6">
+            Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
+          </p>
+          <div class="hero-track" aria-label="Homepage narrative">
+            <div class="hero-track-item">
+              <strong>Legitimacy</strong>
+              <span>Clear presentation and proof that the work is real.</span>
+            </div>
+            <div class="hero-track-item">
+              <strong>Portfolio</strong>
+              <span>Case-study level output that looks deliberate, not improvised.</span>
+            </div>
+            <div class="hero-track-item">
+              <strong>Working Systems</strong>
+              <span>Tools and process fixes that survive contact with production.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 pb-16 relative">
       <div class="page-wrap grid md:grid-cols-3 gap-6">
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-research-logic.svg" alt="Research logic placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Research Logic</strong><span>AI can help when it speeds the work, not when it dominates the story.</span></div>
           </div>
           <p class="mini-kicker mb-4">How It Works</p>
           <h2 class="text-2xl neon-yellow mb-4">Research Meets Workshop Reality</h2>
@@ -510,7 +526,6 @@
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-pipeline-handoff.svg" alt="Pipeline handoff placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Pipeline</strong><span>Concept, factory handoff, and client delivery stay connected.</span></div>
           </div>
           <p class="mini-kicker mb-4">Pipeline</p>
           <h2 class="text-2xl neon-red mb-4">Design To Factory To Client</h2>
@@ -519,7 +534,6 @@
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-useful-tech-only.svg" alt="Useful tech placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Filter</strong><span>If it does not improve control, quality, or margin, it stays out.</span></div>
           </div>
           <p class="mini-kicker mb-4">Target</p>
           <h2 class="text-2xl neon-yellow mb-4">Useful Tech Only</h2>
@@ -642,7 +656,6 @@
         <div class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/journal-feed-preview.svg" alt="Journal preview placeholder" loading="lazy">
-            <div class="card-visual-copy"><strong>Journal</strong><span>A quiet slot for future shipping logs, process notes, and updates.</span></div>
           </div>
           <p class="mini-kicker mb-3">Updates / Journal</p>
           <h2 class="text-2xl neon-red">A low-visibility archive entry point is now in place.</h2>
