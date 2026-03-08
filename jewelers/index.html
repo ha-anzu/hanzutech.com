@@ -12,6 +12,9 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="dark">
   <title>Hanzu Tech</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
@@ -52,8 +55,12 @@
     .service-label { min-width: 0; line-height: 1.3; }
     .terminal-line { position: relative; padding-left: 1.4rem; }
     .terminal-line::before { content: '>'; position: absolute; left: 0; color: #ff0033; }
+    .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); }
+    .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
     @media (max-width: 768px) { .nav-shell { grid-template-columns: 1fr; } .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } }
   </style>
@@ -84,25 +91,21 @@
         </div>
       </div>
       <div class="nav-right text-sm md:text-base">
-        <a href="/jewelers" class="neon-yellow">Jewelers Tools</a>
+        <a href="/jewelers" class="neon-yellow">Open Tools</a>
         <a href="/reel" class="neon-yellow">Intro Reel</a>
-        <a href="/about" class="neon-yellow">About Us</a>
+        <a href="/about" class="neon-yellow">About</a>
       </div>
     </div>
   </div>
 
   <main class="pt-28">
-    <section class="hero min-h-[78vh] flex items-center px-6 py-16">
-      <div class="max-w-6xl mx-auto w-full grid lg:grid-cols-[1.2fr_0.8fr] gap-8 items-center">
-        <div class="panel p-8 md:p-12">
-          <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelers Tools</p>
-          <h1 class="text-4xl md:text-6xl uppercase leading-tight">Free open-source tools for jewelers and designers who want less friction in the daily grind.</h1>
-          <div class="mt-8">
-            <span class="technically">Technically</span>
-            <h2 class="text-5xl md:text-7xl uppercase neon-red mt-2">Designer</h2>
-            <p class="mt-2 text-base md:text-xl uppercase tracking-[0.22em] text-gray-300">AKA Jack of All Trades</p>
-          </div>
-          <p class="mt-6 text-gray-300 leading-8 max-w-2xl">Jewelers Tools is a growing collection of practical apps Hanzu Tech builds open source, uses in real work, and releases free for anyone to use. Every tool starts from an everyday jewelry problem worth solving properly, then gets reused in-house and refined through real production work.</p>
+    <section class="px-6 py-10">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-start">
+        <div class="page-header p-6 md:p-8">
+          <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">Open Tools</p>
+          <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Open Tools</h1>
+          <p class="page-quote mt-3">Useful systems earn their place when they survive real shop pressure.</p>
+          <p class="mt-5 max-w-2xl text-gray-300 leading-7">Free tools, internal utilities, and practical releases shaped by jewelry operations first, then expanded anywhere the workflow deserves better software.</p>
           <div class="mt-8 flex flex-col sm:flex-row gap-4">
             <a href="/Calculator" class="button">Open Calculator</a>
             <a href="/services" class="button bg-transparent text-yellow-300">Need Custom Tooling</a>
@@ -123,9 +126,9 @@ Useful weird tools</pre>
 
     <section class="px-6 pb-20">
       <div class="max-w-6xl mx-auto space-y-6">
-        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Collection Purpose</p><h2 class="text-3xl neon-red mb-4">Built From Everyday Shop Friction</h2><p class="text-gray-300 leading-7">This section exists to collect tools that solve the repetitive problems hiding inside jewelry work: quoting, costing, design notes, admin cleanup, and small operational headaches that waste real time every day.</p></article>
-        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Open Source</p><h2 class="text-3xl neon-yellow mb-4">Free For The Trade To Use</h2><p class="text-gray-300 leading-7">The plan is to keep these tools open source and free so any jeweler or designer can use them. Hanzu Tech also relies on them directly, which keeps the direction practical instead of hypothetical.</p></article>
-        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">First App</p><h2 class="text-3xl neon-red mb-4 flicker">Calculator Leads The Stack</h2><p class="text-gray-300 leading-7">Calculator is the first live app under Jewelers Tools. It gives jewelers a private quote-building workflow without storing client data, and it sets the standard for how the rest of the collection should feel.</p><div class="mt-6"><a href="/Calculator" class="button">Launch Calculator</a></div></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Purpose</p><h2 class="text-3xl neon-red mb-4">Built From Everyday Shop Friction</h2><p class="text-gray-300 leading-7">This collection exists to turn repetitive quoting, costing, design admin, and production cleanup into tools that remove drag instead of adding software overhead.</p></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Open Source</p><h2 class="text-3xl neon-yellow mb-4">Free To Use, Refined In Production</h2><p class="text-gray-300 leading-7">These releases stay open and practical. Hanzu Tech uses them directly, so the direction keeps getting sharpened by actual work instead of speculative feature lists.</p></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">First Release</p><h2 class="text-3xl neon-red mb-4 flicker">Calculator Leads The Stack</h2><p class="text-gray-300 leading-7">Calculator is the first live tool in Open Tools. It gives jewelers a private quote-building workflow without storing client data and sets the baseline for the rest of the collection.</p><div class="mt-6"><a href="/Calculator" class="button">Launch Calculator</a></div></article>
       </div>
     </section>
 

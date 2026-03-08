@@ -12,6 +12,9 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="dark">
   <title>Hanzu Tech</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
@@ -77,10 +80,14 @@
     .service-points { display: grid; gap: 0.65rem; color: #d1d5db; }
     .service-points li { position: relative; padding-left: 1rem; }
     .service-points li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.4rem; height: 1px; background: #ffcc00; box-shadow: 0 0 10px rgba(255, 204, 0, 0.4); }
+    .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); }
+    .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
     input, textarea { width: 100%; background: rgba(0, 0, 0, 0.88); border: 1px solid rgba(255, 0, 51, 0.42); color: white; padding: 0.9rem 1rem; }
     input:focus, textarea:focus { outline: none; border-color: rgba(255, 204, 0, 0.9); box-shadow: 0 0 0 1px rgba(255, 204, 0, 0.16); }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
     @media (max-width: 1024px) { .portfolio-grid { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 768px) { .nav-shell { grid-template-columns: 1fr; } .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } .portfolio-grid { grid-template-columns: 1fr; } }
@@ -112,24 +119,20 @@
         </div>
       </div>
       <div class="nav-right text-sm md:text-base">
-        <a href="/jewelers" class="neon-yellow">Jewelers Tools</a>
+        <a href="/jewelers" class="neon-yellow">Open Tools</a>
         <a href="/reel" class="neon-yellow">Intro Reel</a>
-        <a href="/about" class="neon-yellow">About Us</a>
+        <a href="/about" class="neon-yellow">About</a>
       </div>
     </div>
   </div>
 
   <main class="pt-28">
-    <section class="hero min-h-[70vh] flex items-center px-6 py-16">
-      <div class="max-w-6xl mx-auto w-full panel p-8 md:p-12">
-        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Services</p>
-        <h1 class="text-4xl md:text-6xl uppercase leading-tight max-w-5xl">AI-aware design and technical services for teams that need sharper workflows, stronger visuals, and production-ready execution.</h1>
-        <div class="mt-8">
-          <span class="technically">Technically</span>
-          <h2 class="text-5xl md:text-7xl uppercase neon-red mt-2">Designer</h2>
-          <p class="mt-2 text-base md:text-xl uppercase tracking-[0.22em] text-gray-300">AKA Jack of All Trades</p>
-        </div>
-        <p class="mt-6 max-w-3xl text-gray-300 leading-8">Hanzu Tech combines AI workflows, agent systems, ZBrush and CAD expertise, manufacturing awareness, and custom software thinking to help brands, factories, and workshops ship better work with less drag.</p>
+    <section class="px-6 py-10">
+      <div class="max-w-6xl mx-auto page-header p-6 md:p-8">
+        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">Services</p>
+        <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Services</h1>
+        <p class="page-quote mt-3">Precision pays when the design handoff reaches the factory clean.</p>
+        <p class="mt-5 max-w-3xl text-gray-300 leading-7">AI-leveraged design, technical execution, and factory-ready delivery for teams that need fewer revisions, cleaner visuals, and stronger ops.</p>
       </div>
     </section>
 
@@ -144,13 +147,13 @@
               <ul class="service-points mt-6">
                 <li>Concept boards, ring families, and collection direction.</li>
                 <li>Design language that fits casting, wearability, and client approval.</li>
-                <li>Space for hero shots, sketches, and before/after iterations.</li>
+                <li>Space for concept boards, sketch refinements, and approval-ready views.</li>
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Hero concept image</p><p class="mt-2 text-sm text-gray-200">Collection or solitaire direction</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Reference board</p><p class="mt-2 text-sm text-gray-200">Mood, stone logic, metal language</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Client approval slide</p><p class="mt-2 text-sm text-gray-200">Notes and rationale space</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Concept Key Visual</p><p class="mt-2 text-sm text-gray-200">Collection or solitaire direction</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Design Language Board</p><p class="mt-2 text-sm text-gray-200">Mood, stone logic, metal language</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval Presentation</p><p class="mt-2 text-sm text-gray-200">Rationale, notes, and decision support</p></div>
             </div>
           </div>
         </article>
@@ -162,14 +165,14 @@
               <p class="text-gray-300 leading-8">For pieces that need organic volume, surface control, and a stronger hand-feel before they move into production. This is where expressive forms, unusual silhouettes, and premium detail work get sharpened into usable digital assets.</p>
               <ul class="service-points mt-6">
                 <li>Organic surfaces, sculpted details, and advanced form shaping.</li>
-                <li>Presentation-ready screenshots and review captures.</li>
-                <li>Space for clay-style views, turntables, and detail crops.</li>
+                <li>Presentation-ready stills and review captures.</li>
+                <li>Space for sculpt overviews, detail crops, and validation angles.</li>
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Viewport capture</p><p class="mt-2 text-sm text-gray-200">Primary sculpt angle</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Detail crop</p><p class="mt-2 text-sm text-gray-200">Texture or ornament zone</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Turntable still</p><p class="mt-2 text-sm text-gray-200">Form validation frame</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Sculpt Overview</p><p class="mt-2 text-sm text-gray-200">Primary sculpt angle</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Surface Detail</p><p class="mt-2 text-sm text-gray-200">Texture or ornament zone</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Validation Still</p><p class="mt-2 text-sm text-gray-200">Form and proportion checkpoint</p></div>
             </div>
           </div>
         </article>
@@ -182,13 +185,13 @@
               <ul class="service-points mt-6">
                 <li>Stone seat logic, wall thickness control, and structural cleanup.</li>
                 <li>Revision support for production problems and client changes.</li>
-                <li>Space for CAD screenshots, section views, and measurement callouts.</li>
+                <li>Space for model overviews, engineering cuts, and measurement callouts.</li>
               </ul>
             </div>
             <div class="portfolio-grid">
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">CAD viewport</p><p class="mt-2 text-sm text-gray-200">Primary model angle</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Section view</p><p class="mt-2 text-sm text-gray-200">Construction logic space</p></div>
-              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Revision sheet</p><p class="mt-2 text-sm text-gray-200">Before / after fixes</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Model Overview</p><p class="mt-2 text-sm text-gray-200">Primary production angle</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Engineering Cut</p><p class="mt-2 text-sm text-gray-200">Construction and tolerance logic</p></div>
+              <div class="portfolio-shot"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Revision Record</p><p class="mt-2 text-sm text-gray-200">Before and after fixes</p></div>
             </div>
           </div>
         </article>

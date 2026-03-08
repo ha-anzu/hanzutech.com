@@ -10,6 +10,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hanzu Tech</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -138,32 +141,54 @@
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #050507; }
     ::-webkit-scrollbar-thumb { background: rgba(255, 0, 51, 0.4); border-radius: 999px; }
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .page-header {
+      background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08));
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      box-shadow: 0 0 24px rgba(255, 0, 51, 0.12);
+    }
+    .faulty-neon {
+      color: #ff0033;
+      text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28);
+      animation: faultyNeon 4.2s steps(1, end) infinite;
+    }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media print {
       body * { visibility: hidden; }
       #invoice-preview, #invoice-preview * { visibility: visible; }
       #invoice-preview { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; box-shadow: none; }
       .no-print { display: none !important; }
     }
+    @media (max-width: 768px) {
+      .top-nav { justify-content: flex-start; gap: 1rem 1.25rem; }
+    }
   </style>
 </head>
 <body>
   <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md no-print">
     <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
-    <div class="space-x-8">
-      <a href="/jewelers" class="neon-yellow">Jewelers Tools</a>
-      <a href="https://hanzu.dev" class="neon-yellow">The DEV</a>
-      <a href="/about" class="neon-yellow">About Us</a>
+    <div class="top-nav">
+      <a href="/services" class="neon-yellow">Services</a>
+      <a href="/jewelers" class="neon-yellow">Open Tools</a>
+      <a href="/reel" class="neon-yellow">Intro Reel</a>
+      <a href="/about" class="neon-yellow">About</a>
     </div>
   </div>
 
   <main class="pt-24 pb-12 px-4 md:px-6 no-print">
-    <section class="max-w-7xl mx-auto mb-6 interface-shell px-6 py-8 md:px-8">
+    <section class="max-w-7xl mx-auto mb-6 page-header px-6 py-8 md:px-8">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Jewelers Tools / Calculator</p>
-          <span class="technically-mark mb-1">technically</span>
-          <h1 class="text-4xl md:text-6xl uppercase neon-red">Designer</h1>
-          <p class="mt-2 text-base md:text-lg uppercase tracking-[0.22em] text-gray-300">AKA Jack of All Trades</p>
+          <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Open Tools / Calculator</p>
+          <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Calculator</h1>
+          <p class="page-quote mt-3">Quote clean. Export fast. Leave no residue behind.</p>
           <p class="mt-4 max-w-3xl text-gray-300 leading-7">Live quotation builder with cyberpunk discipline. No history, no browser storage, no saved client records. Build the quote, export it, then the session disappears when you leave.</p>
         </div>
         <div class="panel px-4 py-3 text-sm text-gray-300">
@@ -289,7 +314,7 @@
         <div id="invoice-preview" class="invoice-container">
           <div class="invoice-header">
             <div>
-              <p style="font-size: 8pt; letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.75;">Hanzu Tech / Jewelers Tools</p>
+              <p style="font-size: 8pt; letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.75;">Hanzu Tech / Open Tools</p>
               <h1 style="font-size: 26pt; margin-top: 6px;">Quotation</h1>
               <p style="font-size: 10pt; margin-top: 4px; opacity: 0.82;">Precision estimate for custom jewelry work</p>
             </div>

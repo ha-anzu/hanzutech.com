@@ -10,6 +10,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hanzu Tech</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
@@ -63,29 +66,54 @@
       height: 1.15rem;
       fill: currentColor;
     }
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .page-header {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)),
+        linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08));
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      box-shadow: 0 0 24px rgba(255, 0, 51, 0.12);
+    }
+    .faulty-neon {
+      color: #ff0033;
+      text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28);
+      animation: faultyNeon 4.2s steps(1, end) infinite;
+    }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
+    @media (max-width: 768px) {
+      .top-nav { justify-content: flex-start; gap: 1rem 1.25rem; }
+      .button { width: 100%; }
+    }
   </style>
 </head>
 <body class="overflow-x-hidden">
   <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md">
     <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
-    <div class="space-x-8">
-      <a href="/jewelers" class="neon-yellow">Jewelers Tools</a>
-      <a href="https://hanzu.dev" class="neon-yellow">The DEV</a>
-      <a href="/about" class="neon-yellow">About Us</a>
+    <div class="top-nav">
+      <a href="/services" class="neon-yellow">Services</a>
+      <a href="/jewelers" class="neon-yellow">Open Tools</a>
+      <a href="/reel" class="neon-yellow">Intro Reel</a>
+      <a href="/about" class="neon-yellow">About</a>
     </div>
   </div>
 
   <main class="pt-24 px-6 pb-16">
     <section class="max-w-5xl mx-auto">
-      <div class="relative card scan">
+      <div class="page-header p-6 md:p-8">
         <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-3">About Hanzu Tech</p>
-        <span class="technically-mark mb-2">technically</span>
-        <h1 class="text-5xl md:text-7xl uppercase neon-red">Designer</h1>
-        <p class="mt-2 text-base md:text-xl uppercase tracking-[0.22em] text-gray-300">AKA Jack of All Trades</p>
-        <p class="mt-8 text-gray-300 leading-8 max-w-3xl">
-          Hanzu Tech is a focused product studio for useful systems. The background is practical: design, fabrication thinking, technical build work, operations, and direct problem-solving for jewelry businesses that need more leverage and less noise. The philosophy is simple: one person should be able to carry an idea from sketch, to interface, to workflow, to shipped object without losing the plot.
+        <h1 class="faulty-neon text-5xl md:text-7xl uppercase">About</h1>
+        <p class="page-quote mt-3">A tight operator stack beats a noisy team every time.</p>
+        <p class="mt-6 text-gray-300 leading-7 max-w-3xl">
+          Hanzu Tech is a focused product studio for useful systems: technically designed, AI-leveraged when it helps, and factory-ready when the work needs to ship. The background is practical design, fabrication thinking, operations, and direct problem-solving for jewelry businesses that need more leverage and less noise.
         </p>
       </div>
     </section>
@@ -94,7 +122,7 @@
       <div class="card">
         <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Background</p>
         <p class="text-gray-300 leading-8">
-          The work lives at the intersection of technical design, software tooling, and physical product thinking. That means quoting systems, jewelry production helpers, admin interfaces, and whatever else closes the gap between an idea and an operational result. The end state is independence through useful tech, not trend-chasing.
+          The work sits at the intersection of technical design, software tooling, and physical product thinking. That means quoting systems, jewelry production helpers, admin interfaces, and whatever else closes the gap between an idea and an operational result. The end state is independence through useful tech, not trend-chasing.
         </p>
       </div>
       <div class="card">
@@ -122,7 +150,7 @@
     <section class="max-w-5xl mx-auto mt-10 grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
       <div class="card">
         <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Contact Form</p>
-        <p class="text-gray-300 leading-8 mb-6">Contact us to get a quote, discuss a custom build, or send a project brief directly to Hanzu Tech.</p>
+        <p class="text-gray-300 leading-8 mb-6">Send a brief for design, tooling, or a factory-facing build and Hanzu Tech will reply directly.</p>
         <form action="mailto:hanzutechou@gmail.com" method="post" enctype="text/plain" class="grid md:grid-cols-2 gap-4">
           <input type="text" name="Name" placeholder="Name" class="bg-black border border-red-600/40 px-4 py-3 text-white focus:outline-none focus:border-yellow-400">
           <input type="email" name="Email" placeholder="Email" class="bg-black border border-red-600/40 px-4 py-3 text-white focus:outline-none focus:border-yellow-400">
