@@ -158,13 +158,11 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      min-height: 64px;
+      min-height: 88px;
     }
     .invoice-logo-wrap {
-      width: 64px;
-      height: 64px;
-      border: 1px solid rgba(200, 167, 112, 0.52);
-      background: rgba(255, 255, 255, 0.7);
+      width: 88px;
+      height: 88px;
       display: none;
       align-items: center;
       justify-content: center;
@@ -282,14 +280,18 @@
       margin-top: 30px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 30px;
+      gap: 24px;
+      align-items: start;
+    }
+    .invoice-summary-panel {
+      width: 100%;
     }
     .invoice-summary-row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       font-size: 11px;
-      padding: 4px 0;
+      padding: 6px 12px;
       color: #5d564b;
     }
     .invoice-summary-row strong {
@@ -302,10 +304,10 @@
       justify-content: space-between;
       align-items: baseline;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 600;
       border-top: 1px solid #d8c6a7;
-      padding-top: 10px;
+      padding: 10px 12px 0 12px;
       margin-top: 8px;
       color: #241f1b;
     }
@@ -315,7 +317,7 @@
       font-size: 11px;
       color: #6b5a46;
       font-weight: 600;
-      padding: 4px 0;
+      padding: 6px 12px;
     }
     .invoice-balance-row {
       display: flex;
@@ -340,11 +342,6 @@
       gap: 1.5rem;
       flex-wrap: wrap;
       justify-content: flex-end;
-    }
-    .page-header {
-      background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.06), transparent 45%, rgba(255,204,0,0.08));
-      border: 1px solid rgba(255, 0, 51, 0.34);
-      box-shadow: 0 0 18px rgba(255, 0, 51, 0.08);
     }
     .faulty-neon {
       color: #352816;
@@ -371,7 +368,6 @@
       color: #79664a;
       border-top: 1px solid #dec8a0;
     }
-    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media print {
       body * { visibility: hidden; }
       #invoice-preview, #invoice-preview * { visibility: visible; }
@@ -423,6 +419,14 @@
             <button onclick="window.print()" class="button text-sm px-4 py-2 bg-transparent text-yellow-300">Print</button>
           </div>
         </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="saveInvoiceFile()" class="button w-full text-sm">Save Invoice</button>
+          <button onclick="triggerLoadInvoice()" class="button w-full text-sm bg-transparent text-yellow-300">Load Invoice</button>
+          <button onclick="saveCompanyProfile()" class="button w-full text-sm">Save Company</button>
+          <button onclick="triggerLoadCompanyProfile()" class="button w-full text-sm bg-transparent text-yellow-300">Load Company</button>
+        </div>
+        <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
+        <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
 
         <section class="space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Issuer Details</h2>
@@ -465,6 +469,10 @@
           <div>
             <label class="block text-xs text-gray-400 mb-2">Client Name</label>
             <input type="text" id="client-name" oninput="updatePreview()" placeholder="Client name" class="w-full px-3 py-2">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Client Contact</label>
+            <input type="text" id="client-contact" oninput="updatePreview()" placeholder="Email / Phone" class="w-full px-3 py-2">
           </div>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Shipping Address</label>
@@ -556,14 +564,6 @@
           <button onclick="loadSampleData()" class="button w-full text-sm">Load Sample</button>
           <button onclick="exportPDF()" class="button w-full text-sm bg-transparent text-yellow-300">Export PDF</button>
         </div>
-        <div class="grid grid-cols-2 gap-3">
-          <button onclick="saveInvoiceFile()" class="button w-full text-sm">Save Invoice</button>
-          <button onclick="triggerLoadInvoice()" class="button w-full text-sm bg-transparent text-yellow-300">Load Invoice</button>
-          <button onclick="saveCompanyProfile()" class="button w-full text-sm">Save Company</button>
-          <button onclick="triggerLoadCompanyProfile()" class="button w-full text-sm bg-transparent text-yellow-300">Load Company</button>
-        </div>
-        <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
-        <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
       </aside>
 
       <section class="flex-1 panel p-3 md:p-6 overflow-auto">
@@ -591,6 +591,7 @@
             <div>
               <h3 class="invoice-kicker">Client Information</h3>
               <p id="preview-client-name" class="invoice-client-name">CLIENT NAME</p>
+              <p id="preview-client-contact" class="invoice-client-address">Contact details</p>
               <p id="preview-client-address" class="invoice-client-address">Shipping Address Details</p>
             </div>
             <div style="text-align: right;">
@@ -630,7 +631,7 @@
               <h3 class="invoice-kicker">Issuer Information</h3>
               <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
               <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
-              <div class="invoice-summary-row" style="padding-top: 10px;">
+              <div class="invoice-summary-row">
                 <span>VAT Number</span>
                 <strong id="preview-issuer-vat">VAT-XXXX</strong>
               </div>
@@ -639,7 +640,7 @@
                 <strong id="preview-issuer-contact">contact@company.com</strong>
               </div>
             </div>
-            <div>
+            <div class="invoice-summary-panel">
               <div class="invoice-summary-row">
                 <span>Subtotal</span>
                 <strong id="preview-subtotal">$0.00</strong>
@@ -689,6 +690,7 @@
       invoiceSubtitle: '',
       companyLogo: '',
       clientName: '',
+      clientContact: '',
       clientAddress: '',
       invoiceNumber: 'HZ-' + Math.floor(1000 + Math.random() * 9000),
       date: new Date().toISOString().split('T')[0],
@@ -719,6 +721,8 @@
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('invoice-date').value = appState.date;
+      document.getElementById('client-contact').value = appState.clientContact;
+      setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
       renderStones();
       renderLabor();
@@ -753,6 +757,23 @@
         updatePreview();
       };
       reader.readAsDataURL(file);
+    }
+
+    function setMetalSelection(type, purity) {
+      const select = document.getElementById('metal-type');
+      const options = Array.from(select.options);
+      let matchIndex = options.findIndex((option) =>
+        option.value === type && Math.abs((parseFloat(option.dataset.purity) || 0) - purity) < 0.0001
+      );
+      if (matchIndex < 0) {
+        matchIndex = options.findIndex((option) => option.value === type);
+      }
+      if (matchIndex < 0) {
+        matchIndex = 0;
+      }
+      select.selectedIndex = matchIndex;
+      appState.metal.type = select.options[matchIndex].value;
+      appState.metal.purity = parseFloat(select.options[matchIndex].dataset.purity) || appState.metal.purity;
     }
 
     function onMetalTypeChange() {
@@ -900,6 +921,7 @@
           invoiceSubtitle: appState.invoiceSubtitle,
           companyLogo: appState.companyLogo,
           clientName: appState.clientName,
+          clientContact: appState.clientContact,
           clientAddress: appState.clientAddress,
           invoiceNumber: appState.invoiceNumber,
           date: appState.date,
@@ -936,6 +958,7 @@
 
       if (!profileOnly) {
         appState.clientName = String(incoming.clientName || '');
+        appState.clientContact = String(incoming.clientContact || '');
         appState.clientAddress = String(incoming.clientAddress || '');
         appState.invoiceNumber = String(incoming.invoiceNumber || ('HZ-' + Math.floor(1000 + Math.random() * 9000)));
         appState.date = String(incoming.date || new Date().toISOString().split('T')[0]);
@@ -974,10 +997,11 @@
         appState.deposit = Number.isFinite(Number(incoming.deposit)) ? Number(incoming.deposit) : 0;
 
         document.getElementById('client-name').value = appState.clientName;
+        document.getElementById('client-contact').value = appState.clientContact;
         document.getElementById('client-address').value = appState.clientAddress;
         document.getElementById('invoice-number').value = appState.invoiceNumber;
         document.getElementById('invoice-date').value = appState.date;
-        document.getElementById('metal-type').value = appState.metal.type;
+        setMetalSelection(appState.metal.type, appState.metal.purity);
         document.getElementById('metal-weight').value = appState.metal.weight;
         document.getElementById('metal-loss').value = appState.metal.loss;
         document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
@@ -1068,9 +1092,14 @@
       appState.invoiceTitle = document.getElementById('invoice-title').value.trim() || 'Invoice';
       appState.invoiceSubtitle = document.getElementById('invoice-subtitle').value.trim();
       appState.clientName = document.getElementById('client-name').value || 'CLIENT NAME';
+      appState.clientContact = document.getElementById('client-contact').value || 'Contact details';
       appState.clientAddress = document.getElementById('client-address').value || 'Shipping Address Details';
       appState.invoiceNumber = document.getElementById('invoice-number').value || 'HZ-0000';
       appState.date = document.getElementById('invoice-date').value;
+      const metalSelect = document.getElementById('metal-type');
+      const metalOption = metalSelect.options[metalSelect.selectedIndex];
+      appState.metal.type = metalSelect.value;
+      appState.metal.purity = parseFloat(metalOption.dataset.purity) || appState.metal.purity;
       appState.metal.weight = parseFloat(document.getElementById('metal-weight').value) || 0;
       appState.metal.loss = parseFloat(document.getElementById('metal-loss').value) || 0;
       appState.metal.unitPrice = parseFloat(document.getElementById('metal-unit-price').value) || 0;
@@ -1103,6 +1132,7 @@
       }
 
       document.getElementById('preview-client-name').textContent = appState.clientName;
+      document.getElementById('preview-client-contact').textContent = appState.clientContact;
       document.getElementById('preview-client-address').textContent = appState.clientAddress;
       document.getElementById('preview-invoice-num').textContent = appState.invoiceNumber;
       const dateValue = appState.date ? new Date(appState.date) : null;
@@ -1227,11 +1257,24 @@
 
     function createNewQuotation() {
       if (!confirm('Start a new private invoice? Current unsaved inputs will be cleared.')) return;
+      appState.issuerLegalName = '';
+      appState.issuerAddress = '';
+      appState.issuerVat = '';
+      appState.issuerContact = '';
+      appState.invoiceTitle = 'Invoice';
+      appState.invoiceSubtitle = '';
+      appState.companyLogo = '';
       appState.clientName = '';
+      appState.clientContact = '';
       appState.clientAddress = '';
       appState.invoiceNumber = 'HZ-' + Math.floor(1000 + Math.random() * 9000);
       appState.date = new Date().toISOString().split('T')[0];
       appState.image = '';
+      appState.metal.type = 'XAU';
+      appState.metal.purity = 0.750;
+      appState.metal.weight = 19.0;
+      appState.metal.loss = 11.0;
+      appState.metal.unitPrice = 0;
       appState.stones = [];
       appState.labor = [
         { id: Date.now(), description: 'Casting / Setting / Finishing Labour', qty: 1, unit: 'Piece', price: 200 },
@@ -1239,17 +1282,28 @@
       ];
       appState.vat = 0;
       appState.deposit = 0;
+      appState.apiKey = '';
 
+      document.getElementById('issuer-legal-name').value = '';
+      document.getElementById('issuer-address').value = '';
+      document.getElementById('issuer-vat').value = '';
+      document.getElementById('issuer-contact').value = '';
+      document.getElementById('invoice-title').value = 'Invoice';
+      document.getElementById('invoice-subtitle').value = '';
       document.getElementById('client-name').value = '';
+      document.getElementById('client-contact').value = '';
       document.getElementById('client-address').value = '';
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('invoice-date').value = appState.date;
+      setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-weight').value = 19.0;
       document.getElementById('metal-loss').value = 11.0;
       document.getElementById('metal-unit-price').value = 0;
       document.getElementById('vat-percent').value = 0;
       document.getElementById('deposit-amount').value = 0;
       document.getElementById('image-upload').value = '';
+      document.getElementById('company-logo-upload').value = '';
+      document.getElementById('spot-status').textContent = 'Manual price by default. API key lives only in this active tab.';
 
       renderStones();
       renderLabor();
@@ -1264,8 +1318,11 @@
       appState.invoiceTitle = 'Custom Jewelry Invoice';
       appState.invoiceSubtitle = 'Handcrafted pieces with production-ready costing';
       appState.clientName = 'Sample Client';
+      appState.clientContact = 'sample.client@email.com | +66 88 123 4567';
       appState.clientAddress = '123 Precision Arcade\nSilom District\nBangkok 10500';
       appState.invoiceNumber = 'HZ-8888';
+      appState.metal.type = 'XAU';
+      appState.metal.purity = 0.750;
       appState.metal.weight = 19.0;
       appState.metal.loss = 11.0;
       appState.metal.unitPrice = 65.5;
@@ -1283,8 +1340,10 @@
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('client-name').value = appState.clientName;
+      document.getElementById('client-contact').value = appState.clientContact;
       document.getElementById('client-address').value = appState.clientAddress;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
+      setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-weight').value = appState.metal.weight;
       document.getElementById('metal-loss').value = appState.metal.loss;
       document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
