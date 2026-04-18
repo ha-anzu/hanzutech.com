@@ -10,18 +10,18 @@
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta name="color-scheme" content="dark">
-  <title>Jewelry Calculator | Hanzu Tech</title>
-  <meta name="description" content="Private local-first jewelry quotation calculator with PDF export and production-aware pricing controls.">
+  <meta name="color-scheme" content="light">
+  <title>Pro Jewelry Invoice | Hanzu Tech</title>
+  <meta name="description" content="Elegant, local-first jewelry invoice and quotation builder with PDF export and production-aware pricing controls.">
   <link rel="canonical" href="https://hanzutech.com/Calculator">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Jewelry Calculator | Hanzu Tech">
-  <meta property="og:description" content="Quote clean, export fast, keep client data local to your session.">
+  <meta property="og:title" content="Pro Jewelry Invoice | Hanzu Tech">
+  <meta property="og:description" content="Build polished jewelry invoices quickly, export fast, and keep client data local to your session.">
   <meta property="og:url" content="https://hanzutech.com/Calculator">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@500;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -29,15 +29,15 @@
   <style>
     body {
       background:
-        radial-gradient(circle at 18% 12%, rgba(255, 204, 0, 0.06), transparent 24%),
-        radial-gradient(circle at 84% 10%, rgba(255, 0, 51, 0.08), transparent 22%),
-        linear-gradient(180deg, #0a0a0f 0%, #0b0a0e 100%);
-      color: white;
+        radial-gradient(circle at 18% 10%, rgba(208, 168, 96, 0.14), transparent 32%),
+        radial-gradient(circle at 88% 6%, rgba(199, 172, 118, 0.1), transparent 28%),
+        linear-gradient(180deg, #fefbf5 0%, #f7efe1 100%);
+      color: #2f271c;
       font-family: 'IBM Plex Mono', monospace;
     }
-    h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
-    .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
-    .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    h1, h2 { font-family: 'Cormorant Garamond', serif; font-weight: 600; }
+    .neon-red { color: #6c4b17; text-shadow: none; }
+    .neon-yellow { color: #6c4b17; text-shadow: none; }
     .technically-mark {
       display: inline-block;
       font-size: 1rem;
@@ -45,60 +45,60 @@
       font-weight: 700;
       letter-spacing: 0.38em;
       text-transform: uppercase;
-      color: #ffcc00;
-      text-shadow: 0 0 14px rgba(255, 204, 0, 0.4);
+      color: #6c4b17;
+      text-shadow: none;
     }
     .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
-    .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
-    .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
-    .card { background-color: rgba(12, 11, 15, 0.94); border: 1px solid rgba(255, 0, 51, 0.3); padding: 2rem; transition: border-color 0.25s, box-shadow 0.25s; }
-    .card:hover { border-color: rgba(255, 204, 0, 0.42); box-shadow: 0 0 18px rgba(255, 204, 0, 0.12); }
+    .brand-mark .brand-hanzu { color: #2f271c; text-shadow: none; }
+    .brand-mark .brand-tech { color: #8a6731; text-shadow: none; }
+    .card { background-color: #fffaf2; border: 1px solid #e4d4b8; padding: 2rem; transition: border-color 0.25s, box-shadow 0.25s; }
+    .card:hover { border-color: #cda96d; box-shadow: 0 10px 24px rgba(117, 83, 36, 0.1); }
     .button {
       padding: 0.8rem 1.2rem;
-      border: 1px solid rgba(255, 204, 0, 0.62);
-      color: #f5f5f5;
-      background: linear-gradient(140deg, rgba(255, 0, 51, 0.16), rgba(255, 204, 0, 0.14));
+      border: 1px solid #d1b079;
+      color: #3a2d1d;
+      background: linear-gradient(140deg, #fdf5e9, #f3e1c5);
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       letter-spacing: 0.08em;
       text-transform: uppercase;
     }
-    .button:hover { transform: translateY(-1px); border-color: rgba(255, 204, 0, 0.9); box-shadow: 0 0 14px rgba(255, 204, 0, 0.18); background: linear-gradient(140deg, rgba(255, 0, 51, 0.2), rgba(255, 204, 0, 0.18)); }
-    .flicker { animation: flicker 2s infinite; }
+    .button:hover { transform: translateY(-1px); border-color: #be9450; box-shadow: 0 8px 18px rgba(117, 83, 36, 0.14); background: linear-gradient(140deg, #fbefdd, #eed4a8); }
+    .flicker { animation: none; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.03), transparent);
+      background: linear-gradient(90deg, transparent, rgba(208, 168, 96, 0.08), transparent);
       pointer-events: none;
       z-index: -2;
     }
     .interface-shell {
       background:
-        linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.72)),
-        linear-gradient(120deg, rgba(255, 0, 51, 0.07), transparent 35%, rgba(255, 204, 0, 0.07));
-      border: 1px solid rgba(255, 0, 51, 0.3);
-      box-shadow: 0 0 24px rgba(255, 0, 51, 0.08);
+        linear-gradient(180deg, rgba(255, 250, 242, 0.95), rgba(250, 242, 228, 0.95)),
+        linear-gradient(120deg, rgba(208, 168, 96, 0.08), transparent 35%, rgba(154, 120, 67, 0.08));
+      border: 1px solid #dbc8a6;
+      box-shadow: 0 14px 30px rgba(117, 83, 36, 0.1);
     }
     .panel {
-      background: rgba(10, 10, 14, 0.85);
-      border: 1px solid rgba(255, 0, 51, 0.28);
-      box-shadow: inset 0 0 0 1px rgba(255, 204, 0, 0.05);
-      backdrop-filter: blur(8px);
+      background: rgba(255, 250, 242, 0.92);
+      border: 1px solid #e2d3bb;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(4px);
     }
     .terminal-accent {
-      background-image: linear-gradient(90deg, rgba(255,0,51,0.22), rgba(255,204,0,0.32), rgba(255,0,51,0.22));
+      background-image: linear-gradient(90deg, rgba(183,133,60,0.2), rgba(226,194,141,0.32), rgba(183,133,60,0.2));
     }
     input, textarea, select {
-      background: rgba(6, 6, 8, 0.92);
-      border: 1px solid rgba(255, 0, 51, 0.22);
-      color: white;
+      background: #fffdf9;
+      border: 1px solid #dbc7a5;
+      color: #2f271c;
       border-radius: 0.35rem;
     }
     input:focus, textarea:focus, select:focus {
       outline: none;
-      border-color: rgba(255, 204, 0, 0.75);
-      box-shadow: 0 0 0 1px rgba(255, 204, 0, 0.14), 0 0 12px rgba(255, 204, 0, 0.08);
+      border-color: #be9450;
+      box-shadow: 0 0 0 1px rgba(190, 148, 80, 0.18), 0 0 12px rgba(190, 148, 80, 0.12);
     }
     .invoice-container {
       width: 210mm;
@@ -322,11 +322,30 @@
       box-shadow: 0 0 18px rgba(255, 0, 51, 0.08);
     }
     .faulty-neon {
-      color: #ff2d4f;
-      text-shadow: 0 0 10px rgba(255, 45, 79, 0.45);
-      animation: faultyNeon 6s steps(1, end) infinite;
+      color: #352816;
+      text-shadow: none;
+      animation: none;
+      letter-spacing: 0.02em;
     }
-    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    .page-quote { color: #7f6c52; letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.78rem; }
+    .top-bar {
+      background: rgba(255, 249, 238, 0.92);
+      border-bottom: 1px solid #dec8a0;
+      backdrop-filter: blur(6px);
+    }
+    .top-nav a { color: #6c4b17; font-weight: 600; }
+    .top-nav a:hover { color: #8a6731; }
+    .page-header { border: 1px solid #e2d3bb; background: rgba(255, 252, 246, 0.72); }
+    .text-gray-300 { color: #5e503c !important; }
+    .text-gray-400 { color: #75654e !important; }
+    .text-gray-500 { color: #8a795e !important; }
+    .text-yellow-300 { color: #6c4b17 !important; }
+    .text-red-400 { color: #9b6040 !important; }
+    .footer-shell {
+      background: #fbf3e5;
+      color: #79664a;
+      border-top: 1px solid #dec8a0;
+    }
     @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media print {
       body * { visibility: hidden; }
@@ -340,7 +359,7 @@
   </style>
 </head>
 <body>
-  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md no-print">
+  <div class="fixed top-0 left-0 w-full p-4 flex justify-between z-50 no-print top-bar">
     <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
     <div class="top-nav">
       <a href="/services" class="neon-yellow">Services</a>
@@ -354,10 +373,10 @@
     <section class="max-w-7xl mx-auto mb-6 page-header px-6 py-8 md:px-8">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Open Tools / Calculator</p>
-          <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Calculator</h1>
-          <p class="page-quote mt-3">Quote clean. Export fast. Leave no residue behind.</p>
-          <p class="mt-4 max-w-3xl text-gray-300 leading-7">Jewelry quotation builder with a clean, production-first layout. No history, no browser storage, no saved client records. Build the quote, export it, then the session disappears when you leave.</p>
+          <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Open Tools / Pro Jewelry Invoice</p>
+          <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Pro Jewelry Invoice</h1>
+          <p class="page-quote mt-3">Elegant quoting for premium jewelry work.</p>
+          <p class="mt-4 max-w-3xl text-gray-300 leading-7">Luxury-focused jewelry invoice builder with a clean, production-ready layout. No history, no browser storage, no saved client records. Build the invoice, export it, then the session disappears when you leave.</p>
         </div>
         <div class="panel px-4 py-3 text-sm text-gray-300">
           <div class="terminal-accent h-1 w-full mb-3"></div>
@@ -371,11 +390,11 @@
       <aside class="w-full xl:w-[430px] panel p-5 md:p-6 space-y-6">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Quote Controls</p>
+            <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Invoice Controls</p>
             <p class="text-sm text-gray-300 mt-1">Ephemeral session only</p>
           </div>
           <div class="flex gap-2">
-            <button onclick="createNewQuotation()" class="button text-sm px-4 py-2">New Quote</button>
+            <button onclick="createNewQuotation()" class="button text-sm px-4 py-2">New Invoice</button>
             <button onclick="window.print()" class="button text-sm px-4 py-2 bg-transparent text-yellow-300">Print</button>
           </div>
         </div>
@@ -404,7 +423,7 @@
 
         <section class="space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Reference Image</h2>
-          <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 border border-dashed border-red-600/40 bg-black/70 cursor-pointer hover:border-yellow-400 transition-colors">
+          <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
             <i class="fas fa-cloud-upload-alt text-2xl neon-red mb-2"></i>
             <span class="text-xs text-gray-400">Upload reference image</span>
           </label>
@@ -482,8 +501,8 @@
         <div id="invoice-preview" class="invoice-container">
           <div class="invoice-header">
             <div>
-              <p class="sub">Hanzu Tech / Open Tools</p>
-              <h1 class="title">Jewelry Quotation</h1>
+              <p class="sub">Hanzu Tech / Pro Jewelry Invoice</p>
+              <h1 class="title">Pro Jewelry Invoice</h1>
               <p class="sub" style="letter-spacing: 0.13em; margin-top: 8px;">Precision estimate for custom jewelry work</p>
             </div>
             <div style="text-align: right;">
@@ -568,11 +587,11 @@
 
     <section class="max-w-7xl mx-auto mt-6 panel p-5 md:p-6">
       <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-3">Privacy Note</p>
-      <p class="text-gray-300 leading-7">This calculator does not store quote history, does not use browser storage, and does not collect or save client data. Information remains only in the current page until you export or close it.</p>
+      <p class="text-gray-300 leading-7">This app does not store invoice history, does not use browser storage, and does not collect or save client data. Information remains only in the current page until you export or close it.</p>
     </section>
   </main>
 
-  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
+  <footer class="p-4 text-xs mt-8 footer-shell">
     <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
       <p class="neon-red flicker">Designed by Hanzu</p>
       <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
@@ -876,7 +895,7 @@
     }
 
     function createNewQuotation() {
-      if (!confirm('Start a new private quote? Current unsaved inputs will be cleared.')) return;
+      if (!confirm('Start a new private invoice? Current unsaved inputs will be cleared.')) return;
       appState.clientName = '';
       appState.clientAddress = '';
       appState.invoiceNumber = 'HZ-' + Math.floor(1000 + Math.random() * 9000);
@@ -955,7 +974,7 @@
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(`Quotation_${appState.invoiceNumber}_${appState.clientName.replace(/\s+/g, '_')}.pdf`);
+        pdf.save(`Pro_Jewelry_Invoice_${appState.invoiceNumber}_${appState.clientName.replace(/\s+/g, '_')}.pdf`);
       } catch (error) {
         console.error('PDF generation error:', error);
         alert('Failed to generate PDF. Use print to PDF as fallback.');
