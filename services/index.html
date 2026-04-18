@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; upgrade-insecure-requests; block-all-mixed-content">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data:; connect-src 'self' https://formsubmit.co https://www.goldapi.io; form-action 'self' https://formsubmit.co mailto:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
   <script>
     if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
       location.replace('https://' + location.host + location.pathname + location.search + location.hash);
     }
   </script>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="dark">
-  <title>Hanzu Tech</title>
+  <title>Services | Hanzu Tech</title>
+  <meta name="description" content="Jewelry design, CAD, rendering, technical consultation, and custom software by Hanzu Tech.">
+  <link rel="canonical" href="https://hanzutech.com/services">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Services | Hanzu Tech">
+  <meta property="og:description" content="Design, build, automate, and ship with production awareness.">
+  <meta property="og:url" content="https://hanzutech.com/services">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -112,6 +118,15 @@
     .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); }
     .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
     .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    .form-status {
+      min-height: 1.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+    .form-status.is-error { color: #fca5a5; }
+    .form-status.is-success { color: #86efac; }
     input, textarea { width: 100%; background: rgba(0, 0, 0, 0.88); border: 1px solid rgba(255, 0, 51, 0.42); color: white; padding: 0.9rem 1rem; }
     input:focus, textarea:focus { outline: none; border-color: rgba(255, 204, 0, 0.9); box-shadow: 0 0 0 1px rgba(255, 204, 0, 0.16); }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
@@ -363,12 +378,19 @@
       <div class="max-w-6xl mx-auto panel p-8 md:p-10">
         <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Contact CTA</p>
         <h2 class="text-3xl neon-red mb-6">Send The Brief</h2>
-        <form class="grid md:grid-cols-2 gap-4">
-          <input type="text" placeholder="Name">
-          <input type="email" placeholder="Email">
-          <input type="text" placeholder="Company / Workshop / Brand" class="md:col-span-2">
-          <textarea rows="6" placeholder="What needs to be designed, built, or fixed?" class="md:col-span-2"></textarea>
+        <form data-contact-form class="grid md:grid-cols-2 gap-4">
+          <label class="sr-only" for="service-contact-name">Name</label>
+          <input id="service-contact-name" type="text" name="name" required placeholder="Name">
+          <label class="sr-only" for="service-contact-email">Email</label>
+          <input id="service-contact-email" type="email" name="email" required placeholder="Email">
+          <label class="sr-only" for="service-contact-company">Company / Workshop / Brand</label>
+          <input id="service-contact-company" type="text" name="company" placeholder="Company / Workshop / Brand" class="md:col-span-2">
+          <label class="sr-only" for="service-contact-brief">Project Brief</label>
+          <textarea id="service-contact-brief" name="message" rows="6" required placeholder="What needs to be designed, built, or fixed?" class="md:col-span-2"></textarea>
+          <input type="hidden" name="_subject" value="Hanzu Tech Services Inquiry">
+          <input type="hidden" name="_captcha" value="false">
           <button type="submit" class="button md:w-fit">Transmit Inquiry</button>
+          <p class="form-status md:col-span-2" data-form-status aria-live="polite"></p>
         </form>
       </div>
     </section>
@@ -377,8 +399,41 @@
   <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
     <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
       <p>Designed by Hanzu</p>
-      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a> • <a href="/journal">Journal</a></p>
+      <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
     </div>
   </footer>
+  <script>
+    (() => {
+      const form = document.querySelector('[data-contact-form]');
+      if (!form) return;
+      const status = form.querySelector('[data-form-status]');
+
+      const setStatus = (message, state) => {
+        status.textContent = message;
+        status.classList.remove('is-error', 'is-success');
+        if (state) status.classList.add(state);
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setStatus('Transmitting...', '');
+
+        const payload = new FormData(form);
+        try {
+          const response = await fetch('https://formsubmit.co/ajax/hanzutechou@gmail.com', {
+            method: 'POST',
+            body: payload,
+            headers: { Accept: 'application/json' }
+          });
+          if (!response.ok) throw new Error('Submission failed');
+
+          form.reset();
+          setStatus('Inquiry sent. We will reply by email.', 'is-success');
+        } catch (error) {
+          setStatus('Transmission failed. Please email info@hanzutech.com.', 'is-error');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

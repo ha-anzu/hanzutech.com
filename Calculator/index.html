@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests; block-all-mixed-content">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data:; connect-src 'self' https://formsubmit.co https://www.goldapi.io; form-action 'self' https://formsubmit.co mailto:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
   <script>
     if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
       location.replace('https://' + location.host + location.pathname + location.search + location.hash);
     }
   </script>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hanzu Tech</title>
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark">
+  <title>Jewelry Calculator | Hanzu Tech</title>
+  <meta name="description" content="Private local-first jewelry quotation calculator with PDF export and production-aware pricing controls.">
+  <link rel="canonical" href="https://hanzutech.com/Calculator">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Jewelry Calculator | Hanzu Tech">
+  <meta property="og:description" content="Quote clean, export fast, keep client data local to your session.">
+  <meta property="og:url" content="https://hanzutech.com/Calculator">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -19,7 +27,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
-    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; }
+    body {
+      background:
+        radial-gradient(circle at 18% 12%, rgba(255, 204, 0, 0.06), transparent 24%),
+        radial-gradient(circle at 84% 10%, rgba(255, 0, 51, 0.08), transparent 22%),
+        linear-gradient(180deg, #0a0a0f 0%, #0b0a0e 100%);
+      color: white;
+      font-family: 'IBM Plex Mono', monospace;
+    }
     h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
     .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
     .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
@@ -36,60 +51,54 @@
     .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
     .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
     .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
-    .card { background-color: black; border: 1px solid #ff0033; padding: 2rem; transition: transform 0.3s; }
-    .card:hover { transform: scale(1.01); box-shadow: 0 0 20px #ffcc00; }
-    .button { padding: 1rem 2rem; border: 2px solid #ffcc00; color: black; background-color: #ff0033; transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; }
-    .button:hover { background-color: #ffcc00; border-color: #ff0033; transform: translateY(-2px); box-shadow: 0 0 20px rgba(255, 204, 0, 0.22); }
+    .card { background-color: rgba(12, 11, 15, 0.94); border: 1px solid rgba(255, 0, 51, 0.3); padding: 2rem; transition: border-color 0.25s, box-shadow 0.25s; }
+    .card:hover { border-color: rgba(255, 204, 0, 0.42); box-shadow: 0 0 18px rgba(255, 204, 0, 0.12); }
+    .button {
+      padding: 0.8rem 1.2rem;
+      border: 1px solid rgba(255, 204, 0, 0.62);
+      color: #f5f5f5;
+      background: linear-gradient(140deg, rgba(255, 0, 51, 0.16), rgba(255, 204, 0, 0.14));
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .button:hover { transform: translateY(-1px); border-color: rgba(255, 204, 0, 0.9); box-shadow: 0 0 14px rgba(255, 204, 0, 0.18); background: linear-gradient(140deg, rgba(255, 0, 51, 0.2), rgba(255, 204, 0, 0.18)); }
     .flicker { animation: flicker 2s infinite; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
-    @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 18px rgba(255, 0, 51, 0.12), inset 0 0 0 rgba(255, 204, 0, 0); }
-      50% { box-shadow: 0 0 30px rgba(255, 204, 0, 0.16), inset 0 0 0 rgba(255, 204, 0, 0); }
-    }
-    @keyframes hueSweep {
-      0% { background-position: 0 0; }
-      100% { background-position: 180px 0; }
-    }
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(circle at 20% 15%, rgba(255, 0, 51, 0.16), transparent 22%),
-        radial-gradient(circle at 84% 12%, rgba(255, 204, 0, 0.12), transparent 18%),
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: auto, auto, 78px 78px, 78px 78px;
+      background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.03), transparent);
       pointer-events: none;
       z-index: -2;
     }
     .interface-shell {
       background:
-        linear-gradient(180deg, rgba(0,0,0,0.82), rgba(0,0,0,0.72)),
-        linear-gradient(120deg, rgba(255, 0, 51, 0.08), transparent 35%, rgba(255, 204, 0, 0.08));
+        linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.72)),
+        linear-gradient(120deg, rgba(255, 0, 51, 0.07), transparent 35%, rgba(255, 204, 0, 0.07));
       border: 1px solid rgba(255, 0, 51, 0.3);
-      box-shadow: 0 0 30px rgba(255, 0, 51, 0.12);
-      animation: pulseGlow 5s ease-in-out infinite;
+      box-shadow: 0 0 24px rgba(255, 0, 51, 0.08);
     }
     .panel {
-      background: rgba(0, 0, 0, 0.72);
-      border: 1px solid rgba(255, 0, 51, 0.25);
-      backdrop-filter: blur(12px);
+      background: rgba(10, 10, 14, 0.85);
+      border: 1px solid rgba(255, 0, 51, 0.28);
+      box-shadow: inset 0 0 0 1px rgba(255, 204, 0, 0.05);
+      backdrop-filter: blur(8px);
     }
     .terminal-accent {
-      background-image: linear-gradient(90deg, rgba(255,0,51,0.16), rgba(255,204,0,0.18), rgba(255,0,51,0.16));
-      background-size: 180px 100%;
-      animation: hueSweep 6s linear infinite;
+      background-image: linear-gradient(90deg, rgba(255,0,51,0.22), rgba(255,204,0,0.32), rgba(255,0,51,0.22));
     }
     input, textarea, select {
-      background: rgba(0, 0, 0, 0.9);
-      border: 1px solid rgba(255, 0, 51, 0.28);
+      background: rgba(6, 6, 8, 0.92);
+      border: 1px solid rgba(255, 0, 51, 0.22);
       color: white;
+      border-radius: 0.35rem;
     }
     input:focus, textarea:focus, select:focus {
       outline: none;
-      border-color: rgba(255, 204, 0, 0.9);
-      box-shadow: 0 0 0 1px rgba(255, 204, 0, 0.16), 0 0 18px rgba(255, 204, 0, 0.12);
+      border-color: rgba(255, 204, 0, 0.75);
+      box-shadow: 0 0 0 1px rgba(255, 204, 0, 0.14), 0 0 12px rgba(255, 204, 0, 0.08);
     }
     .invoice-container {
       width: 210mm;
@@ -98,7 +107,7 @@
       margin: auto;
       background: #fffdf8;
       color: #171717;
-      box-shadow: 0 0 40px rgba(255, 0, 51, 0.12);
+      box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
     }
     .invoice-header {
       background: linear-gradient(135deg, #140308, #400511 70%, #7a0f1d);
@@ -149,14 +158,14 @@
       justify-content: flex-end;
     }
     .page-header {
-      background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08));
-      border: 1px solid rgba(255, 0, 51, 0.42);
-      box-shadow: 0 0 24px rgba(255, 0, 51, 0.12);
+      background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.06), transparent 45%, rgba(255,204,0,0.08));
+      border: 1px solid rgba(255, 0, 51, 0.34);
+      box-shadow: 0 0 18px rgba(255, 0, 51, 0.08);
     }
     .faulty-neon {
-      color: #ff0033;
-      text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28);
-      animation: faultyNeon 4.2s steps(1, end) infinite;
+      color: #ff2d4f;
+      text-shadow: 0 0 10px rgba(255, 45, 79, 0.45);
+      animation: faultyNeon 6s steps(1, end) infinite;
     }
     .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
     @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
@@ -189,7 +198,7 @@
           <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Open Tools / Calculator</p>
           <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Calculator</h1>
           <p class="page-quote mt-3">Quote clean. Export fast. Leave no residue behind.</p>
-          <p class="mt-4 max-w-3xl text-gray-300 leading-7">Live quotation builder with cyberpunk discipline. No history, no browser storage, no saved client records. Build the quote, export it, then the session disappears when you leave.</p>
+          <p class="mt-4 max-w-3xl text-gray-300 leading-7">Jewelry quotation builder with a clean, production-first layout. No history, no browser storage, no saved client records. Build the quote, export it, then the session disappears when you leave.</p>
         </div>
         <div class="panel px-4 py-3 text-sm text-gray-300">
           <div class="terminal-accent h-1 w-full mb-3"></div>
@@ -407,7 +416,7 @@
   <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
     <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
       <p class="neon-red flicker">Designed by Hanzu</p>
-      <p><a href="/privacy">Privacy</a> • <a href="/legal">Legal</a> • <a href="/journal">Journal</a></p>
+      <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
     </div>
   </footer>
 
@@ -564,6 +573,15 @@
       `).join('');
     }
 
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
     function updatePreview() {
       appState.clientName = document.getElementById('client-name').value || 'CLIENT NAME';
       appState.clientAddress = document.getElementById('client-address').value || 'Shipping Address Details';
@@ -578,7 +596,11 @@
       document.getElementById('preview-client-name').textContent = appState.clientName;
       document.getElementById('preview-client-address').textContent = appState.clientAddress;
       document.getElementById('preview-invoice-num').textContent = appState.invoiceNumber;
-      document.getElementById('preview-date').textContent = new Date(appState.date).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+      const dateValue = appState.date ? new Date(appState.date) : null;
+      document.getElementById('preview-date').textContent =
+        dateValue && !Number.isNaN(dateValue.getTime())
+          ? dateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+          : '--/--/----';
 
       const previewImg = document.getElementById('preview-image');
       const placeholder = document.getElementById('image-placeholder');
@@ -604,7 +626,7 @@
       const metalName = document.getElementById('metal-type').options[document.getElementById('metal-type').selectedIndex].text;
       metalRow.innerHTML = `
         <td>
-          <div style="font-weight: bold; font-size: 10pt;">${metalName}</div>
+          <div style="font-weight: bold; font-size: 10pt;">${escapeHtml(metalName)}</div>
           <div style="font-size: 8pt; color: #6b7280;">Finished Wt: ${appState.metal.weight.toFixed(2)}g + ${appState.metal.loss}% loss (${lossGrams.toFixed(2)}g)</div>
           <div style="font-size: 8pt; color: #6b7280;">Purity: ${(appState.metal.purity * 100).toFixed(1)}%</div>
         </td>
@@ -620,7 +642,7 @@
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>
-            <div style="font-weight: bold; font-size: 10pt;">${stone.type}</div>
+            <div style="font-weight: bold; font-size: 10pt;">${escapeHtml(stone.type)}</div>
             <div style="font-size: 8pt; color: #6b7280;">Natural or selected stone input</div>
           </td>
           <td style="text-align: center;">${stone.carats.toFixed(2)} ct</td>
@@ -635,7 +657,7 @@
         subtotal += itemTotal;
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td><div style="font-weight: bold; font-size: 10pt;">${item.description}</div></td>
+          <td><div style="font-weight: bold; font-size: 10pt;">${escapeHtml(item.description)}</div></td>
           <td style="text-align: center;">${item.qty} ${item.unit}</td>
           <td style="text-align: right;">$${item.price.toLocaleString()}</td>
           <td class="total-column">$${itemTotal.toFixed(2)}</td>
