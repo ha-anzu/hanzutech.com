@@ -154,6 +154,27 @@
       color: #77664e;
       opacity: 1;
     }
+    .invoice-branding {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-height: 64px;
+    }
+    .invoice-logo-wrap {
+      width: 64px;
+      height: 64px;
+      border: 1px solid rgba(200, 167, 112, 0.52);
+      background: rgba(255, 255, 255, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .invoice-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
     .invoice-kicker {
       font-size: 9px;
       text-transform: uppercase;
@@ -262,24 +283,6 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 30px;
-    }
-    .invoice-terms-copy {
-      font-size: 9px;
-      color: #70685c;
-      line-height: 1.45;
-    }
-    .invoice-note-card {
-      margin-top: 15px;
-      padding: 11px 12px;
-      background: #f2ebde;
-      border: 1px solid #ddcfb6;
-    }
-    .invoice-note-title {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: #806643;
-      margin-bottom: 5px;
     }
     .invoice-summary-row {
       display: flex;
@@ -422,6 +425,42 @@
         </div>
 
         <section class="space-y-4">
+          <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Issuer Details</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Legal Name</label>
+            <input type="text" id="issuer-legal-name" oninput="updatePreview()" placeholder="Legal company name" class="w-full px-3 py-2">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Invoice Title</label>
+            <input type="text" id="invoice-title" oninput="updatePreview()" placeholder="Invoice" class="w-full px-3 py-2">
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Address</label>
+            <textarea id="issuer-address" oninput="updatePreview()" rows="2" placeholder="Company address" class="w-full px-3 py-2"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">VAT Number</label>
+              <input type="text" id="issuer-vat" oninput="updatePreview()" placeholder="VAT number" class="w-full px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Contact Info</label>
+              <input type="text" id="issuer-contact" oninput="updatePreview()" placeholder="Email / Phone" class="w-full px-3 py-2">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Header Subtitle (optional)</label>
+            <input type="text" id="invoice-subtitle" oninput="updatePreview()" placeholder="Optional subtitle" class="w-full px-3 py-2">
+          </div>
+          <div>
+            <label for="company-logo-upload" class="flex items-center justify-center w-full h-24 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors text-xs text-gray-400">
+              Upload company logo
+            </label>
+            <input id="company-logo-upload" type="file" class="hidden" accept="image/*" onchange="handleLogoUpload(event)">
+          </div>
+        </section>
+
+        <section class="space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Client Details</h2>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Client Name</label>
@@ -517,15 +556,30 @@
           <button onclick="loadSampleData()" class="button w-full text-sm">Load Sample</button>
           <button onclick="exportPDF()" class="button w-full text-sm bg-transparent text-yellow-300">Export PDF</button>
         </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button onclick="saveInvoiceFile()" class="button w-full text-sm">Save Invoice</button>
+          <button onclick="triggerLoadInvoice()" class="button w-full text-sm bg-transparent text-yellow-300">Load Invoice</button>
+          <button onclick="saveCompanyProfile()" class="button w-full text-sm">Save Company</button>
+          <button onclick="triggerLoadCompanyProfile()" class="button w-full text-sm bg-transparent text-yellow-300">Load Company</button>
+        </div>
+        <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
+        <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
       </aside>
 
       <section class="flex-1 panel p-3 md:p-6 overflow-auto">
         <div id="invoice-preview" class="invoice-container">
           <div class="invoice-header">
             <div>
-              <p class="sub">Hanzu Tech / Pro Jewelry Invoice</p>
-              <h1 class="title">Pro Jewelry Invoice</h1>
-              <p class="sub" style="letter-spacing: 0.13em; margin-top: 8px;">Precision estimate for custom jewelry work</p>
+              <div class="invoice-branding">
+                <div id="preview-company-logo-wrap" class="invoice-logo-wrap">
+                  <img id="preview-company-logo" src="" alt="Company logo">
+                </div>
+                <div>
+                  <p id="preview-company-name" class="sub">YOUR COMPANY NAME</p>
+                  <h1 id="preview-invoice-title" class="title">Invoice</h1>
+                  <p id="preview-invoice-subtitle" class="sub" style="letter-spacing: 0.13em; margin-top: 8px; display: none;"></p>
+                </div>
+              </div>
             </div>
             <div style="text-align: right;">
               <p class="sub">Invoice</p>
@@ -573,11 +627,16 @@
 
           <div class="invoice-bottom-grid">
             <div>
-              <h3 class="invoice-kicker">Terms</h3>
-              <p class="invoice-terms-copy">Custom orders typically require a deposit before production. Final figures should be reviewed before sending to a client.</p>
-              <div class="invoice-note-card">
-                <p class="invoice-note-title">Session Note</p>
-                <p class="invoice-terms-copy">No client data is collected or saved by this tool. Close the page and the session ends.</p>
+              <h3 class="invoice-kicker">Issuer Information</h3>
+              <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
+              <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
+              <div class="invoice-summary-row" style="padding-top: 10px;">
+                <span>VAT Number</span>
+                <strong id="preview-issuer-vat">VAT-XXXX</strong>
+              </div>
+              <div class="invoice-summary-row">
+                <span>Contact</span>
+                <strong id="preview-issuer-contact">contact@company.com</strong>
               </div>
             </div>
             <div>
@@ -622,6 +681,13 @@
 
   <script>
     let appState = {
+      issuerLegalName: '',
+      issuerAddress: '',
+      issuerVat: '',
+      issuerContact: '',
+      invoiceTitle: 'Invoice',
+      invoiceSubtitle: '',
+      companyLogo: '',
       clientName: '',
       clientAddress: '',
       invoiceNumber: 'HZ-' + Math.floor(1000 + Math.random() * 9000),
@@ -645,6 +711,12 @@
     };
 
     window.onload = () => {
+      document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
+      document.getElementById('issuer-address').value = appState.issuerAddress;
+      document.getElementById('issuer-vat').value = appState.issuerVat;
+      document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('invoice-title').value = appState.invoiceTitle;
+      document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('invoice-date').value = appState.date;
       document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
@@ -667,6 +739,17 @@
       const reader = new FileReader();
       reader.onload = (e) => {
         appState.image = e.target.result;
+        updatePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        appState.companyLogo = e.target.result;
         updatePreview();
       };
       reader.readAsDataURL(file);
@@ -782,7 +865,208 @@
         .replaceAll("'", '&#39;');
     }
 
+    function sanitizeFilename(value) {
+      return String(value || '')
+        .trim()
+        .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
+        .replace(/\s+/g, '_')
+        .slice(0, 80);
+    }
+
+    function downloadJson(payload, filename) {
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function getInvoiceSnapshot() {
+      updatePreview();
+      return {
+        format: 'pro-jewelry-invoice',
+        version: 1,
+        savedAt: new Date().toISOString(),
+        state: {
+          issuerLegalName: appState.issuerLegalName,
+          issuerAddress: appState.issuerAddress,
+          issuerVat: appState.issuerVat,
+          issuerContact: appState.issuerContact,
+          invoiceTitle: appState.invoiceTitle,
+          invoiceSubtitle: appState.invoiceSubtitle,
+          companyLogo: appState.companyLogo,
+          clientName: appState.clientName,
+          clientAddress: appState.clientAddress,
+          invoiceNumber: appState.invoiceNumber,
+          date: appState.date,
+          image: appState.image,
+          metal: { ...appState.metal },
+          stones: appState.stones.map((stone) => ({ ...stone })),
+          labor: appState.labor.map((item) => ({ ...item })),
+          vat: appState.vat,
+          deposit: appState.deposit
+        }
+      };
+    }
+
+    function applyStateToForm(snapshot, profileOnly = false) {
+      const incoming = snapshot?.state ? snapshot.state : snapshot;
+      if (!incoming || typeof incoming !== 'object') {
+        throw new Error('Invalid data structure.');
+      }
+
+      appState.issuerLegalName = String(incoming.issuerLegalName || '');
+      appState.issuerAddress = String(incoming.issuerAddress || '');
+      appState.issuerVat = String(incoming.issuerVat || '');
+      appState.issuerContact = String(incoming.issuerContact || '');
+      appState.invoiceTitle = String(incoming.invoiceTitle || 'Invoice');
+      appState.invoiceSubtitle = String(incoming.invoiceSubtitle || '');
+      appState.companyLogo = String(incoming.companyLogo || '');
+
+      document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
+      document.getElementById('issuer-address').value = appState.issuerAddress;
+      document.getElementById('issuer-vat').value = appState.issuerVat;
+      document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('invoice-title').value = appState.invoiceTitle;
+      document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
+
+      if (!profileOnly) {
+        appState.clientName = String(incoming.clientName || '');
+        appState.clientAddress = String(incoming.clientAddress || '');
+        appState.invoiceNumber = String(incoming.invoiceNumber || ('HZ-' + Math.floor(1000 + Math.random() * 9000)));
+        appState.date = String(incoming.date || new Date().toISOString().split('T')[0]);
+        appState.image = String(incoming.image || '');
+
+        const metal = incoming.metal || {};
+        appState.metal.type = String(metal.type || 'XAU');
+        appState.metal.purity = Number.isFinite(Number(metal.purity)) ? Number(metal.purity) : 0.750;
+        appState.metal.weight = Number.isFinite(Number(metal.weight)) ? Number(metal.weight) : 19.0;
+        appState.metal.loss = Number.isFinite(Number(metal.loss)) ? Number(metal.loss) : 11.0;
+        appState.metal.unitPrice = Number.isFinite(Number(metal.unitPrice)) ? Number(metal.unitPrice) : 0;
+
+        const now = Date.now();
+        appState.stones = Array.isArray(incoming.stones)
+          ? incoming.stones.map((stone, idx) => ({
+              id: now + idx,
+              type: String(stone.type || 'Other'),
+              carats: Number.isFinite(Number(stone.carats)) ? Number(stone.carats) : 0,
+              price: Number.isFinite(Number(stone.price)) ? Number(stone.price) : 0
+            }))
+          : [];
+        appState.labor = Array.isArray(incoming.labor) && incoming.labor.length
+          ? incoming.labor.map((item, idx) => ({
+              id: now + 1000 + idx,
+              description: String(item.description || 'Service'),
+              qty: Number.isFinite(Number(item.qty)) ? Number(item.qty) : 1,
+              unit: String(item.unit || 'Piece'),
+              price: Number.isFinite(Number(item.price)) ? Number(item.price) : 0
+            }))
+          : [
+              { id: now + 2000, description: 'Casting / Setting / Finishing Labour', qty: 1, unit: 'Piece', price: 200 },
+              { id: now + 2001, description: 'Plating / Surface Treatment', qty: 1, unit: 'Piece', price: 45 }
+            ];
+
+        appState.vat = Number.isFinite(Number(incoming.vat)) ? Number(incoming.vat) : 0;
+        appState.deposit = Number.isFinite(Number(incoming.deposit)) ? Number(incoming.deposit) : 0;
+
+        document.getElementById('client-name').value = appState.clientName;
+        document.getElementById('client-address').value = appState.clientAddress;
+        document.getElementById('invoice-number').value = appState.invoiceNumber;
+        document.getElementById('invoice-date').value = appState.date;
+        document.getElementById('metal-type').value = appState.metal.type;
+        document.getElementById('metal-weight').value = appState.metal.weight;
+        document.getElementById('metal-loss').value = appState.metal.loss;
+        document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
+        document.getElementById('vat-percent').value = appState.vat;
+        document.getElementById('deposit-amount').value = appState.deposit;
+        renderStones();
+        renderLabor();
+      }
+
+      updatePreview();
+    }
+
+    function saveInvoiceFile() {
+      const snapshot = getInvoiceSnapshot();
+      const namePart = sanitizeFilename(snapshot.state.invoiceNumber || 'invoice');
+      downloadJson(snapshot, `invoice_${namePart || 'draft'}.hzinvoice.json`);
+    }
+
+    function triggerLoadInvoice() {
+      const input = document.getElementById('invoice-file-input');
+      input.value = '';
+      input.click();
+    }
+
+    async function loadInvoiceFile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        const raw = await file.text();
+        const parsed = JSON.parse(raw);
+        if (parsed.format && parsed.format !== 'pro-jewelry-invoice') {
+          throw new Error('Unsupported invoice file format.');
+        }
+        applyStateToForm(parsed, false);
+      } catch (error) {
+        console.error(error);
+        alert('Could not load invoice file. Please use a valid invoice JSON export from this app.');
+      }
+    }
+
+    function saveCompanyProfile() {
+      updatePreview();
+      const profile = {
+        format: 'pro-jewelry-company-profile',
+        version: 1,
+        savedAt: new Date().toISOString(),
+        state: {
+          issuerLegalName: appState.issuerLegalName,
+          issuerAddress: appState.issuerAddress,
+          issuerVat: appState.issuerVat,
+          issuerContact: appState.issuerContact,
+          invoiceTitle: appState.invoiceTitle,
+          invoiceSubtitle: appState.invoiceSubtitle,
+          companyLogo: appState.companyLogo
+        }
+      };
+      const namePart = sanitizeFilename(appState.issuerLegalName || 'company');
+      downloadJson(profile, `company_profile_${namePart || 'default'}.hzprofile.json`);
+    }
+
+    function triggerLoadCompanyProfile() {
+      const input = document.getElementById('company-profile-input');
+      input.value = '';
+      input.click();
+    }
+
+    async function loadCompanyProfile(event) {
+      const file = event.target.files?.[0];
+      if (!file) return;
+      try {
+        const raw = await file.text();
+        const parsed = JSON.parse(raw);
+        if (parsed.format && parsed.format !== 'pro-jewelry-company-profile') {
+          throw new Error('Unsupported company profile format.');
+        }
+        applyStateToForm(parsed, true);
+      } catch (error) {
+        console.error(error);
+        alert('Could not load company profile. Please use a valid company profile JSON export from this app.');
+      }
+    }
+
     function updatePreview() {
+      appState.issuerLegalName = document.getElementById('issuer-legal-name').value.trim();
+      appState.issuerAddress = document.getElementById('issuer-address').value.trim();
+      appState.issuerVat = document.getElementById('issuer-vat').value.trim();
+      appState.issuerContact = document.getElementById('issuer-contact').value.trim();
+      appState.invoiceTitle = document.getElementById('invoice-title').value.trim() || 'Invoice';
+      appState.invoiceSubtitle = document.getElementById('invoice-subtitle').value.trim();
       appState.clientName = document.getElementById('client-name').value || 'CLIENT NAME';
       appState.clientAddress = document.getElementById('client-address').value || 'Shipping Address Details';
       appState.invoiceNumber = document.getElementById('invoice-number').value || 'HZ-0000';
@@ -792,6 +1076,31 @@
       appState.metal.unitPrice = parseFloat(document.getElementById('metal-unit-price').value) || 0;
       appState.vat = parseFloat(document.getElementById('vat-percent').value) || 0;
       appState.deposit = parseFloat(document.getElementById('deposit-amount').value) || 0;
+
+      document.getElementById('preview-company-name').textContent = appState.issuerLegalName || 'YOUR COMPANY NAME';
+      document.getElementById('preview-invoice-title').textContent = appState.invoiceTitle;
+      document.getElementById('preview-issuer-legal-name').textContent = appState.issuerLegalName || 'LEGAL COMPANY NAME';
+      document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || 'Registered company address';
+      document.getElementById('preview-issuer-vat').textContent = appState.issuerVat || 'VAT-XXXX';
+      document.getElementById('preview-issuer-contact').textContent = appState.issuerContact || 'contact@company.com';
+      const subtitleNode = document.getElementById('preview-invoice-subtitle');
+      if (appState.invoiceSubtitle) {
+        subtitleNode.textContent = appState.invoiceSubtitle;
+        subtitleNode.style.display = 'block';
+      } else {
+        subtitleNode.textContent = '';
+        subtitleNode.style.display = 'none';
+      }
+
+      const logoWrap = document.getElementById('preview-company-logo-wrap');
+      const logoImage = document.getElementById('preview-company-logo');
+      if (appState.companyLogo) {
+        logoImage.src = appState.companyLogo;
+        logoWrap.style.display = 'flex';
+      } else {
+        logoImage.src = '';
+        logoWrap.style.display = 'none';
+      }
 
       document.getElementById('preview-client-name').textContent = appState.clientName;
       document.getElementById('preview-client-address').textContent = appState.clientAddress;
@@ -948,6 +1257,12 @@
     }
 
     function loadSampleData() {
+      appState.issuerLegalName = 'Aurora Fine Jewelry Co., Ltd.';
+      appState.issuerAddress = '99 Silom Road\nBangrak, Bangkok 10500';
+      appState.issuerVat = 'TH0105551234567';
+      appState.issuerContact = 'sales@aurorajewelry.co | +66 2 123 4567';
+      appState.invoiceTitle = 'Custom Jewelry Invoice';
+      appState.invoiceSubtitle = 'Handcrafted pieces with production-ready costing';
       appState.clientName = 'Sample Client';
       appState.clientAddress = '123 Precision Arcade\nSilom District\nBangkok 10500';
       appState.invoiceNumber = 'HZ-8888';
@@ -961,6 +1276,12 @@
       appState.vat = 7;
       appState.deposit = 5000;
 
+      document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
+      document.getElementById('issuer-address').value = appState.issuerAddress;
+      document.getElementById('issuer-vat').value = appState.issuerVat;
+      document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('invoice-title').value = appState.invoiceTitle;
+      document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('client-name').value = appState.clientName;
       document.getElementById('client-address').value = appState.clientAddress;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
