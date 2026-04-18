@@ -210,7 +210,7 @@
       grid-template-columns: 31% 69%;
       gap: 24px;
       margin-top: 22px;
-      min-height: 390px;
+      min-height: 0;
     }
     .invoice-image-wrap {
       padding-right: 4px;
@@ -282,6 +282,52 @@
       grid-template-columns: 1fr 1fr;
       gap: 24px;
       align-items: start;
+    }
+    .invoice-terms-panel {
+      margin-top: 18px;
+      padding: 10px 12px;
+      border: 1px solid #dfcfb3;
+      background: rgba(255, 252, 245, 0.78);
+    }
+    .invoice-terms-text {
+      font-size: 10px;
+      color: #5f5443;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+    .invoice-signature-grid {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .invoice-signature-box {
+      border: 1px solid #dfcfb3;
+      background: rgba(255, 252, 245, 0.78);
+      padding: 10px 12px;
+      min-height: 72px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .invoice-signature-line {
+      border-top: 1px solid #bfae90;
+      margin-bottom: 6px;
+    }
+    .invoice-signature-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #6f624f;
+    }
+    .invoice-copyright {
+      margin-top: 14px;
+      font-size: 9px;
+      color: #7a6d59;
+      text-align: center;
+      letter-spacing: 0.06em;
+      border-top: 1px solid #e3d6bd;
+      padding-top: 8px;
     }
     .invoice-summary-panel {
       width: 100%;
@@ -489,6 +535,13 @@
             </div>
           </div>
         </section>
+        <section class="space-y-4">
+          <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Legal Terms / Conditions</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Terms (multi-line)</label>
+            <textarea id="legal-terms" oninput="updatePreview()" rows="5" placeholder="Example:&#10;1. 30-day return guarantee for manufacturing defects.&#10;2. Balance due before dispatch.&#10;3. Custom items are non-refundable after approval." class="w-full px-3 py-2"></textarea>
+          </div>
+        </section>
 
         <section class="space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Reference Image</h2>
@@ -663,6 +716,21 @@
               </div>
             </div>
           </div>
+          <div class="invoice-terms-panel">
+            <h3 class="invoice-kicker">Terms & Conditions</h3>
+            <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
+          </div>
+          <div class="invoice-signature-grid">
+            <div class="invoice-signature-box">
+              <div class="invoice-signature-line"></div>
+              <p class="invoice-signature-label">Receiver Signature</p>
+            </div>
+            <div class="invoice-signature-box">
+              <div class="invoice-signature-line"></div>
+              <p class="invoice-signature-label">Authorized Signature</p>
+            </div>
+          </div>
+          <p id="preview-copyright" class="invoice-copyright">© 2026 All rights reserved.</p>
         </div>
       </section>
     </section>
@@ -686,6 +754,7 @@
       issuerAddress: '',
       issuerVat: '',
       issuerContact: '',
+      legalTerms: '',
       invoiceTitle: 'Invoice',
       invoiceSubtitle: '',
       companyLogo: '',
@@ -717,6 +786,7 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('legal-terms').value = appState.legalTerms;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
@@ -917,6 +987,7 @@
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
           issuerContact: appState.issuerContact,
+          legalTerms: appState.legalTerms,
           invoiceTitle: appState.invoiceTitle,
           invoiceSubtitle: appState.invoiceSubtitle,
           companyLogo: appState.companyLogo,
@@ -945,6 +1016,7 @@
       appState.issuerAddress = String(incoming.issuerAddress || '');
       appState.issuerVat = String(incoming.issuerVat || '');
       appState.issuerContact = String(incoming.issuerContact || '');
+      appState.legalTerms = String(incoming.legalTerms || '');
       appState.invoiceTitle = String(incoming.invoiceTitle || 'Invoice');
       appState.invoiceSubtitle = String(incoming.invoiceSubtitle || '');
       appState.companyLogo = String(incoming.companyLogo || '');
@@ -953,6 +1025,7 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('legal-terms').value = appState.legalTerms;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
 
@@ -1089,6 +1162,7 @@
       appState.issuerAddress = document.getElementById('issuer-address').value.trim();
       appState.issuerVat = document.getElementById('issuer-vat').value.trim();
       appState.issuerContact = document.getElementById('issuer-contact').value.trim();
+      appState.legalTerms = document.getElementById('legal-terms').value.trim();
       appState.invoiceTitle = document.getElementById('invoice-title').value.trim() || 'Invoice';
       appState.invoiceSubtitle = document.getElementById('invoice-subtitle').value.trim();
       appState.clientName = document.getElementById('client-name').value || 'CLIENT NAME';
@@ -1112,6 +1186,10 @@
       document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || 'Registered company address';
       document.getElementById('preview-issuer-vat').textContent = appState.issuerVat || 'VAT-XXXX';
       document.getElementById('preview-issuer-contact').textContent = appState.issuerContact || 'contact@company.com';
+      document.getElementById('preview-legal-terms').textContent = appState.legalTerms || 'No additional legal terms provided.';
+      const currentYear = new Date().getFullYear();
+      const rightsOwner = appState.issuerLegalName || 'Issuer';
+      document.getElementById('preview-copyright').textContent = `© ${currentYear} ${rightsOwner}. All rights reserved.`;
       const subtitleNode = document.getElementById('preview-invoice-subtitle');
       if (appState.invoiceSubtitle) {
         subtitleNode.textContent = appState.invoiceSubtitle;
@@ -1261,6 +1339,7 @@
       appState.issuerAddress = '';
       appState.issuerVat = '';
       appState.issuerContact = '';
+      appState.legalTerms = '';
       appState.invoiceTitle = 'Invoice';
       appState.invoiceSubtitle = '';
       appState.companyLogo = '';
@@ -1288,6 +1367,7 @@
       document.getElementById('issuer-address').value = '';
       document.getElementById('issuer-vat').value = '';
       document.getElementById('issuer-contact').value = '';
+      document.getElementById('legal-terms').value = '';
       document.getElementById('invoice-title').value = 'Invoice';
       document.getElementById('invoice-subtitle').value = '';
       document.getElementById('client-name').value = '';
@@ -1315,6 +1395,7 @@
       appState.issuerAddress = '99 Silom Road\nBangrak, Bangkok 10500';
       appState.issuerVat = 'TH0105551234567';
       appState.issuerContact = 'sales@aurorajewelry.co | +66 2 123 4567';
+      appState.legalTerms = '1. 30-day return guarantee for verified manufacturing defects only.\n2. Balance due before final delivery.\n3. Custom approved designs are non-refundable once production starts.';
       appState.invoiceTitle = 'Custom Jewelry Invoice';
       appState.invoiceSubtitle = 'Handcrafted pieces with production-ready costing';
       appState.clientName = 'Sample Client';
@@ -1337,6 +1418,7 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('legal-terms').value = appState.legalTerms;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('client-name').value = appState.clientName;
