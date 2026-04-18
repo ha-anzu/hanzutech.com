@@ -103,49 +103,208 @@
     .invoice-container {
       width: 210mm;
       min-height: 297mm;
-      padding: 15mm;
+      padding: 14mm;
       margin: auto;
-      background: #fffdf8;
-      color: #171717;
-      box-shadow: 0 0 24px rgba(0, 0, 0, 0.2);
+      background: #fbf8f2;
+      color: #1d1b19;
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.14);
+      font-family: 'IBM Plex Sans', sans-serif;
     }
     .invoice-header {
-      background: linear-gradient(135deg, #140308, #400511 70%, #7a0f1d);
-      color: white;
-      padding: 20px;
+      background: linear-gradient(135deg, #2f0a14, #45101d 70%, #5d192a);
+      color: #f8f3e9;
+      padding: 18px 20px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
+      border: 1px solid rgba(215, 177, 108, 0.24);
     }
-    .invoice-table th {
-      background-color: #fff3d1;
-      text-align: left;
-      padding: 8px;
-      border-bottom: 1px solid #ead9b6;
-      font-weight: 700;
-      font-size: 9pt;
+    .invoice-header .title {
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 34px;
+      font-weight: 600;
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+      margin-top: 6px;
+    }
+    .invoice-header .sub {
+      font-size: 11px;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
+      opacity: 0.76;
     }
-    .invoice-table td {
-      padding: 10px 8px;
-      border-bottom: 1px solid #f2ebdd;
-      vertical-align: top;
+    .invoice-kicker {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.34em;
+      color: #7b7467;
+      margin-bottom: 7px;
     }
-    .total-column {
-      background-color: #fff8e7;
-      width: 120px;
-      text-align: right;
-      font-weight: 700;
+    .invoice-top-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 24px 0;
+      border-bottom: 1px solid #e9dfcd;
+    }
+    .invoice-client-name {
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: 0.01em;
+    }
+    .invoice-client-address {
+      font-size: 12px;
+      color: #716a5d;
+      white-space: pre-line;
+      margin-top: 6px;
+    }
+    .invoice-date {
+      font-size: 14px;
+      font-weight: 500;
+      color: #2f2a25;
+    }
+    .invoice-main-grid {
+      display: grid;
+      grid-template-columns: 31% 69%;
+      gap: 24px;
+      margin-top: 22px;
+      min-height: 390px;
+    }
+    .invoice-image-wrap {
+      padding-right: 4px;
+      border-right: 1px solid #ece3d4;
     }
     .preview-image-box {
-      border: 1px dashed rgba(255, 0, 51, 0.35);
+      border: 1px dashed #dac8ac;
       width: 100%;
       aspect-ratio: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(135deg, rgba(255, 0, 51, 0.04), rgba(255, 204, 0, 0.06));
+      background: #f6f1e8;
       overflow: hidden;
+    }
+    .invoice-image-note {
+      font-size: 10px;
+      color: #8a8375;
+      text-align: center;
+      margin-top: 8px;
+    }
+    .invoice-lines-wrap {
+      padding-left: 2px;
+    }
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .invoice-table th {
+      background: #efe6d3;
+      color: #40392f;
+      text-align: left;
+      padding: 10px 9px;
+      border-bottom: 1px solid #dbc9aa;
+      font-weight: 600;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .invoice-table td {
+      padding: 11px 9px;
+      border-bottom: 1px solid #e9dfcf;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    .line-title {
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 17px;
+      font-weight: 600;
+      color: #28231e;
+      line-height: 1.1;
+    }
+    .line-meta {
+      margin-top: 3px;
+      font-size: 10px;
+      color: #7a7265;
+      line-height: 1.35;
+    }
+    .total-column {
+      width: 124px;
+      text-align: right;
+      font-weight: 600;
+      color: #2b251f;
+      background: #f5efe1;
+    }
+    .invoice-bottom-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+    .invoice-terms-copy {
+      font-size: 10px;
+      color: #70685c;
+      line-height: 1.45;
+    }
+    .invoice-note-card {
+      margin-top: 15px;
+      padding: 11px 12px;
+      background: #f2ebde;
+      border: 1px solid #ddcfb6;
+    }
+    .invoice-note-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #806643;
+      margin-bottom: 5px;
+    }
+    .invoice-summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 12px;
+      padding: 4px 0;
+      color: #5d564b;
+    }
+    .invoice-summary-row strong {
+      color: #221f1b;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .invoice-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 41px;
+      font-weight: 600;
+      border-top: 1px solid #d8c6a7;
+      padding-top: 10px;
+      margin-top: 8px;
+      color: #241f1b;
+    }
+    .invoice-deposit-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #7a5a41;
+      font-weight: 600;
+      padding: 4px 0;
+    }
+    .invoice-balance-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 40px;
+      font-weight: 600;
+      background: #2b1218;
+      color: #f8f2e8;
+      border: 1px solid #73503f;
+      padding: 10px 12px;
+      margin-top: 8px;
     }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #050507; }
@@ -323,41 +482,41 @@
         <div id="invoice-preview" class="invoice-container">
           <div class="invoice-header">
             <div>
-              <p style="font-size: 8pt; letter-spacing: 0.4em; text-transform: uppercase; opacity: 0.75;">Hanzu Tech / Open Tools</p>
-              <h1 style="font-size: 26pt; margin-top: 6px;">Quotation</h1>
-              <p style="font-size: 10pt; margin-top: 4px; opacity: 0.82;">Precision estimate for custom jewelry work</p>
+              <p class="sub">Hanzu Tech / Open Tools</p>
+              <h1 class="title">Jewelry Quotation</h1>
+              <p class="sub" style="letter-spacing: 0.13em; margin-top: 8px;">Precision estimate for custom jewelry work</p>
             </div>
             <div style="text-align: right;">
-              <p style="font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3em; opacity: 0.75;">Invoice</p>
-              <p id="preview-invoice-num" style="font-size: 18pt; font-weight: bold;">HZ-0001</p>
+              <p class="sub">Invoice</p>
+              <p id="preview-invoice-num" style="font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif; font-size: 32px; margin-top: 8px; font-weight: 600;">HZ-0001</p>
             </div>
           </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding: 30px 0; border-bottom: 1px solid #f2ebdd;">
+          <div class="invoice-top-grid">
             <div>
-              <h3 style="font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3em; color: #6b7280; margin-bottom: 8px;">Client Information</h3>
-              <p id="preview-client-name" style="font-size: 16pt; font-weight: bold;">CLIENT NAME</p>
-              <p id="preview-client-address" style="font-size: 10pt; color: #6b7280; white-space: pre-line;">Shipping Address Details</p>
+              <h3 class="invoice-kicker">Client Information</h3>
+              <p id="preview-client-name" class="invoice-client-name">CLIENT NAME</p>
+              <p id="preview-client-address" class="invoice-client-address">Shipping Address Details</p>
             </div>
             <div style="text-align: right;">
-              <h3 style="font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3em; color: #6b7280; margin-bottom: 8px;">Issue Date</h3>
-              <p id="preview-date" style="font-size: 11pt;">MM/DD/YYYY</p>
+              <h3 class="invoice-kicker">Issue Date</h3>
+              <p id="preview-date" class="invoice-date">MM/DD/YYYY</p>
             </div>
           </div>
 
-          <div style="display: flex; margin-top: 24px; min-height: 400px;">
-            <div style="width: 32%; padding-right: 24px; border-right: 1px solid #f2ebdd;">
-              <div class="preview-image-box mb-2">
+          <div class="invoice-main-grid">
+            <div class="invoice-image-wrap">
+              <div class="preview-image-box">
                 <img id="preview-image" src="" alt="" class="max-w-full max-h-full object-contain hidden">
                 <div id="image-placeholder" style="text-align: center; color: #9ca3af; padding: 20px;">
                   <i class="fas fa-image" style="font-size: 38px; margin-bottom: 8px;"></i>
-                  <p style="font-size: 8pt;">REFERENCE IMAGE</p>
+                  <p style="font-size: 8pt; letter-spacing: 0.12em;">REFERENCE IMAGE</p>
                 </div>
               </div>
-              <div style="font-size: 8pt; color: #9ca3af; text-align: center;">For design reference only</div>
+              <div class="invoice-image-note">For design reference only</div>
             </div>
-            <div style="width: 68%; padding-left: 24px;">
-              <table class="w-full invoice-table">
+            <div class="invoice-lines-wrap">
+              <table class="invoice-table">
                 <thead>
                   <tr>
                     <th class="w-1/2">Description / Info</th>
@@ -371,33 +530,33 @@
             </div>
           </div>
 
-          <div style="margin-top: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+          <div class="invoice-bottom-grid">
             <div>
-              <h3 style="font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3em; color: #6b7280; margin-bottom: 8px;">Terms</h3>
-              <p style="font-size: 8pt; color: #6b7280;">Custom orders typically require a deposit before production. Final figures should be reviewed before sending to a client.</p>
-              <div style="margin-top: 16px; padding: 12px; background: #fff8e7; border: 1px solid #ead9b6;">
-                <p style="font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3em; color: #7a0f1d; margin-bottom: 6px;">Security Note</p>
-                <p style="font-size: 8pt; color: #4b5563;">No client data is collected or saved by this tool. Close the page and the session ends.</p>
+              <h3 class="invoice-kicker">Terms</h3>
+              <p class="invoice-terms-copy">Custom orders typically require a deposit before production. Final figures should be reviewed before sending to a client.</p>
+              <div class="invoice-note-card">
+                <p class="invoice-note-title">Session Note</p>
+                <p class="invoice-terms-copy">No client data is collected or saved by this tool. Close the page and the session ends.</p>
               </div>
             </div>
             <div>
-              <div style="display: flex; justify-content: space-between; font-size: 9pt; padding: 4px 0;">
-                <span style="color: #6b7280;">Subtotal</span>
-                <span id="preview-subtotal">$0.00</span>
+              <div class="invoice-summary-row">
+                <span>Subtotal</span>
+                <strong id="preview-subtotal">$0.00</strong>
               </div>
-              <div style="display: flex; justify-content: space-between; font-size: 9pt; padding: 4px 0;">
-                <span style="color: #6b7280;">VAT (<span id="preview-vat-rate">0</span>%)</span>
-                <span id="preview-vat-amount">$0.00</span>
+              <div class="invoice-summary-row">
+                <span>VAT (<span id="preview-vat-rate">0</span>%)</span>
+                <strong id="preview-vat-amount">$0.00</strong>
               </div>
-              <div style="display: flex; justify-content: space-between; font-size: 18pt; font-weight: bold; border-top: 1px solid #ead9b6; padding-top: 8px; margin-top: 8px;">
+              <div class="invoice-total-row">
                 <span>Grand Total</span>
                 <span id="preview-grand-total">$0.00</span>
               </div>
-              <div style="display: flex; justify-content: space-between; font-size: 9pt; color: #7a0f1d; font-weight: bold; padding: 4px 0;">
+              <div class="invoice-deposit-row">
                 <span>Deposit Paid</span>
                 <span id="preview-deposit">-$0.00</span>
               </div>
-              <div style="display: flex; justify-content: space-between; font-size: 20pt; font-weight: bold; background: #140308; color: white; padding: 10px 12px; margin-top: 8px;">
+              <div class="invoice-balance-row">
                 <span>Balance Due</span>
                 <span id="preview-balance">$0.00</span>
               </div>
@@ -626,9 +785,9 @@
       const metalName = document.getElementById('metal-type').options[document.getElementById('metal-type').selectedIndex].text;
       metalRow.innerHTML = `
         <td>
-          <div style="font-weight: bold; font-size: 10pt;">${escapeHtml(metalName)}</div>
-          <div style="font-size: 8pt; color: #6b7280;">Finished Wt: ${appState.metal.weight.toFixed(2)}g + ${appState.metal.loss}% loss (${lossGrams.toFixed(2)}g)</div>
-          <div style="font-size: 8pt; color: #6b7280;">Purity: ${(appState.metal.purity * 100).toFixed(1)}%</div>
+          <div class="line-title">${escapeHtml(metalName)}</div>
+          <div class="line-meta">Finished Wt: ${appState.metal.weight.toFixed(2)}g + ${appState.metal.loss}% loss (${lossGrams.toFixed(2)}g)</div>
+          <div class="line-meta">Purity: ${(appState.metal.purity * 100).toFixed(1)}%</div>
         </td>
         <td style="text-align: center;">${totalMetalUsed.toFixed(2)} g</td>
         <td style="text-align: right;">$${(appState.metal.unitPrice * appState.metal.purity).toFixed(2)}</td>
@@ -642,8 +801,8 @@
         const row = document.createElement('tr');
         row.innerHTML = `
           <td>
-            <div style="font-weight: bold; font-size: 10pt;">${escapeHtml(stone.type)}</div>
-            <div style="font-size: 8pt; color: #6b7280;">Natural or selected stone input</div>
+            <div class="line-title">${escapeHtml(stone.type)}</div>
+            <div class="line-meta">Natural or selected stone input</div>
           </td>
           <td style="text-align: center;">${stone.carats.toFixed(2)} ct</td>
           <td style="text-align: right;">$${stone.price.toLocaleString()}</td>
@@ -657,7 +816,7 @@
         subtotal += itemTotal;
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td><div style="font-weight: bold; font-size: 10pt;">${escapeHtml(item.description)}</div></td>
+          <td><div class="line-title">${escapeHtml(item.description)}</div></td>
           <td style="text-align: center;">${item.qty} ${item.unit}</td>
           <td style="text-align: right;">$${item.price.toLocaleString()}</td>
           <td class="total-column">$${itemTotal.toFixed(2)}</td>
