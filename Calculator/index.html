@@ -54,13 +54,15 @@
     .card { background-color: #fffaf2; border: 1px solid #e4d4b8; padding: 2rem; transition: border-color 0.25s, box-shadow 0.25s; }
     .card:hover { border-color: #cda96d; box-shadow: 0 10px 24px rgba(117, 83, 36, 0.1); }
     .button {
-      padding: 0.8rem 1.2rem;
+      padding: 0.52rem 0.9rem;
       border: 1px solid #d1b079;
       color: #3a2d1d;
       background: linear-gradient(140deg, #fdf5e9, #f3e1c5);
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       letter-spacing: 0.08em;
       text-transform: uppercase;
+      font-size: 0.78rem;
+      line-height: 1.1;
     }
     .button:hover { transform: translateY(-1px); border-color: #be9450; box-shadow: 0 8px 18px rgba(117, 83, 36, 0.14); background: linear-gradient(140deg, #fbefdd, #eed4a8); }
     .flicker { animation: none; }
@@ -99,6 +101,12 @@
       outline: none;
       border-color: #be9450;
       box-shadow: 0 0 0 1px rgba(190, 148, 80, 0.18), 0 0 12px rgba(190, 148, 80, 0.12);
+    }
+    aside input,
+    aside textarea,
+    aside select {
+      padding: 0.45rem 0.6rem !important;
+      font-size: 0.82rem;
     }
     * {
       scrollbar-color: #ffffff #ffffff;
@@ -415,9 +423,14 @@
       border-top: 1px solid #dec8a0;
     }
     @media print {
+      html, body { background: #ffffff !important; }
       body * { visibility: hidden; }
       #invoice-preview, #invoice-preview * { visibility: visible; }
       #invoice-preview { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; box-shadow: none; }
+      #invoice-preview, #invoice-preview * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
       .no-print { display: none !important; }
     }
     @media (max-width: 900px) {
@@ -443,8 +456,8 @@
     </div>
   </div>
 
-  <main class="pt-24 pb-12 px-4 md:px-6 no-print">
-    <section class="max-w-7xl mx-auto mb-6 page-header px-6 py-8 md:px-8">
+  <main class="pt-24 pb-12 px-4 md:px-6">
+    <section class="max-w-7xl mx-auto mb-6 page-header px-6 py-8 md:px-8 no-print">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
           <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Open Tools / Pro Jewelry Invoice</p>
@@ -461,7 +474,7 @@
     </section>
 
     <section class="max-w-7xl mx-auto flex flex-col xl:flex-row gap-6">
-      <aside class="w-full xl:w-[430px] panel p-5 md:p-6 space-y-6">
+      <aside class="w-full xl:w-[430px] panel p-5 md:p-6 space-y-4 no-print">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Invoice Controls</p>
@@ -473,6 +486,8 @@
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
+          <button onclick="loadSampleData()" class="button w-full">Load Sample</button>
+          <button onclick="exportPDF()" class="button w-full bg-transparent text-yellow-300">Export PDF</button>
           <button onclick="saveInvoiceFile()" class="button w-full text-sm">Save Invoice</button>
           <button onclick="triggerLoadInvoice()" class="button w-full text-sm bg-transparent text-yellow-300">Load Invoice</button>
           <button onclick="saveCompanyProfile()" class="button w-full text-sm">Save Company</button>
@@ -620,13 +635,9 @@
           </div>
         </section>
 
-        <div class="flex gap-3">
-          <button onclick="loadSampleData()" class="button w-full text-sm">Load Sample</button>
-          <button onclick="exportPDF()" class="button w-full text-sm bg-transparent text-yellow-300">Export PDF</button>
-        </div>
       </aside>
 
-      <section class="flex-1 panel p-3 md:p-6 overflow-auto">
+      <section class="flex-1 panel p-3 md:p-6 overflow-auto xl:sticky xl:top-24 self-start max-h-[calc(100vh-7rem)]">
         <div id="invoice-preview" class="invoice-container">
           <div class="invoice-header">
             <div>
@@ -742,7 +753,7 @@
       </section>
     </section>
 
-    <section class="max-w-7xl mx-auto mt-6 panel p-5 md:p-6">
+    <section class="max-w-7xl mx-auto mt-6 panel p-5 md:p-6 no-print">
       <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-3">Privacy Note</p>
       <p class="text-gray-300 leading-7">This app does not store invoice history, does not use browser storage, and does not collect or save client data. Information remains only in the current page until you export or close it.</p>
     </section>
