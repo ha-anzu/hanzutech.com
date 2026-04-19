@@ -94,6 +94,13 @@
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
       padding: 0.75rem;
     }
+    .input-block-compact {
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      padding: 0;
+      margin-top: -0.25rem;
+    }
     .terminal-accent {
       background-image: linear-gradient(90deg, rgba(183,133,60,0.2), rgba(226,194,141,0.32), rgba(183,133,60,0.2));
     }
@@ -148,7 +155,7 @@
     .invoice-header {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 252, 246, 0.62) 70%, rgba(255, 249, 239, 0.66));
       color: #342717;
-      padding: 18px 20px;
+      padding: 10px 12px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
@@ -158,11 +165,11 @@
     }
     .invoice-header .title {
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 24px;
+      font-size: 20px;
       font-weight: 600;
       line-height: 1.05;
       letter-spacing: 0.01em;
-      margin-top: 6px;
+      margin-top: 2px;
     }
     .invoice-header .sub {
       font-size: 11px;
@@ -174,12 +181,12 @@
     .invoice-branding {
       display: flex;
       align-items: center;
-      gap: 14px;
-      min-height: 88px;
+      gap: 8px;
+      min-height: 60px;
     }
     .invoice-logo-wrap {
-      width: 88px;
-      height: 88px;
+      width: 60px;
+      height: 60px;
       display: none;
       align-items: center;
       justify-content: center;
@@ -200,22 +207,22 @@
     .invoice-top-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
-      padding: 24px 0;
+      gap: 16px;
+      padding: 12px 0;
       border-bottom: 1px solid #e9dfcd;
     }
     .invoice-client-name {
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 600;
       line-height: 1.1;
       letter-spacing: 0.01em;
     }
     .invoice-client-address {
-      font-size: 11px;
+      font-size: 10px;
       color: #716a5d;
       white-space: pre-line;
-      margin-top: 6px;
+      margin-top: 3px;
     }
     .invoice-date {
       font-size: 11px;
@@ -233,7 +240,7 @@
       display: grid;
       grid-template-columns: 31% 69%;
       gap: 24px;
-      margin-top: 22px;
+      margin-top: 12px;
       min-height: 440px;
       flex: 1;
     }
@@ -250,6 +257,29 @@
       justify-content: center;
       background: #f6f1e8;
       overflow: hidden;
+      position: relative;
+    }
+    .preview-stack-img {
+      position: absolute;
+      width: 84%;
+      height: 84%;
+      object-fit: contain;
+      background: rgba(255, 255, 255, 0.65);
+      border: 1px solid rgba(216, 193, 154, 0.7);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      display: none;
+    }
+    .preview-stack-0 {
+      transform: translate(-10px, -10px);
+      z-index: 1;
+    }
+    .preview-stack-1 {
+      transform: translate(0px, 0px);
+      z-index: 2;
+    }
+    .preview-stack-2 {
+      transform: translate(10px, 10px);
+      z-index: 3;
     }
     .invoice-image-note {
       font-size: 9px;
@@ -313,6 +343,12 @@
       padding: 10px 12px;
       border: 1px solid #dfcfb3;
       background: rgba(255, 252, 245, 0.78);
+    }
+    .invoice-payment-panel {
+      margin-top: 6px;
+      padding: 0;
+      border: 0;
+      background: transparent;
     }
     .invoice-terms-text {
       font-size: 10px;
@@ -651,7 +687,7 @@
             <textarea id="legal-terms" oninput="updatePreview()" rows="5" placeholder="Example:&#10;1. 30-day return guarantee for manufacturing defects.&#10;2. Balance due before dispatch.&#10;3. Custom items are non-refundable after approval." class="w-full px-3 py-2"></textarea>
           </div>
         </section>
-        <section class="input-block space-y-4">
+        <section class="input-block-compact space-y-2">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Payment Method</h2>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Method (optional)</label>
@@ -669,11 +705,25 @@
 
         <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Reference Image</h2>
-          <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
-            <i class="fas fa-cloud-upload-alt text-2xl neon-red mb-2"></i>
-            <span class="text-xs text-gray-400">Upload reference image</span>
+          <label for="image-upload-0" class="flex flex-col items-center justify-center w-full h-24 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
+            <i class="fas fa-cloud-upload-alt text-xl neon-red mb-2"></i>
+            <span class="text-xs text-gray-400">Upload reference image 1</span>
           </label>
-          <input id="image-upload" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event)">
+          <input id="image-upload-0" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event, 0)">
+
+          <div id="ref-upload-2" class="hidden">
+            <label for="image-upload-1" class="flex flex-col items-center justify-center w-full h-20 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
+              <span class="text-xs text-gray-400">Upload reference image 2 (optional)</span>
+            </label>
+            <input id="image-upload-1" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event, 1)">
+          </div>
+
+          <div id="ref-upload-3" class="hidden">
+            <label for="image-upload-2" class="flex flex-col items-center justify-center w-full h-20 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
+              <span class="text-xs text-gray-400">Upload reference image 3 (optional)</span>
+            </label>
+            <input id="image-upload-2" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event, 2)">
+          </div>
         </section>
 
         <section class="input-block space-y-4">
@@ -779,7 +829,9 @@
           <div class="invoice-main-grid">
             <div class="invoice-image-wrap">
               <div class="preview-image-box">
-                <img id="preview-image" src="" alt="" class="max-w-full max-h-full object-contain hidden">
+                <img id="preview-image-0" src="" alt="" class="preview-stack-img preview-stack-0">
+                <img id="preview-image-1" src="" alt="" class="preview-stack-img preview-stack-1">
+                <img id="preview-image-2" src="" alt="" class="preview-stack-img preview-stack-2">
                 <div id="image-placeholder" style="text-align: center; color: #9ca3af; padding: 20px;">
                   <i class="fas fa-image" style="font-size: 38px; margin-bottom: 8px;"></i>
                   <p style="font-size: 8pt; letter-spacing: 0.12em;">REFERENCE IMAGE</p>
@@ -843,7 +895,7 @@
             <h3 class="invoice-kicker">Terms & Conditions</h3>
             <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
           </div>
-          <div class="invoice-terms-panel">
+          <div class="invoice-payment-panel">
             <h3 class="invoice-kicker">Payment Method</h3>
             <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
             <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
@@ -895,7 +947,7 @@
       invoiceNumber: 'HZ-' + Math.floor(1000 + Math.random() * 9000),
       date: new Date().toISOString().split('T')[0],
       paymentDueDate: '',
-      image: '',
+      imageRefs: ['', '', ''],
       metal: {
         type: 'XAU',
         purity: 0.750,
@@ -930,6 +982,7 @@
       document.getElementById('payment-due-date').value = appState.paymentDueDate;
       setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
+      syncReferenceUploadUI();
       renderStones();
       renderLabor();
       updatePreview();
@@ -948,15 +1001,23 @@
       }
     }
 
-    function handleImageUpload(event) {
+    function handleImageUpload(event, index) {
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
       reader.onload = (e) => {
-        appState.image = e.target.result;
+        appState.imageRefs[index] = e.target.result;
+        syncReferenceUploadUI();
         updatePreview();
       };
       reader.readAsDataURL(file);
+    }
+
+    function syncReferenceUploadUI() {
+      const slot2 = document.getElementById('ref-upload-2');
+      const slot3 = document.getElementById('ref-upload-3');
+      if (slot2) slot2.classList.toggle('hidden', !appState.imageRefs[0]);
+      if (slot3) slot3.classList.toggle('hidden', !appState.imageRefs[1]);
     }
 
     function handleLogoUpload(event) {
@@ -1147,7 +1208,8 @@
           invoiceNumber: appState.invoiceNumber,
           date: appState.date,
           paymentDueDate: appState.paymentDueDate,
-          image: appState.image,
+          imageRefs: [...appState.imageRefs],
+          image: appState.imageRefs[0] || '',
           metal: { ...appState.metal },
           stones: appState.stones.map((stone) => ({ ...stone })),
           labor: appState.labor.map((item) => ({ ...item })),
@@ -1192,7 +1254,13 @@
         appState.invoiceNumber = String(incoming.invoiceNumber || ('HZ-' + Math.floor(1000 + Math.random() * 9000)));
         appState.date = String(incoming.date || new Date().toISOString().split('T')[0]);
         appState.paymentDueDate = String(incoming.paymentDueDate || '');
-        appState.image = String(incoming.image || '');
+        appState.imageRefs = Array.isArray(incoming.imageRefs)
+          ? [
+              String(incoming.imageRefs[0] || ''),
+              String(incoming.imageRefs[1] || ''),
+              String(incoming.imageRefs[2] || '')
+            ]
+          : [String(incoming.image || ''), '', ''];
 
         const metal = incoming.metal || {};
         appState.metal.type = String(metal.type || 'XAU');
@@ -1233,6 +1301,13 @@
         document.getElementById('invoice-number').value = appState.invoiceNumber;
         document.getElementById('invoice-date').value = appState.date;
         document.getElementById('payment-due-date').value = appState.paymentDueDate;
+        const ref0 = document.getElementById('image-upload-0');
+        const ref1 = document.getElementById('image-upload-1');
+        const ref2 = document.getElementById('image-upload-2');
+        if (ref0) ref0.value = '';
+        if (ref1) ref1.value = '';
+        if (ref2) ref2.value = '';
+        syncReferenceUploadUI();
         setMetalSelection(appState.metal.type, appState.metal.purity);
         document.getElementById('metal-weight').value = appState.metal.weight;
         document.getElementById('metal-loss').value = appState.metal.loss;
@@ -1392,16 +1467,22 @@
           ? dueDateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
           : '--/--/----';
 
-      const previewImg = document.getElementById('preview-image');
       const placeholder = document.getElementById('image-placeholder');
-      if (appState.image) {
-        previewImg.src = appState.image;
-        previewImg.classList.remove('hidden');
-        placeholder.classList.add('hidden');
-      } else {
-        previewImg.classList.add('hidden');
-        placeholder.classList.remove('hidden');
+      let hasAnyRef = false;
+      for (let i = 0; i < 3; i += 1) {
+        const imgNode = document.getElementById(`preview-image-${i}`);
+        const src = appState.imageRefs[i];
+        if (!imgNode) continue;
+        if (src) {
+          imgNode.src = src;
+          imgNode.style.display = 'block';
+          hasAnyRef = true;
+        } else {
+          imgNode.src = '';
+          imgNode.style.display = 'none';
+        }
       }
+      if (placeholder) placeholder.classList.toggle('hidden', hasAnyRef);
 
       const tbody = document.getElementById('preview-table-body');
       tbody.innerHTML = '';
@@ -1525,7 +1606,7 @@
       appState.invoiceNumber = 'HZ-' + Math.floor(1000 + Math.random() * 9000);
       appState.date = new Date().toISOString().split('T')[0];
       appState.paymentDueDate = '';
-      appState.image = '';
+      appState.imageRefs = ['', '', ''];
       appState.metal.type = 'XAU';
       appState.metal.purity = 0.750;
       appState.metal.weight = 19.0;
@@ -1562,9 +1643,12 @@
       document.getElementById('metal-unit-price').value = 0;
       document.getElementById('vat-percent').value = 0;
       document.getElementById('deposit-amount').value = 0;
-      document.getElementById('image-upload').value = '';
+      document.getElementById('image-upload-0').value = '';
+      document.getElementById('image-upload-1').value = '';
+      document.getElementById('image-upload-2').value = '';
       document.getElementById('company-logo-upload').value = '';
       document.getElementById('spot-status').textContent = 'Manual price by default. API key lives only in this active tab.';
+      syncReferenceUploadUI();
 
       renderStones();
       renderLabor();
