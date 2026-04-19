@@ -374,15 +374,15 @@
     }
     .invoice-terms-panel {
       margin-top: 0;
-      padding: 7px 9px;
-      border: 1px solid #dfcfb3;
-      background: rgba(255, 252, 245, 0.78);
+      padding: 2px 0;
+      border: 0;
+      background: transparent;
     }
     .invoice-payment-panel {
       margin-top: 0;
-      padding: 7px 9px;
-      border: 1px solid #dfcfb3;
-      background: rgba(255, 252, 245, 0.78);
+      padding: 2px 0;
+      border: 0;
+      background: transparent;
     }
     .invoice-terms-text {
       font-size: 9px;
@@ -1108,6 +1108,7 @@
       renderStones();
       renderLabor();
       updatePreview();
+      loadDailySpotPrice(true);
       document.querySelectorAll('.top-nav a').forEach((anchor) => {
         anchor.addEventListener('click', () => {
           document.querySelector('.top-nav')?.classList.remove('is-open');
@@ -1182,6 +1183,40 @@
       appState.metal.type = select.value;
       appState.metal.purity = parseFloat(option.dataset.purity);
       updatePreview();
+      loadDailySpotPrice(true);
+    }
+
+    function getActiveMetalSymbol() {
+      const select = document.getElementById('metal-type');
+      if (!select) return '';
+      return select.value;
+    }
+
+    async function loadDailySpotPrice(silent = false) {
+      const status = document.getElementById('spot-status');
+      const symbol = getActiveMetalSymbol();
+      if (!symbol || symbol === 'CUSTOM') return;
+      try {
+        const response = await fetch(`./daily-metal-prices.json?v=${Date.now()}`, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`Daily price file unavailable (${response.status})`);
+        const data = await response.json();
+        const entry = data?.prices?.[symbol];
+        if (!entry || !Number.isFinite(Number(entry.price_per_gram_usd))) {
+          throw new Error(`No daily price for ${symbol}`);
+        }
+        const pricePerGram = Number(entry.price_per_gram_usd);
+        document.getElementById('metal-unit-price').value = pricePerGram.toFixed(2);
+        const refreshedAt = data?.updated_at ? new Date(data.updated_at) : null;
+        const refreshedLabel = refreshedAt && !Number.isNaN(refreshedAt.getTime())
+          ? refreshedAt.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+          : 'latest daily update';
+        status.textContent = `Daily spot loaded (${symbol}, ${refreshedLabel}, 12:00 Asia/Bangkok schedule).`;
+        updatePreview();
+      } catch (error) {
+        if (!silent && status) {
+          status.textContent = 'Daily spot unavailable. Enter manual price or use your own GoldAPI key for live fetch.';
+        }
+      }
     }
 
     function addStoneRow() {
@@ -1782,7 +1817,7 @@
     async function fetchMetalPrice() {
       const apiKey = appState.apiKey;
       if (!apiKey) {
-        alert('Set your GoldAPI.io key first. It will only exist in this tab and will not be saved.');
+        alert('Set your own GoldAPI.io key for live fetch. Daily noon price is loaded automatically when available.');
         return;
       }
 
@@ -1807,7 +1842,7 @@
         const data = await response.json();
         const pricePerGram = data.price / 31.1034768;
         document.getElementById('metal-unit-price').value = pricePerGram.toFixed(2);
-        status.textContent = `Live spot loaded in USD: $${pricePerGram.toFixed(2)}/g. Convert manually if using another invoice currency.`;
+        status.textContent = `Live spot loaded with your key: $${pricePerGram.toFixed(2)}/g USD. Key remains in this tab only.`;
         updatePreview();
       } catch (error) {
         console.error(error);

@@ -1,0 +1,20 @@
+{
+  "updated_at": null,
+  "base_currency": "USD",
+  "source": "goldapi.io",
+  "notes": "Auto-updated daily at 12:00 Asia/Bangkok by GitHub Actions. Values are USD per gram.",
+  "prices": {
+    "XAU": {
+      "price_per_gram_usd": null
+    },
+    "XAG": {
+      "price_per_gram_usd": null
+    },
+    "XPT": {
+      "price_per_gram_usd": null
+    },
+    "XPD": {
+      "price_per_gram_usd": null
+    }
+  }
+}
