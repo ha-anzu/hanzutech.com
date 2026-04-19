@@ -212,7 +212,7 @@
       background: #ffffff;
     }
     .invoice-container {
-      width: 100%;
+      width: 210mm;
       max-width: 210mm;
       min-height: 297mm;
       padding: 14mm;
@@ -223,6 +223,10 @@
       font-family: 'IBM Plex Sans', sans-serif;
       display: flex;
       flex-direction: column;
+    }
+    .invoice-preview-fit {
+      width: 100%;
+      display: block;
     }
     .invoice-header {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 252, 246, 0.62) 70%, rgba(255, 249, 239, 0.66));
@@ -795,67 +799,9 @@
       main { padding-top: 1rem !important; }
     }
     @media (max-width: 768px) {
-      .invoice-container {
-        min-height: auto;
-        padding: 18px;
+      .invoice-preview-fit {
+        overflow: hidden;
       }
-      .invoice-main-grid,
-      .invoice-details-grid,
-      .invoice-signature-grid,
-      .invoice-top-grid {
-        grid-template-columns: 1fr;
-      }
-      .invoice-col {
-        padding: 0;
-      }
-      .invoice-col + .invoice-col {
-        border-left: 0;
-        border-top: 1px solid #dfcfb3;
-        margin-top: 10px;
-        padding-top: 10px;
-      }
-      .invoice-signature-box.right {
-        text-align: left;
-      }
-      .invoice-top-block {
-        padding: 0;
-      }
-      .invoice-top-block + .invoice-top-block {
-        border-left: 0;
-        border-top: 1px solid #dfcfb3;
-        margin-top: 8px;
-        padding-top: 8px;
-      }
-      .invoice-image-wrap {
-        border-right: 0;
-        padding-right: 0;
-      }
-      .invoice-lines-wrap {
-        padding-left: 0;
-      }
-      .invoice-header {
-        flex-direction: column;
-        gap: 12px;
-      }
-      .invoice-table th,
-      .invoice-table td {
-        padding: 7px 6px;
-        font-size: 10px;
-      }
-      .line-title { font-size: 12px; }
-      .line-meta { font-size: 8px; }
-      .total-column { width: 84px; }
-      .invoice-main-grid {
-        min-height: auto;
-      }
-      .invoice-summary-row { font-size: 10px; }
-      .invoice-summary-row strong { font-size: 14px; }
-      .issuer-stack .invoice-client-name { font-size: 15px; }
-      .invoice-total-row { font-size: 14px; }
-      .invoice-balance-row { font-size: 14px; }
-      .invoice-balance-words { font-size: 11px; }
-      .invoice-signature-label { font-size: 8px; letter-spacing: 0.12em; }
-      .invoice-copyright { font-size: 8px; }
     }
   </style>
 </head>
@@ -1198,6 +1144,7 @@
       </aside>
 
       <section class="flex-1 panel p-3 md:p-6 overflow-visible xl:overflow-auto xl:sticky xl:top-24 self-start xl:max-h-[calc(100vh-7rem)]">
+        <div id="invoice-preview-fit" class="invoice-preview-fit">
         <div id="invoice-preview" class="invoice-container">
           <div id="preview-header" class="invoice-header">
             <div>
@@ -1381,6 +1328,7 @@
             </div>
           </div>
         </div>
+        </div>
       </section>
     </section>
 
@@ -1511,7 +1459,9 @@
       renderStones();
       renderLabor();
       updatePreview();
+      syncInvoicePreviewScale();
       loadDailySpotPrice(true);
+      window.addEventListener('resize', syncInvoicePreviewScale);
       document.querySelectorAll('.top-nav a').forEach((anchor) => {
         anchor.addEventListener('click', () => {
           document.querySelector('.top-nav')?.classList.remove('is-open');
@@ -1572,6 +1522,28 @@
       if (!Object.prototype.hasOwnProperty.call(appState.visibility, section)) return;
       appState.visibility[section] = Boolean(enabled);
       updatePreview();
+    }
+
+    function syncInvoicePreviewScale() {
+      const fit = document.getElementById('invoice-preview-fit');
+      const preview = document.getElementById('invoice-preview');
+      if (!fit || !preview) return;
+
+      preview.style.transform = '';
+      preview.style.transformOrigin = '';
+      fit.style.height = '';
+
+      if (window.innerWidth > 768) return;
+
+      const baseWidth = preview.offsetWidth;
+      const baseHeight = preview.offsetHeight;
+      const fitWidth = fit.clientWidth;
+      if (!baseWidth || !fitWidth) return;
+
+      const scale = Math.min(1, fitWidth / baseWidth);
+      preview.style.transform = `scale(${scale})`;
+      preview.style.transformOrigin = 'top left';
+      fit.style.height = `${Math.ceil(baseHeight * scale)}px`;
     }
 
     function applyVisibility() {
@@ -2413,6 +2385,7 @@
       document.getElementById('preview-balance').textContent = formatCurrency(balance);
       document.getElementById('preview-balance-words').textContent = amountToWords(balance);
       applyVisibility();
+      syncInvoicePreviewScale();
     }
 
     async function fetchMetalPrice() {
