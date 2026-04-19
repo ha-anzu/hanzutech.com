@@ -136,27 +136,63 @@
 
   <footer class='bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20'><div class='max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8'><p class="neon-red flicker">Designed by Hanzu</p><p><a href='/privacy'>Privacy</a> &bull; <a href='/legal'>Legal</a> &bull; <a href='/journal'>Journal</a></p></div></footer>
 
-  <script>
+    <script>
     (() => {
       const mq = window.matchMedia('(max-width: 900px)');
+
       const bindMenu = (container) => {
         const btn = container.querySelector('[data-mobile-nav-toggle]');
         if (!btn) return;
+
+        const closeMenu = () => {
+          container.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        };
+
         const sync = () => {
           if (mq.matches) {
             container.classList.add('mobile-js');
             if (!container.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false');
           } else {
             container.classList.remove('mobile-js');
-            container.classList.remove('is-open');
-            btn.setAttribute('aria-expanded', 'false');
+            closeMenu();
           }
         };
-        btn.addEventListener('click', () => {
+
+        btn.addEventListener('click', (event) => {
           if (!mq.matches) return;
+          event.stopPropagation();
           const isOpen = container.classList.toggle('is-open');
           btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         });
+
+        container.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            if (mq.matches) closeMenu();
+          });
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!mq.matches || !container.classList.contains('is-open')) return;
+          if (!container.contains(event.target)) closeMenu();
+        });
+
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (event) => {
+          if (!event.touches || !event.touches[0]) return;
+          touchStartY = event.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (event) => {
+          if (!mq.matches || !container.classList.contains('is-open')) return;
+          if (!event.touches || !event.touches[0]) return;
+          if (Math.abs(event.touches[0].clientY - touchStartY) > 8) closeMenu();
+        }, { passive: true });
+
+        window.addEventListener('scroll', () => {
+          if (mq.matches && container.classList.contains('is-open')) closeMenu();
+        }, { passive: true });
+
         sync();
         return sync;
       };
