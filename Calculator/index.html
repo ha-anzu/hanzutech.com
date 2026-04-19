@@ -101,6 +101,35 @@
       padding: 0.55rem 0.6rem;
       margin-top: 0;
     }
+    .upload-compact {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      padding: 0.4rem 0.55rem;
+      border: 1px dashed #d8c19a;
+      background: #fffaf1;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      font-size: 0.7rem;
+      color: #75654e;
+      text-align: center;
+      line-height: 1.2;
+      width: 100%;
+    }
+    .upload-compact:hover { border-color: #be9450; }
+    .clear-upload-btn {
+      border: 1px solid #dbc7a5;
+      background: #fffdf9;
+      color: #6f5a3d;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.35rem 0.45rem;
+      border-radius: 0.28rem;
+      line-height: 1;
+    }
+    .clear-upload-btn:hover { border-color: #be9450; color: #4f3d24; }
     .controls-pane section + section {
       border-top: 1px solid #e7d8bc;
       padding-top: 0.5rem;
@@ -729,10 +758,14 @@
             <label class="block text-xs text-gray-400 mb-2">Address</label>
             <textarea id="issuer-address" oninput="updatePreview()" rows="2" placeholder="Company address" class="w-full px-3 py-2"></textarea>
           </div>
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-3 gap-3">
             <div>
               <label class="block text-xs text-gray-400 mb-2">VAT Number</label>
               <input type="text" id="issuer-vat" oninput="updatePreview()" placeholder="VAT number" class="w-full px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Registry Number</label>
+              <input type="text" id="issuer-registry" oninput="updatePreview()" placeholder="Company registry no." class="w-full px-3 py-2">
             </div>
             <div>
               <label class="block text-xs text-gray-400 mb-2">Contact Info</label>
@@ -777,20 +810,26 @@
             <label class="block text-xs text-gray-400 mb-2">Bank Address</label>
             <input type="text" id="bank-address" oninput="updatePreview()" placeholder="Bank address" class="w-full px-3 py-2">
           </div>
-          <div>
-            <label for="bank-logo-upload" class="flex items-center justify-center w-full h-16 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors text-xs text-gray-400">
-              Upload optional bank logo
-            </label>
+          <div class="space-y-2">
+            <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+              <label for="bank-logo-upload" class="upload-compact">
+                Upload optional bank logo
+              </label>
+              <button type="button" class="clear-upload-btn" onclick="clearBankLogo()">Clear</button>
+            </div>
             <input id="bank-logo-upload" type="file" class="hidden" accept="image/*" onchange="handleBankLogoUpload(event)">
           </div>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Header Subtitle (optional)</label>
             <input type="text" id="invoice-subtitle" oninput="updatePreview()" placeholder="Optional subtitle" class="w-full px-3 py-2">
           </div>
-          <div>
-            <label for="company-logo-upload" class="flex items-center justify-center w-full h-24 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors text-xs text-gray-400">
-              Upload company logo
-            </label>
+          <div class="space-y-2">
+            <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+              <label for="company-logo-upload" class="upload-compact">
+                Upload company logo
+              </label>
+              <button type="button" class="clear-upload-btn" onclick="clearCompanyLogo()">Clear</button>
+            </div>
             <input id="company-logo-upload" type="file" class="hidden" accept="image/*" onchange="handleLogoUpload(event)">
           </div>
         </section>
@@ -886,23 +925,25 @@
 
         <section class="input-block space-y-2">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Reference Image</h2>
-          <label for="image-upload-0" class="flex flex-col items-center justify-center w-full h-24 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
-            <i class="fas fa-cloud-upload-alt text-xl neon-red mb-2"></i>
-            <span class="text-xs text-gray-400">Upload reference image 1</span>
-          </label>
+          <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+            <label for="image-upload-0" class="upload-compact">Upload reference image 1</label>
+            <button type="button" class="clear-upload-btn" onclick="clearReferenceImage(0)">Clear</button>
+          </div>
           <input id="image-upload-0" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event, 0)">
 
           <div id="ref-upload-2" class="hidden">
-            <label for="image-upload-1" class="flex flex-col items-center justify-center w-full h-20 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
-              <span class="text-xs text-gray-400">Upload reference image 2 (optional)</span>
-            </label>
+            <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+              <label for="image-upload-1" class="upload-compact">Upload reference image 2</label>
+              <button type="button" class="clear-upload-btn" onclick="clearReferenceImage(1)">Clear</button>
+            </div>
             <input id="image-upload-1" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event, 1)">
           </div>
 
           <div id="ref-upload-3" class="hidden">
-            <label for="image-upload-2" class="flex flex-col items-center justify-center w-full h-20 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
-              <span class="text-xs text-gray-400">Upload reference image 3 (optional)</span>
-            </label>
+            <div class="grid grid-cols-[1fr_auto] gap-2 items-center">
+              <label for="image-upload-2" class="upload-compact">Upload reference image 3</label>
+              <button type="button" class="clear-upload-btn" onclick="clearReferenceImage(2)">Clear</button>
+            </div>
             <input id="image-upload-2" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event, 2)">
           </div>
         </section>
@@ -1064,6 +1105,10 @@
                 <strong id="preview-issuer-vat">VAT-XXXX</strong>
               </div>
               <div class="invoice-summary-row">
+                <span>Registry No.</span>
+                <strong id="preview-issuer-registry">REG-XXXX</strong>
+              </div>
+              <div class="invoice-summary-row">
                 <span>Contact</span>
                 <strong id="preview-issuer-contact">contact@company.com</strong>
               </div>
@@ -1157,6 +1202,7 @@
       issuerLegalName: '',
       issuerAddress: '',
       issuerVat: '',
+      issuerRegistry: '',
       issuerContact: '',
       bankName: '',
       bankBranch: '',
@@ -1205,6 +1251,7 @@
       document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
+      document.getElementById('issuer-registry').value = appState.issuerRegistry;
       document.getElementById('issuer-contact').value = appState.issuerContact;
       document.getElementById('bank-name').value = appState.bankName;
       document.getElementById('bank-branch').value = appState.bankBranch;
@@ -1288,6 +1335,35 @@
         updatePreview();
       };
       reader.readAsDataURL(file);
+    }
+
+    function clearReferenceImage(index) {
+      if (index === 0) {
+        appState.imageRefs = ['', '', ''];
+        document.getElementById('image-upload-0').value = '';
+        document.getElementById('image-upload-1').value = '';
+        document.getElementById('image-upload-2').value = '';
+      } else {
+        appState.imageRefs[index] = '';
+        const input = document.getElementById(`image-upload-${index}`);
+        if (input) input.value = '';
+      }
+      syncReferenceUploadUI();
+      updatePreview();
+    }
+
+    function clearCompanyLogo() {
+      appState.companyLogo = '';
+      const input = document.getElementById('company-logo-upload');
+      if (input) input.value = '';
+      updatePreview();
+    }
+
+    function clearBankLogo() {
+      appState.bankLogo = '';
+      const input = document.getElementById('bank-logo-upload');
+      if (input) input.value = '';
+      updatePreview();
     }
 
     function toggleMenu() {
@@ -1575,6 +1651,7 @@
           issuerLegalName: appState.issuerLegalName,
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
+          issuerRegistry: appState.issuerRegistry,
           issuerContact: appState.issuerContact,
           bankName: appState.bankName,
           bankBranch: appState.bankBranch,
@@ -1621,6 +1698,7 @@
       appState.issuerLegalName = String(incoming.issuerLegalName || '');
       appState.issuerAddress = String(incoming.issuerAddress || '');
       appState.issuerVat = String(incoming.issuerVat || '');
+      appState.issuerRegistry = String(incoming.issuerRegistry || '');
       appState.issuerContact = String(incoming.issuerContact || '');
       appState.bankName = String(incoming.bankName || '');
       appState.bankBranch = String(incoming.bankBranch || '');
@@ -1647,6 +1725,7 @@
       document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
+      document.getElementById('issuer-registry').value = appState.issuerRegistry;
       document.getElementById('issuer-contact').value = appState.issuerContact;
       document.getElementById('bank-name').value = appState.bankName;
       document.getElementById('bank-branch').value = appState.bankBranch;
@@ -1778,6 +1857,7 @@
           issuerLegalName: appState.issuerLegalName,
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
+          issuerRegistry: appState.issuerRegistry,
           issuerContact: appState.issuerContact,
           bankName: appState.bankName,
           bankBranch: appState.bankBranch,
@@ -1825,6 +1905,7 @@
       appState.issuerLegalName = document.getElementById('issuer-legal-name').value.trim();
       appState.issuerAddress = document.getElementById('issuer-address').value.trim();
       appState.issuerVat = document.getElementById('issuer-vat').value.trim();
+      appState.issuerRegistry = document.getElementById('issuer-registry').value.trim();
       appState.issuerContact = document.getElementById('issuer-contact').value.trim();
       appState.bankName = document.getElementById('bank-name').value.trim();
       appState.bankBranch = document.getElementById('bank-branch').value.trim();
@@ -1864,6 +1945,7 @@
       document.getElementById('preview-issuer-legal-name').textContent = appState.issuerLegalName || 'LEGAL COMPANY NAME';
       document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || 'Registered company address';
       document.getElementById('preview-issuer-vat').textContent = appState.issuerVat || 'VAT-XXXX';
+      document.getElementById('preview-issuer-registry').textContent = appState.issuerRegistry || 'REG-XXXX';
       document.getElementById('preview-issuer-contact').textContent = appState.issuerContact || 'contact@company.com';
       document.getElementById('preview-bank-name').textContent = appState.bankName || '-';
       document.getElementById('preview-bank-branch').textContent = appState.bankBranch || '-';
@@ -2049,6 +2131,7 @@
       appState.issuerLegalName = '';
       appState.issuerAddress = '';
       appState.issuerVat = '';
+      appState.issuerRegistry = '';
       appState.issuerContact = '';
       appState.bankName = '';
       appState.bankBranch = '';
@@ -2093,6 +2176,7 @@
       document.getElementById('issuer-legal-name').value = '';
       document.getElementById('issuer-address').value = '';
       document.getElementById('issuer-vat').value = '';
+      document.getElementById('issuer-registry').value = '';
       document.getElementById('issuer-contact').value = '';
       document.getElementById('bank-name').value = '';
       document.getElementById('bank-branch').value = '';
@@ -2140,6 +2224,7 @@
       appState.issuerLegalName = 'Aurora Fine Jewelry Co., Ltd.';
       appState.issuerAddress = '99 Silom Road\nBangrak, Bangkok 10500';
       appState.issuerVat = 'TH0105551234567';
+      appState.issuerRegistry = '0105551234567';
       appState.issuerContact = 'sales@aurorajewelry.co | +66 2 123 4567';
       appState.bankName = 'Bangkok Bank';
       appState.bankBranch = 'Silom Branch';
@@ -2179,6 +2264,7 @@
       document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
+      document.getElementById('issuer-registry').value = appState.issuerRegistry;
       document.getElementById('issuer-contact').value = appState.issuerContact;
       document.getElementById('bank-name').value = appState.bankName;
       document.getElementById('bank-branch').value = appState.bankBranch;
