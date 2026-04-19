@@ -26,6 +26,9 @@
     .frame::before { content:""; position:absolute; inset:0; background:linear-gradient(120deg, rgba(255,0,51,.08), transparent 45%, rgba(255,204,0,.04)); pointer-events:none; }
     .frame img { width:100%; min-height:13rem; object-fit:cover; opacity:.75; }
     .back-link { display:inline-flex; margin-top:1rem; padding:.5rem .9rem; border:1px solid rgba(255,0,51,.48); color:#fecdd3; background:rgba(255,0,51,.14); text-transform:uppercase; letter-spacing:.14em; font-size:.66rem; }
+  
+    .flicker { animation: flicker 2s infinite; }
+    @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
   </style>
 </head>
 <body>
@@ -38,5 +41,12 @@
       <a href="/services" class="back-link">Back To Services</a>
     </section>
   </main>
+
+  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
+    <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
+      <p class="neon-red flicker">Designed by Hanzu</p>
+      <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
+    </div>
+  </footer>
 </body>
 </html>

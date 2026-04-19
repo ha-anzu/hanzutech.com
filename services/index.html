@@ -49,6 +49,9 @@
     .coming-tag { display:inline-flex; border:1px solid rgba(255,0,51,.45); color:#fecdd3; background:rgba(255,0,51,.14); padding:.4rem .7rem; font-size:.68rem; text-transform:uppercase; letter-spacing:.14em; }
     @media (min-width:980px){ .service-card { grid-template-columns:1fr 1fr; align-items:center; } }
     @media (max-width:900px){ .nav-shell { grid-template-columns:1fr; gap:.8rem; } .nav-right { justify-self:stretch; width:100%; flex-direction:column; align-items:stretch; gap:.7rem; } .nav-right a { display:block; width:100%; } .service-hub { justify-self:start; width:100%; } .service-trigger { width:100%; justify-content:space-between; } .service-mega { display:none !important; } }
+  
+    .flicker { animation: flicker 2s infinite; }
+    @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
   </style>
 </head>
 <body class="overflow-x-hidden">
@@ -85,6 +88,6 @@
     </section>
   </main>
 
-  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20"><div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8"><p>Designed by Hanzu</p><p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p></div></footer>
+  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20"><div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8"><p class="neon-red flicker">Designed by Hanzu</p><p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p></div></footer>
 </body>
 </html>
