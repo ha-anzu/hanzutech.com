@@ -140,6 +140,28 @@
       font-size: 0.7rem;
       letter-spacing: 0.2em;
     }
+    .section-toggle-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 0.7rem;
+    }
+    .section-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.65rem;
+      color: #5e503c;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .section-toggle input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+      margin: 0;
+      accent-color: #b98f4b;
+    }
     .terminal-accent {
       background-image: linear-gradient(90deg, rgba(183,133,60,0.2), rgba(226,194,141,0.32), rgba(183,133,60,0.2));
     }
@@ -253,6 +275,9 @@
     .invoice-top-block {
       padding: 0 14px;
       min-height: 86px;
+    }
+    .invoice-top-block.no-divider {
+      border-left: 0 !important;
     }
     .invoice-top-block + .invoice-top-block {
       border-left: 1px solid #dfcfb3;
@@ -437,6 +462,9 @@
     }
     .invoice-col {
       padding: 0 22px;
+    }
+    .invoice-col.no-divider {
+      border-left: 0 !important;
     }
     .invoice-col + .invoice-col {
       border-left: 1px solid #dfcfb3;
@@ -649,6 +677,9 @@
       display: grid;
       gap: 0;
     }
+    .is-hidden {
+      display: none !important;
+    }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: #ffffff; }
     ::-webkit-scrollbar-thumb { background: #ffffff; border: 2px solid #f1e8da; border-radius: 999px; }
@@ -856,6 +887,24 @@
         </div>
         <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
         <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
+
+        <section class="input-block space-y-2">
+          <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Show / Hide Sections</h2>
+          <div class="section-toggle-grid">
+            <label class="section-toggle"><input id="vis-header" type="checkbox" checked onchange="setVisibility('header', this.checked)">Header</label>
+            <label class="section-toggle"><input id="vis-client" type="checkbox" checked onchange="setVisibility('client', this.checked)">Client</label>
+            <label class="section-toggle"><input id="vis-issue-meta" type="checkbox" checked onchange="setVisibility('issueMeta', this.checked)">Dates/Currency</label>
+            <label class="section-toggle"><input id="vis-images" type="checkbox" checked onchange="setVisibility('referenceImages', this.checked)">Reference Images</label>
+            <label class="section-toggle"><input id="vis-items" type="checkbox" checked onchange="setVisibility('itemsTable', this.checked)">Items Table</label>
+            <label class="section-toggle"><input id="vis-issuer" type="checkbox" checked onchange="setVisibility('issuer', this.checked)">Issuer Info</label>
+            <label class="section-toggle"><input id="vis-bank" type="checkbox" checked onchange="setVisibility('bank', this.checked)">Bank Details</label>
+            <label class="section-toggle"><input id="vis-notes" type="checkbox" checked onchange="setVisibility('notes', this.checked)">Notes</label>
+            <label class="section-toggle"><input id="vis-payment" type="checkbox" checked onchange="setVisibility('payment', this.checked)">Payment Method</label>
+            <label class="section-toggle"><input id="vis-terms" type="checkbox" checked onchange="setVisibility('terms', this.checked)">Terms</label>
+            <label class="section-toggle"><input id="vis-accounting" type="checkbox" checked onchange="setVisibility('accounting', this.checked)">Accounting</label>
+            <label class="section-toggle"><input id="vis-signatures" type="checkbox" checked onchange="setVisibility('signatures', this.checked)">Signatures/Footer</label>
+          </div>
+        </section>
 
         <section class="input-block space-y-2">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Issuer Details</h2>
@@ -1126,7 +1175,7 @@
 
       <section class="flex-1 panel p-3 md:p-6 overflow-visible xl:overflow-auto xl:sticky xl:top-24 self-start xl:max-h-[calc(100vh-7rem)]">
         <div id="invoice-preview" class="invoice-container">
-          <div class="invoice-header">
+          <div id="preview-header" class="invoice-header">
             <div>
               <div class="invoice-branding">
                 <div id="preview-company-logo-wrap" class="invoice-logo-wrap">
@@ -1145,8 +1194,8 @@
             </div>
           </div>
 
-          <div class="invoice-top-grid">
-            <div class="invoice-top-block">
+          <div id="preview-top-grid" class="invoice-top-grid">
+            <div id="preview-top-client" class="invoice-top-block">
               <h3 class="invoice-kicker">Client Information</h3>
               <p id="preview-client-name" class="invoice-client-name">CLIENT NAME</p>
               <div class="invoice-client-rows">
@@ -1160,11 +1209,11 @@
                 </div>
               </div>
             </div>
-            <div class="invoice-top-block">
+            <div id="preview-top-address" class="invoice-top-block">
               <p class="invoice-address-title">Address</p>
               <p id="preview-client-address" class="invoice-address-value">Shipping Address Details</p>
             </div>
-            <div class="invoice-top-block">
+            <div id="preview-top-meta-block" class="invoice-top-block">
               <div class="invoice-top-meta">
                 <div class="invoice-top-meta-row">
                   <div>
@@ -1184,8 +1233,8 @@
             </div>
           </div>
 
-          <div class="invoice-main-grid">
-            <div class="invoice-image-wrap">
+          <div id="preview-main-grid" class="invoice-main-grid">
+            <div id="preview-image-wrap" class="invoice-image-wrap">
               <div class="preview-image-stack">
                 <div id="preview-image-box-0" class="preview-image-box">
                   <img id="preview-image-0" src="" alt="" class="preview-col-img">
@@ -1203,7 +1252,7 @@
               </div>
               <div class="invoice-image-note">For design reference only</div>
             </div>
-            <div class="invoice-lines-wrap">
+            <div id="preview-lines-wrap" class="invoice-lines-wrap">
               <table class="invoice-table">
                 <thead>
                   <tr>
@@ -1218,8 +1267,8 @@
             </div>
           </div>
 
-          <div class="invoice-details-grid">
-            <div class="invoice-col issuer-stack">
+          <div id="preview-details-grid" class="invoice-details-grid">
+            <div id="preview-issuer-col" class="invoice-col issuer-stack">
               <h3 class="invoice-kicker">Issuer Information</h3>
               <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
               <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
@@ -1235,41 +1284,43 @@
                 <span class="label">Contact</span>
                 <span id="preview-issuer-contact" class="value">contact@company.com</span>
               </div>
-              <div class="invoice-inner-divider"></div>
-              <h3 class="invoice-kicker">Bank Transfer Details</h3>
-              <div id="preview-bank-logo-wrap" class="issuer-bank-logo-wrap">
-                <img id="preview-bank-logo" src="" alt="Bank logo">
-              </div>
-              <div class="issuer-bank-grid">
-                <div class="issuer-bank-row"><span class="label">Bank</span><span id="preview-bank-name">-</span></div>
-                <div class="issuer-bank-row"><span class="label">Branch</span><span id="preview-bank-branch">-</span></div>
-                <div class="issuer-bank-row"><span class="label">Holder</span><span id="preview-bank-account-holder">-</span></div>
-                <div class="issuer-bank-row"><span class="label">Account</span><span id="preview-bank-account-number">-</span></div>
-                <div class="issuer-bank-row"><span class="label">IBAN</span><span id="preview-bank-iban">-</span></div>
-                <div class="issuer-bank-row"><span class="label">SWIFT</span><span id="preview-bank-swift">-</span></div>
-                <div class="issuer-bank-row"><span class="label">Address</span><span id="preview-bank-address">-</span></div>
+              <div id="preview-bank-section">
+                <div class="invoice-inner-divider"></div>
+                <h3 class="invoice-kicker">Bank Transfer Details</h3>
+                <div id="preview-bank-logo-wrap" class="issuer-bank-logo-wrap">
+                  <img id="preview-bank-logo" src="" alt="Bank logo">
+                </div>
+                <div class="issuer-bank-grid">
+                  <div class="issuer-bank-row"><span class="label">Bank</span><span id="preview-bank-name">-</span></div>
+                  <div class="issuer-bank-row"><span class="label">Branch</span><span id="preview-bank-branch">-</span></div>
+                  <div class="issuer-bank-row"><span class="label">Holder</span><span id="preview-bank-account-holder">-</span></div>
+                  <div class="issuer-bank-row"><span class="label">Account</span><span id="preview-bank-account-number">-</span></div>
+                  <div class="issuer-bank-row"><span class="label">IBAN</span><span id="preview-bank-iban">-</span></div>
+                  <div class="issuer-bank-row"><span class="label">SWIFT</span><span id="preview-bank-swift">-</span></div>
+                  <div class="issuer-bank-row"><span class="label">Address</span><span id="preview-bank-address">-</span></div>
+                </div>
               </div>
             </div>
-            <div class="invoice-col notes-stack">
-              <div class="invoice-terms-panel">
+            <div id="preview-notes-col" class="invoice-col notes-stack">
+              <div id="preview-notes-panel" class="invoice-terms-panel">
                 <h3 class="invoice-kicker">Notes</h3>
                 <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
               </div>
-              <div class="invoice-section-divider"></div>
-              <div class="invoice-payment-panel">
+              <div id="preview-divider-notes-payment" class="invoice-section-divider"></div>
+              <div id="preview-payment-panel" class="invoice-payment-panel">
                 <h3 class="invoice-kicker">Payment Method</h3>
                 <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
                 <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
                 <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
                 <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
               </div>
-              <div class="invoice-section-divider"></div>
-              <div class="invoice-terms-panel">
+              <div id="preview-divider-payment-terms" class="invoice-section-divider"></div>
+              <div id="preview-terms-panel" class="invoice-terms-panel">
                 <h3 class="invoice-kicker">Terms & Conditions</h3>
                 <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
               </div>
             </div>
-            <div class="invoice-col invoice-accounting-panel">
+            <div id="preview-accounting-col" class="invoice-col invoice-accounting-panel">
               <h3 class="invoice-kicker">Accounting Summary</h3>
               <div class="invoice-summary-row">
                 <span>Subtotal</span>
@@ -1294,7 +1345,7 @@
               <div id="preview-balance-words" class="invoice-balance-words">Zero US Dollars</div>
             </div>
           </div>
-          <div class="invoice-signature-grid">
+          <div id="preview-signature-grid" class="invoice-signature-grid">
             <div class="invoice-signature-box">
               <div class="invoice-signature-line"></div>
               <p class="invoice-signature-label">Receiver Signature</p>
@@ -1324,6 +1375,32 @@
   </footer>
 
   <script>
+    const defaultVisibility = {
+      header: true,
+      client: true,
+      issueMeta: true,
+      referenceImages: true,
+      itemsTable: true,
+      issuer: true,
+      bank: true,
+      notes: true,
+      payment: true,
+      terms: true,
+      accounting: true,
+      signatures: true
+    };
+
+    function normalizeVisibility(source) {
+      const merged = { ...defaultVisibility };
+      if (!source || typeof source !== 'object') return merged;
+      Object.keys(defaultVisibility).forEach((key) => {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          merged[key] = Boolean(source[key]);
+        }
+      });
+      return merged;
+    }
+
     let appState = {
       issuerLegalName: '',
       issuerAddress: '',
@@ -1370,7 +1447,8 @@
       ],
       vat: 0,
       deposit: 0,
-      apiKey: ''
+      apiKey: '',
+      visibility: normalizeVisibility()
     };
 
     window.onload = () => {
@@ -1397,9 +1475,12 @@
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('invoice-date').value = appState.date;
+      document.getElementById('client-name').value = appState.clientName;
       document.getElementById('client-contact').value = appState.clientContact;
       document.getElementById('client-vat').value = appState.clientVat;
+      document.getElementById('client-address').value = appState.clientAddress;
       document.getElementById('payment-due-date').value = appState.paymentDueDate;
+      syncVisibilityForm();
       setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
       syncReferenceUploadUI();
@@ -1439,6 +1520,98 @@
       const slot3 = document.getElementById('ref-upload-3');
       if (slot2) slot2.classList.toggle('hidden', !appState.imageRefs[0]);
       if (slot3) slot3.classList.toggle('hidden', !appState.imageRefs[1]);
+    }
+
+    function syncVisibilityForm() {
+      const map = {
+        header: 'vis-header',
+        client: 'vis-client',
+        issueMeta: 'vis-issue-meta',
+        referenceImages: 'vis-images',
+        itemsTable: 'vis-items',
+        issuer: 'vis-issuer',
+        bank: 'vis-bank',
+        notes: 'vis-notes',
+        payment: 'vis-payment',
+        terms: 'vis-terms',
+        accounting: 'vis-accounting',
+        signatures: 'vis-signatures'
+      };
+      Object.entries(map).forEach(([key, id]) => {
+        const node = document.getElementById(id);
+        if (node) node.checked = Boolean(appState.visibility[key]);
+      });
+    }
+
+    function setVisibility(section, enabled) {
+      appState.visibility = normalizeVisibility(appState.visibility);
+      if (!Object.prototype.hasOwnProperty.call(appState.visibility, section)) return;
+      appState.visibility[section] = Boolean(enabled);
+      updatePreview();
+    }
+
+    function applyVisibility() {
+      appState.visibility = normalizeVisibility(appState.visibility);
+      const visibility = appState.visibility;
+      const get = (id) => document.getElementById(id);
+
+      const header = get('preview-header');
+      if (header) header.classList.toggle('is-hidden', !visibility.header);
+
+      const topGrid = get('preview-top-grid');
+      const topClient = get('preview-top-client');
+      const topAddress = get('preview-top-address');
+      const topMeta = get('preview-top-meta-block');
+      const topBlocks = [topClient, topAddress, topMeta].filter(Boolean);
+      topBlocks.forEach((block) => block.classList.add('is-hidden'));
+      if (topClient) topClient.classList.toggle('is-hidden', !visibility.client);
+      if (topAddress) topAddress.classList.toggle('is-hidden', !visibility.client);
+      if (topMeta) topMeta.classList.toggle('is-hidden', !visibility.issueMeta);
+      const topVisibleBlocks = topBlocks.filter((block) => !block.classList.contains('is-hidden'));
+      topBlocks.forEach((block) => block.classList.remove('no-divider'));
+      if (topVisibleBlocks[0]) topVisibleBlocks[0].classList.add('no-divider');
+      if (topGrid) topGrid.classList.toggle('is-hidden', topVisibleBlocks.length === 0);
+
+      const imageWrap = get('preview-image-wrap');
+      const linesWrap = get('preview-lines-wrap');
+      const mainGrid = get('preview-main-grid');
+      if (imageWrap) imageWrap.classList.toggle('is-hidden', !visibility.referenceImages);
+      if (linesWrap) linesWrap.classList.toggle('is-hidden', !visibility.itemsTable);
+      if (mainGrid) mainGrid.classList.toggle('is-hidden', !visibility.referenceImages && !visibility.itemsTable);
+
+      const issuerCol = get('preview-issuer-col');
+      const bankSection = get('preview-bank-section');
+      if (issuerCol) issuerCol.classList.toggle('is-hidden', !visibility.issuer);
+      if (bankSection) bankSection.classList.toggle('is-hidden', !visibility.bank || !visibility.issuer);
+
+      const notesCol = get('preview-notes-col');
+      const notesPanel = get('preview-notes-panel');
+      const paymentPanel = get('preview-payment-panel');
+      const termsPanel = get('preview-terms-panel');
+      const dividerNP = get('preview-divider-notes-payment');
+      const dividerPT = get('preview-divider-payment-terms');
+      if (notesPanel) notesPanel.classList.toggle('is-hidden', !visibility.notes);
+      if (paymentPanel) paymentPanel.classList.toggle('is-hidden', !visibility.payment);
+      if (termsPanel) termsPanel.classList.toggle('is-hidden', !visibility.terms);
+      const showFirstDivider = (visibility.notes && visibility.payment) || (visibility.notes && visibility.terms && !visibility.payment);
+      const showSecondDivider = visibility.payment && visibility.terms;
+      if (dividerNP) dividerNP.classList.toggle('is-hidden', !showFirstDivider);
+      if (dividerPT) dividerPT.classList.toggle('is-hidden', !showSecondDivider);
+      const showNotesCol = visibility.notes || visibility.payment || visibility.terms;
+      if (notesCol) notesCol.classList.toggle('is-hidden', !showNotesCol);
+
+      const accountingCol = get('preview-accounting-col');
+      if (accountingCol) accountingCol.classList.toggle('is-hidden', !visibility.accounting);
+
+      const detailsGrid = get('preview-details-grid');
+      const detailCols = [issuerCol, notesCol, accountingCol].filter(Boolean);
+      detailCols.forEach((col) => col.classList.remove('no-divider'));
+      const visibleDetailCols = detailCols.filter((col) => !col.classList.contains('is-hidden'));
+      if (visibleDetailCols[0]) visibleDetailCols[0].classList.add('no-divider');
+      if (detailsGrid) detailsGrid.classList.toggle('is-hidden', visibleDetailCols.length === 0);
+
+      const signatureGrid = get('preview-signature-grid');
+      if (signatureGrid) signatureGrid.classList.toggle('is-hidden', !visibility.signatures);
     }
 
     function handleLogoUpload(event) {
@@ -1810,7 +1983,8 @@
           stones: appState.stones.map((stone) => ({ ...stone })),
           labor: appState.labor.map((item) => ({ ...item })),
           vat: appState.vat,
-          deposit: appState.deposit
+          deposit: appState.deposit,
+          visibility: { ...appState.visibility }
         }
       };
     }
@@ -1842,6 +2016,7 @@
       appState.paymentReceivedAmount = profileOnly
         ? appState.paymentReceivedAmount
         : (Number.isFinite(Number(incoming.paymentReceivedAmount)) ? Number(incoming.paymentReceivedAmount) : 0);
+      appState.visibility = normalizeVisibility(incoming.visibility || appState.visibility);
       appState.currency = String(incoming.currency || 'USD').toUpperCase();
       if (!currencyMeta[appState.currency]) appState.currency = 'USD';
       appState.invoiceTitle = String(incoming.invoiceTitle || 'Invoice');
@@ -1869,6 +2044,7 @@
       document.getElementById('invoice-currency').value = appState.currency;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
+      syncVisibilityForm();
 
       if (!profileOnly) {
         appState.clientName = String(incoming.clientName || '');
@@ -1998,7 +2174,8 @@
           currency: appState.currency,
           invoiceTitle: appState.invoiceTitle,
           invoiceSubtitle: appState.invoiceSubtitle,
-          companyLogo: appState.companyLogo
+          companyLogo: appState.companyLogo,
+          visibility: { ...appState.visibility }
         }
       };
       const namePart = sanitizeFilename(appState.issuerLegalName || 'company');
@@ -2211,6 +2388,7 @@
       document.getElementById('preview-deposit').textContent = `-${formatCurrency(appState.deposit)}`;
       document.getElementById('preview-balance').textContent = formatCurrency(balance);
       document.getElementById('preview-balance-words').textContent = amountToWords(balance);
+      applyVisibility();
     }
 
     async function fetchMetalPrice() {
@@ -2298,6 +2476,7 @@
       appState.vat = 0;
       appState.deposit = 0;
       appState.apiKey = '';
+      appState.visibility = normalizeVisibility();
 
       document.getElementById('issuer-legal-name').value = '';
       document.getElementById('issuer-address').value = '';
@@ -2340,6 +2519,7 @@
       document.getElementById('bank-logo-upload').value = '';
       document.getElementById('spot-status').textContent = 'Manual price by default. API key lives only in this active tab.';
       syncReferenceUploadUI();
+      syncVisibilityForm();
 
       renderStones();
       renderLabor();
