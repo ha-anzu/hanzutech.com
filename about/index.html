@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data:; connect-src 'self' https://formsubmit.co https://www.goldapi.io; form-action 'self' https://formsubmit.co mailto:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
@@ -117,11 +117,60 @@
       .top-nav a { display: block; width: 100%; }
       .button { width: 100%; }
     }
-  </style>
+
+    .mobile-nav-toggle {
+      display: none;
+      width: 2.7rem;
+      height: 2.7rem;
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      background: rgba(12, 12, 18, 0.72);
+      color: #ffcc00;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-nav-toggle svg { width: 1.15rem; height: 1.15rem; }
+    @media (max-width: 900px) {
+      .mobile-nav-toggle { display: inline-flex; justify-self: end; }
+      .nav-shell { grid-template-columns: 1fr auto !important; }
+      .nav-shell .service-hub,
+      .nav-shell .nav-right { grid-column: 1 / -1; }
+      .nav-shell.mobile-js .service-hub,
+      .nav-shell.mobile-js .nav-right { display: none !important; }
+      .nav-shell.mobile-js.is-open .service-hub { display: block !important; }
+      .nav-shell.mobile-js.is-open .nav-right { display: flex !important; }
+      .nav-shell .nav-right {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      .nav-shell .nav-right a { display: block; width: 100%; }
+      [data-top-nav-wrap] {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        gap: 0.8rem;
+        align-items: center;
+      }
+      [data-top-nav-wrap] .top-nav { grid-column: 1 / -1; }
+      [data-top-nav-wrap].mobile-js .top-nav { display: none !important; }
+      [data-top-nav-wrap].is-open .top-nav {
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      [data-top-nav-wrap] .top-nav a { display: block; width: 100%; }
+    }  </style>
 </head>
 <body class="overflow-x-hidden">
-  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md">
+  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md" data-top-nav-wrap>
     <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <button type='button' class='mobile-nav-toggle' data-mobile-nav-toggle aria-label='Toggle menu' aria-expanded='false'>
+  <svg viewBox='0 0 24 24' aria-hidden='true'>
+    <path d='M4 7h16M4 12h16M4 17h16' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round'/>
+  </svg>
+</button>
+
     <div class="top-nav">
       <a href="/services" class="neon-yellow">Services</a>
       <a href="/jewelers" class="neon-yellow">Open Tools</a>
@@ -190,9 +239,9 @@
       <div class="card">
         <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Company Info</p>
         <div class="space-y-4 text-gray-300 leading-8">
-          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Legal Name</span><br>hanzu tech O√ú</p>
+          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Legal Name</span><br>hanzu tech O‹</p>
           <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Registry Code</span><br>17409420</p>
-          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Legal Address</span><br>Harju maakond, Tallinn, Lasnam√§e linnaosa, Sepapaja tn 6, 15551 Tallinn, Estonia</p>
+          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Legal Address</span><br>Harju maakond, Tallinn, Lasnam‰e linnaosa, Sepapaja tn 6, 15551 Tallinn, Estonia</p>
           <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Contact</span><br>info@hanzutech.com</p>
         </div>
       </div>
@@ -238,5 +287,41 @@
       });
     })();
   </script>
-</body>
+
+  <script>
+    (() => {
+      const mq = window.matchMedia('(max-width: 900px)');
+      const bindMenu = (container) => {
+        const btn = container.querySelector('[data-mobile-nav-toggle]');
+        if (!btn) return;
+        const sync = () => {
+          if (mq.matches) {
+            container.classList.add('mobile-js');
+            if (!container.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false');
+          } else {
+            container.classList.remove('mobile-js');
+            container.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        };
+        btn.addEventListener('click', () => {
+          if (!mq.matches) return;
+          const isOpen = container.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        sync();
+        return sync;
+      };
+
+      const syncFns = [];
+      document.querySelectorAll('[data-nav-shell], [data-top-nav-wrap]').forEach((el) => {
+        const sync = bindMenu(el);
+        if (sync) syncFns.push(sync);
+      });
+
+      const onChange = () => syncFns.forEach((fn) => fn());
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    })();
+  </script></body>
 </html>

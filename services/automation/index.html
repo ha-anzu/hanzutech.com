@@ -19,6 +19,9 @@
     body { background:#0a0a0f; color:#fff; font-family:'IBM Plex Mono', monospace; }
     body::before { content:""; position:fixed; inset:0; background:radial-gradient(circle at 12% 8%, rgba(255,0,51,.12), transparent 35%), radial-gradient(circle at 88% 20%, rgba(255,204,0,.06), transparent 28%); pointer-events:none; z-index:-1; }
     h1 { font-family:'IBM Plex Sans', sans-serif; font-weight:700; }
+    .brand-mark { display:inline-flex; align-items:baseline; gap:.14em; font-family:'IBM Plex Sans',sans-serif; font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+    .brand-mark .brand-hanzu { color:#ff0033; text-shadow:0 0 12px rgba(255,0,51,.45); }
+    .brand-mark .brand-tech { color:#ffcc00; text-shadow:0 0 12px rgba(255,204,0,.42); }
     .neon-red { color:#ff0033; text-shadow:0 0 10px rgba(255,0,51,.82); }
     .tag { display:inline-flex; border:1px solid rgba(255,0,51,.48); color:#fecdd3; background:rgba(255,0,51,.14); padding:.45rem .8rem; font-size:.7rem; text-transform:uppercase; letter-spacing:.16em; }
     .hero { max-width:920px; margin:0 auto; border:1px solid rgba(255,0,51,.34); background:linear-gradient(180deg, rgba(0,0,0,.78), rgba(7,7,12,.88)); padding:1rem; }
@@ -26,13 +29,49 @@
     .frame::before { content:""; position:absolute; inset:0; background:linear-gradient(120deg, rgba(255,0,51,.08), transparent 45%, rgba(255,204,0,.04)); pointer-events:none; }
     .frame img { width:100%; min-height:13rem; object-fit:cover; opacity:.75; }
     .back-link { display:inline-flex; margin-top:1rem; padding:.5rem .9rem; border:1px solid rgba(255,0,51,.48); color:#fecdd3; background:rgba(255,0,51,.14); text-transform:uppercase; letter-spacing:.14em; font-size:.66rem; }
-  
+    .top-nav { display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap; justify-content:flex-end; }
+    .mobile-nav-toggle { display:none; width:2.7rem; height:2.7rem; border:1px solid rgba(255,0,51,.42); background:rgba(12,12,18,.72); color:#ffcc00; align-items:center; justify-content:center; }
+    .mobile-nav-toggle svg { width:1.15rem; height:1.15rem; }
+    @media (max-width:900px) {
+      [data-top-nav-wrap] {
+        display:grid !important;
+        grid-template-columns:1fr auto;
+        gap:.8rem;
+        align-items:center;
+      }
+      .mobile-nav-toggle { display:inline-flex; justify-self:end; }
+      [data-top-nav-wrap] .top-nav { grid-column:1 / -1; }
+      [data-top-nav-wrap].mobile-js .top-nav { display:none !important; }
+      [data-top-nav-wrap].is-open .top-nav {
+        display:flex !important;
+        flex-direction:column;
+        align-items:stretch;
+        gap:.7rem;
+      }
+      [data-top-nav-wrap] .top-nav a { display:block; width:100%; }
+    }
+
     .flicker { animation: flicker 2s infinite; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
   </style>
 </head>
 <body>
-  <main class="pt-14 px-6 pb-20">
+  <div class="fixed top-0 left-0 w-full bg-black/90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md" data-top-nav-wrap>
+    <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+    <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="top-nav">
+      <a href="/services" class="neon-red">Services</a>
+      <a href="/jewelers" class="neon-red">Open Tools</a>
+      <a href="/reel" class="neon-red">Intro Reel</a>
+      <a href="/about" class="neon-red">Contact Shard</a>
+    </div>
+  </div>
+
+  <main class="pt-28 px-6 pb-20">
     <section class="hero">
       <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Services / Automation</p>
       <h1 class="text-5xl md:text-7xl tracking-[0.04em] neon-red uppercase mt-3">Automation</h1>
@@ -48,5 +87,41 @@
       <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
     </div>
   </footer>
+  <script>
+    (() => {
+      const mq = window.matchMedia('(max-width: 900px)');
+      const bindMenu = (container) => {
+        const btn = container.querySelector('[data-mobile-nav-toggle]');
+        if (!btn) return;
+        const sync = () => {
+          if (mq.matches) {
+            container.classList.add('mobile-js');
+            if (!container.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false');
+          } else {
+            container.classList.remove('mobile-js');
+            container.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        };
+        btn.addEventListener('click', () => {
+          if (!mq.matches) return;
+          const isOpen = container.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        sync();
+        return sync;
+      };
+
+      const syncFns = [];
+      document.querySelectorAll('[data-nav-shell], [data-top-nav-wrap]').forEach((el) => {
+        const sync = bindMenu(el);
+        if (sync) syncFns.push(sync);
+      });
+
+      const onChange = () => syncFns.forEach((fn) => fn());
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    })();
+  </script>
 </body>
 </html>

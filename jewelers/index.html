@@ -69,12 +69,61 @@
     @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
     @media (max-width: 900px) { .nav-shell { grid-template-columns: 1fr; gap: 0.8rem; } .nav-right { justify-self: stretch; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; } .nav-right a { display: block; width: 100%; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } }
-  </style>
+
+    .mobile-nav-toggle {
+      display: none;
+      width: 2.7rem;
+      height: 2.7rem;
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      background: rgba(12, 12, 18, 0.72);
+      color: #ffcc00;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-nav-toggle svg { width: 1.15rem; height: 1.15rem; }
+    @media (max-width: 900px) {
+      .mobile-nav-toggle { display: inline-flex; justify-self: end; }
+      .nav-shell { grid-template-columns: 1fr auto !important; }
+      .nav-shell .service-hub,
+      .nav-shell .nav-right { grid-column: 1 / -1; }
+      .nav-shell.mobile-js .service-hub,
+      .nav-shell.mobile-js .nav-right { display: none !important; }
+      .nav-shell.mobile-js.is-open .service-hub { display: block !important; }
+      .nav-shell.mobile-js.is-open .nav-right { display: flex !important; }
+      .nav-shell .nav-right {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      .nav-shell .nav-right a { display: block; width: 100%; }
+      [data-top-nav-wrap] {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        gap: 0.8rem;
+        align-items: center;
+      }
+      [data-top-nav-wrap] .top-nav { grid-column: 1 / -1; }
+      [data-top-nav-wrap].mobile-js .top-nav { display: none !important; }
+      [data-top-nav-wrap].is-open .top-nav {
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      [data-top-nav-wrap] .top-nav a { display: block; width: 100%; }
+    }  </style>
 </head>
 <body class="overflow-x-hidden">
   <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 z-50 border-b border-red-600/30 backdrop-blur-md">
-    <div class="nav-shell">
+    <div class="nav-shell" data-nav-shell>
       <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <button type='button' class='mobile-nav-toggle' data-mobile-nav-toggle aria-label='Toggle menu' aria-expanded='false'>
+  <svg viewBox='0 0 24 24' aria-hidden='true'>
+    <path d='M4 7h16M4 12h16M4 17h16' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round'/>
+  </svg>
+</button>
+
       <div class="service-hub">
         <a href="/services" class="service-trigger"><svg class="service-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.2 8.5 10v4L12 15.8 15.5 14v-4Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Services</a>
         <div class="service-mega">
@@ -156,5 +205,41 @@ Useful weird tools</pre>
       <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
     </div>
   </footer>
-</body>
+
+  <script>
+    (() => {
+      const mq = window.matchMedia('(max-width: 900px)');
+      const bindMenu = (container) => {
+        const btn = container.querySelector('[data-mobile-nav-toggle]');
+        if (!btn) return;
+        const sync = () => {
+          if (mq.matches) {
+            container.classList.add('mobile-js');
+            if (!container.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false');
+          } else {
+            container.classList.remove('mobile-js');
+            container.classList.remove('is-open');
+            btn.setAttribute('aria-expanded', 'false');
+          }
+        };
+        btn.addEventListener('click', () => {
+          if (!mq.matches) return;
+          const isOpen = container.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        sync();
+        return sync;
+      };
+
+      const syncFns = [];
+      document.querySelectorAll('[data-nav-shell], [data-top-nav-wrap]').forEach((el) => {
+        const sync = bindMenu(el);
+        if (sync) syncFns.push(sync);
+      });
+
+      const onChange = () => syncFns.forEach((fn) => fn());
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    })();
+  </script></body>
 </html>
