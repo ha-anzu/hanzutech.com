@@ -190,14 +190,18 @@
       text-transform: uppercase;
       color: #f3f4f6;
       white-space: nowrap;
+      display: block;
+      width: 100%;
       max-width: 100%;
       overflow: hidden;
     }
     .aka-typing {
-      display: inline-block;
+      display: block;
       white-space: nowrap;
+      width: 100%;
       max-width: 100%;
       overflow: hidden;
+      text-overflow: clip;
       vertical-align: bottom;
     }
     .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
@@ -660,7 +664,7 @@
       .hero-copy { display: block; min-height: 0; }
       .hero-title { max-width: 16rem; }
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
-      .aka-signature { font-size: 0.94rem; letter-spacing: 0.08em; }
+      .aka-signature { font-size: clamp(0.66rem, 2.8vw, 0.9rem); letter-spacing: 0.06em; }
       .hero-media { padding-top: 0; }
       .hero-reel-panel { width: 100%; max-width: 100%; }
       .hero-tall-screen { height: auto; min-height: 0; aspect-ratio: 9 / 16; }
@@ -980,26 +984,9 @@
       const text = target.dataset.text || '';
       let index = 0;
       let direction = 1;
-      const signature = target.parentElement;
-      const defaultFontSize = getComputedStyle(signature).fontSize;
-      const minFontSize = 12;
-
-      const fitAka = () => {
-        if (!signature || signature.clientWidth < 4) return;
-        signature.style.fontSize = defaultFontSize;
-
-        let guard = 0;
-        while (target.scrollWidth > signature.clientWidth && guard < 28) {
-          const currentSize = parseFloat(getComputedStyle(signature).fontSize);
-          if (currentSize <= minFontSize) break;
-          signature.style.fontSize = `${currentSize - 0.5}px`;
-          guard += 1;
-        }
-      };
 
       const tick = () => {
         target.textContent = text.slice(0, index);
-        fitAka();
 
         if (direction === 1) {
           if (index < text.length) {
@@ -1022,7 +1009,6 @@
         setTimeout(tick, 480);
       };
 
-      window.addEventListener('resize', fitAka);
       tick();
     })();
   </script>
