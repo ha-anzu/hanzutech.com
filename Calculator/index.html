@@ -761,8 +761,11 @@
       body * { visibility: hidden; }
       #invoice-preview, #invoice-preview * { visibility: visible; }
       #invoice-preview {
-        position: static;
+        position: static !important;
         width: 194mm !important;
+        transform: none !important;
+        left: auto !important;
+        top: auto !important;
         max-width: 194mm !important;
         min-height: 0 !important;
         margin: 0 auto !important;
@@ -1583,14 +1586,16 @@
       preview.style.top = '';
       fit.style.height = '';
 
-      if (window.innerWidth > 768) return;
-
       const baseWidth = preview.offsetWidth;
       const baseHeight = preview.offsetHeight;
       const fitWidth = fit.clientWidth;
       if (!baseWidth || !fitWidth) return;
 
       const scale = Math.min(1, fitWidth / baseWidth);
+      if (scale >= 0.999) {
+        return;
+      }
+
       preview.style.transform = `scale(${scale})`;
       preview.style.transformOrigin = 'top left';
       preview.style.position = 'absolute';
