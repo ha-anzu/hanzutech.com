@@ -222,6 +222,13 @@
       font-weight: 500;
       color: #2f2a25;
     }
+    .invoice-date-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #7d7468;
+      margin-top: 8px;
+    }
     .invoice-main-grid {
       display: grid;
       grid-template-columns: 31% 69%;
@@ -589,6 +596,10 @@
             </div>
           </div>
           <div>
+            <label class="block text-xs text-gray-400 mb-2">Payment Received By (Issuer)</label>
+            <input type="text" id="payment-handler" oninput="updatePreview()" placeholder="Staff name handling payment" class="w-full px-3 py-2">
+          </div>
+          <div>
             <label class="block text-xs text-gray-400 mb-2">Header Subtitle (optional)</label>
             <input type="text" id="invoice-subtitle" oninput="updatePreview()" placeholder="Optional subtitle" class="w-full px-3 py-2">
           </div>
@@ -611,6 +622,10 @@
             <input type="text" id="client-contact" oninput="updatePreview()" placeholder="Email / Phone" class="w-full px-3 py-2">
           </div>
           <div>
+            <label class="block text-xs text-gray-400 mb-2">Customer VAT Number (optional)</label>
+            <input type="text" id="client-vat" oninput="updatePreview()" placeholder="Customer VAT ID" class="w-full px-3 py-2">
+          </div>
+          <div>
             <label class="block text-xs text-gray-400 mb-2">Shipping Address</label>
             <textarea id="client-address" oninput="updatePreview()" rows="3" placeholder="Address..." class="w-full px-3 py-2"></textarea>
           </div>
@@ -624,12 +639,31 @@
               <input type="date" id="invoice-date" oninput="updatePreview()" class="w-full px-3 py-2">
             </div>
           </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Payment Due Date (optional)</label>
+            <input type="date" id="payment-due-date" oninput="updatePreview()" class="w-full px-3 py-2">
+          </div>
         </section>
         <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Legal Terms / Conditions</h2>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Terms (multi-line)</label>
             <textarea id="legal-terms" oninput="updatePreview()" rows="5" placeholder="Example:&#10;1. 30-day return guarantee for manufacturing defects.&#10;2. Balance due before dispatch.&#10;3. Custom items are non-refundable after approval." class="w-full px-3 py-2"></textarea>
+          </div>
+        </section>
+        <section class="input-block space-y-4">
+          <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Payment Method</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Method (optional)</label>
+            <select id="payment-method" oninput="updatePreview()" class="w-full px-3 py-2">
+              <option value="">Select payment method</option>
+              <option value="CASH">CASH</option>
+              <option value="TT">TT</option>
+              <option value="CC">CC</option>
+              <option value="SWIFT">SWIFT</option>
+              <option value="PAYPAL">PAYPAL</option>
+              <option value="WISE">WISE</option>
+            </select>
           </div>
         </section>
 
@@ -731,11 +765,14 @@
               <h3 class="invoice-kicker">Client Information</h3>
               <p id="preview-client-name" class="invoice-client-name">CLIENT NAME</p>
               <p id="preview-client-contact" class="invoice-client-address">Contact details</p>
+              <p id="preview-client-vat" class="invoice-client-address">Customer VAT: -</p>
               <p id="preview-client-address" class="invoice-client-address">Shipping Address Details</p>
             </div>
             <div style="text-align: right;">
               <h3 class="invoice-kicker">Issue Date</h3>
               <p id="preview-date" class="invoice-date">MM/DD/YYYY</p>
+              <p class="invoice-date-label">Payment Due</p>
+              <p id="preview-due-date" class="invoice-date">--/--/----</p>
             </div>
           </div>
 
@@ -806,6 +843,11 @@
             <h3 class="invoice-kicker">Terms & Conditions</h3>
             <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
           </div>
+          <div class="invoice-terms-panel">
+            <h3 class="invoice-kicker">Payment Method</h3>
+            <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
+            <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
+          </div>
           <div class="invoice-signature-grid">
             <div class="invoice-signature-box">
               <div class="invoice-signature-line"></div>
@@ -840,15 +882,19 @@
       issuerAddress: '',
       issuerVat: '',
       issuerContact: '',
+      paymentHandler: '',
       legalTerms: '',
+      paymentMethod: '',
       invoiceTitle: 'Invoice',
       invoiceSubtitle: '',
       companyLogo: '',
       clientName: '',
       clientContact: '',
+      clientVat: '',
       clientAddress: '',
       invoiceNumber: 'HZ-' + Math.floor(1000 + Math.random() * 9000),
       date: new Date().toISOString().split('T')[0],
+      paymentDueDate: '',
       image: '',
       metal: {
         type: 'XAU',
@@ -872,12 +918,16 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('payment-handler').value = appState.paymentHandler;
       document.getElementById('legal-terms').value = appState.legalTerms;
+      document.getElementById('payment-method').value = appState.paymentMethod;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('invoice-date').value = appState.date;
       document.getElementById('client-contact').value = appState.clientContact;
+      document.getElementById('client-vat').value = appState.clientVat;
+      document.getElementById('payment-due-date').value = appState.paymentDueDate;
       setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-unit-price').value = appState.metal.unitPrice;
       renderStones();
@@ -1084,15 +1134,19 @@
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
           issuerContact: appState.issuerContact,
+          paymentHandler: appState.paymentHandler,
           legalTerms: appState.legalTerms,
+          paymentMethod: appState.paymentMethod,
           invoiceTitle: appState.invoiceTitle,
           invoiceSubtitle: appState.invoiceSubtitle,
           companyLogo: appState.companyLogo,
           clientName: appState.clientName,
           clientContact: appState.clientContact,
+          clientVat: appState.clientVat,
           clientAddress: appState.clientAddress,
           invoiceNumber: appState.invoiceNumber,
           date: appState.date,
+          paymentDueDate: appState.paymentDueDate,
           image: appState.image,
           metal: { ...appState.metal },
           stones: appState.stones.map((stone) => ({ ...stone })),
@@ -1113,7 +1167,9 @@
       appState.issuerAddress = String(incoming.issuerAddress || '');
       appState.issuerVat = String(incoming.issuerVat || '');
       appState.issuerContact = String(incoming.issuerContact || '');
+      appState.paymentHandler = String(incoming.paymentHandler || '');
       appState.legalTerms = String(incoming.legalTerms || '');
+      appState.paymentMethod = String(incoming.paymentMethod || incoming.transferMethod || '');
       appState.invoiceTitle = String(incoming.invoiceTitle || 'Invoice');
       appState.invoiceSubtitle = String(incoming.invoiceSubtitle || '');
       appState.companyLogo = String(incoming.companyLogo || '');
@@ -1122,16 +1178,20 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('payment-handler').value = appState.paymentHandler;
       document.getElementById('legal-terms').value = appState.legalTerms;
+      document.getElementById('payment-method').value = appState.paymentMethod;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
 
       if (!profileOnly) {
         appState.clientName = String(incoming.clientName || '');
         appState.clientContact = String(incoming.clientContact || '');
+        appState.clientVat = String(incoming.clientVat || '');
         appState.clientAddress = String(incoming.clientAddress || '');
         appState.invoiceNumber = String(incoming.invoiceNumber || ('HZ-' + Math.floor(1000 + Math.random() * 9000)));
         appState.date = String(incoming.date || new Date().toISOString().split('T')[0]);
+        appState.paymentDueDate = String(incoming.paymentDueDate || '');
         appState.image = String(incoming.image || '');
 
         const metal = incoming.metal || {};
@@ -1168,9 +1228,11 @@
 
         document.getElementById('client-name').value = appState.clientName;
         document.getElementById('client-contact').value = appState.clientContact;
+        document.getElementById('client-vat').value = appState.clientVat;
         document.getElementById('client-address').value = appState.clientAddress;
         document.getElementById('invoice-number').value = appState.invoiceNumber;
         document.getElementById('invoice-date').value = appState.date;
+        document.getElementById('payment-due-date').value = appState.paymentDueDate;
         setMetalSelection(appState.metal.type, appState.metal.purity);
         document.getElementById('metal-weight').value = appState.metal.weight;
         document.getElementById('metal-loss').value = appState.metal.loss;
@@ -1223,6 +1285,8 @@
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
           issuerContact: appState.issuerContact,
+          paymentHandler: appState.paymentHandler,
+          paymentMethod: appState.paymentMethod,
           invoiceTitle: appState.invoiceTitle,
           invoiceSubtitle: appState.invoiceSubtitle,
           companyLogo: appState.companyLogo
@@ -1259,14 +1323,18 @@
       appState.issuerAddress = document.getElementById('issuer-address').value.trim();
       appState.issuerVat = document.getElementById('issuer-vat').value.trim();
       appState.issuerContact = document.getElementById('issuer-contact').value.trim();
+      appState.paymentHandler = document.getElementById('payment-handler').value.trim();
       appState.legalTerms = document.getElementById('legal-terms').value.trim();
+      appState.paymentMethod = document.getElementById('payment-method').value;
       appState.invoiceTitle = document.getElementById('invoice-title').value.trim() || 'Invoice';
       appState.invoiceSubtitle = document.getElementById('invoice-subtitle').value.trim();
       appState.clientName = document.getElementById('client-name').value || 'CLIENT NAME';
       appState.clientContact = document.getElementById('client-contact').value || 'Contact details';
+      appState.clientVat = document.getElementById('client-vat').value.trim();
       appState.clientAddress = document.getElementById('client-address').value || 'Shipping Address Details';
       appState.invoiceNumber = document.getElementById('invoice-number').value || 'HZ-0000';
       appState.date = document.getElementById('invoice-date').value;
+      appState.paymentDueDate = document.getElementById('payment-due-date').value;
       const metalSelect = document.getElementById('metal-type');
       const metalOption = metalSelect.options[metalSelect.selectedIndex];
       appState.metal.type = metalSelect.value;
@@ -1284,6 +1352,8 @@
       document.getElementById('preview-issuer-vat').textContent = appState.issuerVat || 'VAT-XXXX';
       document.getElementById('preview-issuer-contact').textContent = appState.issuerContact || 'contact@company.com';
       document.getElementById('preview-legal-terms').textContent = appState.legalTerms || 'No additional legal terms provided.';
+      document.getElementById('preview-payment-method').textContent = `Method: ${appState.paymentMethod || '-'}`;
+      document.getElementById('preview-payment-handler').textContent = `Received by: ${appState.paymentHandler || '-'}`;
       const currentYear = new Date().getFullYear();
       const rightsOwner = appState.issuerLegalName || 'Issuer';
       document.getElementById('preview-copyright').textContent = `© ${currentYear} ${rightsOwner}. All rights reserved.`;
@@ -1308,12 +1378,18 @@
 
       document.getElementById('preview-client-name').textContent = appState.clientName;
       document.getElementById('preview-client-contact').textContent = appState.clientContact;
+      document.getElementById('preview-client-vat').textContent = appState.clientVat ? `Customer VAT: ${appState.clientVat}` : 'Customer VAT: -';
       document.getElementById('preview-client-address').textContent = appState.clientAddress;
       document.getElementById('preview-invoice-num').textContent = appState.invoiceNumber;
       const dateValue = appState.date ? new Date(appState.date) : null;
       document.getElementById('preview-date').textContent =
         dateValue && !Number.isNaN(dateValue.getTime())
           ? dateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
+          : '--/--/----';
+      const dueDateValue = appState.paymentDueDate ? new Date(appState.paymentDueDate) : null;
+      document.getElementById('preview-due-date').textContent =
+        dueDateValue && !Number.isNaN(dueDateValue.getTime())
+          ? dueDateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
           : '--/--/----';
 
       const previewImg = document.getElementById('preview-image');
@@ -1436,15 +1512,19 @@
       appState.issuerAddress = '';
       appState.issuerVat = '';
       appState.issuerContact = '';
+      appState.paymentHandler = '';
       appState.legalTerms = '';
+      appState.paymentMethod = '';
       appState.invoiceTitle = 'Invoice';
       appState.invoiceSubtitle = '';
       appState.companyLogo = '';
       appState.clientName = '';
       appState.clientContact = '';
+      appState.clientVat = '';
       appState.clientAddress = '';
       appState.invoiceNumber = 'HZ-' + Math.floor(1000 + Math.random() * 9000);
       appState.date = new Date().toISOString().split('T')[0];
+      appState.paymentDueDate = '';
       appState.image = '';
       appState.metal.type = 'XAU';
       appState.metal.purity = 0.750;
@@ -1464,14 +1544,18 @@
       document.getElementById('issuer-address').value = '';
       document.getElementById('issuer-vat').value = '';
       document.getElementById('issuer-contact').value = '';
+      document.getElementById('payment-handler').value = '';
       document.getElementById('legal-terms').value = '';
+      document.getElementById('payment-method').value = '';
       document.getElementById('invoice-title').value = 'Invoice';
       document.getElementById('invoice-subtitle').value = '';
       document.getElementById('client-name').value = '';
       document.getElementById('client-contact').value = '';
+      document.getElementById('client-vat').value = '';
       document.getElementById('client-address').value = '';
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('invoice-date').value = appState.date;
+      document.getElementById('payment-due-date').value = '';
       setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-weight').value = 19.0;
       document.getElementById('metal-loss').value = 11.0;
@@ -1492,13 +1576,17 @@
       appState.issuerAddress = '99 Silom Road\nBangrak, Bangkok 10500';
       appState.issuerVat = 'TH0105551234567';
       appState.issuerContact = 'sales@aurorajewelry.co | +66 2 123 4567';
+      appState.paymentHandler = 'Narin S.';
       appState.legalTerms = '1. 30-day return guarantee for verified manufacturing defects only.\n2. Balance due before final delivery.\n3. Custom approved designs are non-refundable once production starts.';
+      appState.paymentMethod = 'SWIFT';
       appState.invoiceTitle = 'Custom Jewelry Invoice';
       appState.invoiceSubtitle = 'Handcrafted pieces with production-ready costing';
       appState.clientName = 'Sample Client';
       appState.clientContact = 'sample.client@email.com | +66 88 123 4567';
+      appState.clientVat = 'TH1234567890';
       appState.clientAddress = '123 Precision Arcade\nSilom District\nBangkok 10500';
       appState.invoiceNumber = 'HZ-8888';
+      appState.paymentDueDate = new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       appState.metal.type = 'XAU';
       appState.metal.purity = 0.750;
       appState.metal.weight = 19.0;
@@ -1515,13 +1603,17 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('payment-handler').value = appState.paymentHandler;
       document.getElementById('legal-terms').value = appState.legalTerms;
+      document.getElementById('payment-method').value = appState.paymentMethod;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('client-name').value = appState.clientName;
       document.getElementById('client-contact').value = appState.clientContact;
+      document.getElementById('client-vat').value = appState.clientVat;
       document.getElementById('client-address').value = appState.clientAddress;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
+      document.getElementById('payment-due-date').value = appState.paymentDueDate;
       setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-weight').value = appState.metal.weight;
       document.getElementById('metal-loss').value = appState.metal.loss;
