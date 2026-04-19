@@ -89,16 +89,16 @@
       backdrop-filter: blur(4px);
     }
     .input-block {
-      background: rgba(255, 252, 245, 0.9);
-      border: 1px solid #e3d5bd;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
-      padding: 0.55rem 0.6rem;
+      background: linear-gradient(180deg, rgba(243, 230, 206, 0.94), rgba(238, 223, 194, 0.94));
+      border: 1px solid #cfb990;
+      box-shadow: inset 0 0 0 1px rgba(255, 248, 233, 0.55);
+      padding: 0.45rem 0.55rem;
     }
     .input-block-compact {
-      background: rgba(255, 252, 245, 0.9);
-      border: 1px solid #e3d5bd;
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
-      padding: 0.55rem 0.6rem;
+      background: linear-gradient(180deg, rgba(243, 230, 206, 0.94), rgba(238, 223, 194, 0.94));
+      border: 1px solid #cfb990;
+      box-shadow: inset 0 0 0 1px rgba(255, 248, 233, 0.55);
+      padding: 0.45rem 0.55rem;
       margin-top: 0;
     }
     .upload-compact {
@@ -131,14 +131,23 @@
     }
     .clear-upload-btn:hover { border-color: #be9450; color: #4f3d24; }
     .controls-pane section + section {
-      border-top: 1px solid #e7d8bc;
-      padding-top: 0.5rem;
+      border-top: 1px solid #ccb388;
+      padding-top: 0.45rem;
     }
     .controls-pane h2 {
-      font-weight: 700;
-      color: #4b3a24;
+      font-weight: 800;
+      color: #3a2b17;
       font-size: 0.7rem;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.16em;
+      text-shadow: 0 0 0 transparent;
+    }
+    .controls-pane .text-gray-500 {
+      color: #4a3620 !important;
+      font-weight: 700;
+    }
+    .controls-pane .text-gray-400 {
+      color: #5b4731 !important;
+      font-weight: 600;
     }
     .section-toggle-grid {
       display: grid;
@@ -179,8 +188,10 @@
     aside input,
     aside textarea,
     aside select {
-      padding: 0.45rem 0.6rem !important;
-      font-size: 0.82rem;
+      padding: 0.32rem 0.45rem !important;
+      font-size: 0.74rem;
+      line-height: 1.2;
+      border-radius: 0.28rem;
     }
     * {
       scrollbar-color: #ffffff #ffffff;
@@ -1123,8 +1134,12 @@
             <label class="block text-xs text-gray-400 mb-2">Metal Type</label>
             <select id="metal-type" onchange="onMetalTypeChange()" class="w-full px-3 py-2">
               <option value="XAG" data-purity="0.925">Sterling Silver 925</option>
+              <option value="XAU" data-purity="0.375">9K Gold</option>
+              <option value="XAU" data-purity="0.417">10K Gold</option>
               <option value="XAU" data-purity="0.583">14K Gold</option>
               <option value="XAU" data-purity="0.750" selected>18K Gold (Yellow/White/Rose)</option>
+              <option value="XAU" data-purity="0.833">20K Gold</option>
+              <option value="XAU" data-purity="0.999">24K Gold</option>
               <option value="XPT" data-purity="0.950">Platinum 950</option>
               <option value="XPD" data-purity="0.950">Palladium 950</option>
               <option value="CUSTOM" data-purity="1.000">Custom Metal</option>
