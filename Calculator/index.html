@@ -248,6 +248,11 @@
       padding-right: 4px;
       border-right: 1px solid #ece3d4;
     }
+    .preview-image-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
     .preview-image-box {
       border: 1px dashed #dac8ac;
       width: 100%;
@@ -255,18 +260,17 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      gap: 6px;
       background: #f6f1e8;
       overflow: hidden;
     }
     .preview-col-img {
       width: 100%;
-      height: calc((100% - 12px) / 3);
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       background: rgba(255, 255, 255, 0.65);
-      border: 1px solid rgba(216, 193, 154, 0.7);
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+      display: none;
+    }
+    .preview-image-box.hidden-slot {
       display: none;
     }
     .invoice-image-note {
@@ -564,18 +568,16 @@
   </div>
 
   <main class="pt-24 pb-12 px-4 md:px-6">
-    <section class="max-w-7xl mx-auto mb-6 page-header px-6 py-8 md:px-8 no-print">
+    <section class="max-w-7xl mx-auto mb-5 page-header px-6 py-5 md:px-7 no-print">
       <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-2">Open Tools / Pro Jewelry Invoice</p>
+          <p class="text-[10px] uppercase tracking-[0.34em] text-gray-500 mb-1">Pro Jewelry Invoice</p>
           <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Pro Jewelry Invoice</h1>
-          <p class="page-quote mt-3">Elegant quoting for premium jewelry work.</p>
-          <p class="mt-4 max-w-3xl text-gray-300 leading-7">Luxury-focused jewelry invoice builder with a clean, production-ready layout. No history, no browser storage, no saved client records. Build the invoice, export it, then the session disappears when you leave.</p>
+          <p class="page-quote mt-2">Fast custom jewelry invoicing.</p>
         </div>
-        <div class="panel px-4 py-3 text-sm text-gray-300">
-          <div class="terminal-accent h-1 w-full mb-3"></div>
-          <p class="uppercase tracking-[0.28em] text-gray-500 text-xs">Session Mode</p>
-          <p class="neon-yellow">Private local-only workflow</p>
+        <div class="panel px-3 py-2 text-xs text-gray-300">
+          <p class="uppercase tracking-[0.24em] text-gray-500 text-[10px]">Session</p>
+          <p class="neon-yellow">Local-only</p>
         </div>
       </div>
     </section>
@@ -858,13 +860,19 @@
 
           <div class="invoice-main-grid">
             <div class="invoice-image-wrap">
-              <div class="preview-image-box">
-                <img id="preview-image-0" src="" alt="" class="preview-col-img">
-                <img id="preview-image-1" src="" alt="" class="preview-col-img">
-                <img id="preview-image-2" src="" alt="" class="preview-col-img">
-                <div id="image-placeholder" style="text-align: center; color: #9ca3af; padding: 20px;">
-                  <i class="fas fa-image" style="font-size: 38px; margin-bottom: 8px;"></i>
-                  <p style="font-size: 8pt; letter-spacing: 0.12em;">REFERENCE IMAGE</p>
+              <div class="preview-image-stack">
+                <div id="preview-image-box-0" class="preview-image-box">
+                  <img id="preview-image-0" src="" alt="" class="preview-col-img">
+                  <div id="image-placeholder" style="text-align: center; color: #9ca3af; padding: 20px;">
+                    <i class="fas fa-image" style="font-size: 38px; margin-bottom: 8px;"></i>
+                    <p style="font-size: 8pt; letter-spacing: 0.12em;">REFERENCE IMAGE</p>
+                  </div>
+                </div>
+                <div id="preview-image-box-1" class="preview-image-box hidden-slot">
+                  <img id="preview-image-1" src="" alt="" class="preview-col-img">
+                </div>
+                <div id="preview-image-box-2" class="preview-image-box hidden-slot">
+                  <img id="preview-image-2" src="" alt="" class="preview-col-img">
                 </div>
               </div>
               <div class="invoice-image-note">For design reference only</div>
@@ -1620,21 +1628,22 @@
       document.getElementById('preview-due-date').textContent = formatShortDate(appState.paymentDueDate);
 
       const placeholder = document.getElementById('image-placeholder');
-      let hasAnyRef = false;
       for (let i = 0; i < 3; i += 1) {
         const imgNode = document.getElementById(`preview-image-${i}`);
+        const boxNode = document.getElementById(`preview-image-box-${i}`);
         const src = appState.imageRefs[i];
-        if (!imgNode) continue;
+        if (!imgNode || !boxNode) continue;
         if (src) {
           imgNode.src = src;
           imgNode.style.display = 'block';
-          hasAnyRef = true;
+          if (i > 0) boxNode.classList.remove('hidden-slot');
         } else {
           imgNode.src = '';
           imgNode.style.display = 'none';
+          if (i > 0) boxNode.classList.add('hidden-slot');
         }
       }
-      if (placeholder) placeholder.classList.toggle('hidden', hasAnyRef);
+      if (placeholder) placeholder.classList.toggle('hidden', Boolean(appState.imageRefs[0]));
 
       const tbody = document.getElementById('preview-table-body');
       tbody.innerHTML = '';
