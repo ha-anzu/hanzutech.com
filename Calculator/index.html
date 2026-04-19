@@ -54,14 +54,14 @@
     .card { background-color: #fffaf2; border: 1px solid #e4d4b8; padding: 2rem; transition: border-color 0.25s, box-shadow 0.25s; }
     .card:hover { border-color: #cda96d; box-shadow: 0 10px 24px rgba(117, 83, 36, 0.1); }
     .button {
-      padding: 0.52rem 0.9rem;
+      padding: 0.4rem 0.62rem;
       border: 1px solid #d1b079;
       color: #3a2d1d;
       background: linear-gradient(140deg, #fdf5e9, #f3e1c5);
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      font-size: 0.78rem;
+      font-size: 0.68rem;
       line-height: 1.1;
     }
     .button:hover { transform: translateY(-1px); border-color: #be9450; box-shadow: 0 8px 18px rgba(117, 83, 36, 0.14); background: linear-gradient(140deg, #fbefdd, #eed4a8); }
@@ -127,7 +127,8 @@
       background: #ffffff;
     }
     .invoice-container {
-      width: 210mm;
+      width: 100%;
+      max-width: 210mm;
       min-height: 297mm;
       padding: 14mm;
       margin: auto;
@@ -397,6 +398,17 @@
       flex-wrap: wrap;
       justify-content: flex-end;
     }
+    .menu-toggle {
+      display: none;
+      border: 1px solid #d1b079;
+      background: #fff8ec;
+      color: #5c4420;
+      border-radius: 0.35rem;
+      padding: 0.28rem 0.5rem;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
     .faulty-neon {
       color: #352816;
       text-shadow: none;
@@ -434,20 +446,68 @@
       .no-print { display: none !important; }
     }
     @media (max-width: 900px) {
+      .top-bar {
+        position: sticky !important;
+        top: 0;
+      }
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
       .top-nav {
+        display: none;
         justify-content: flex-start;
         flex-direction: column;
         align-items: stretch;
         gap: 0.7rem;
         width: 100%;
       }
+      .top-nav.is-open {
+        display: flex;
+      }
       .top-nav a { display: block; width: 100%; }
+      main { padding-top: 1rem !important; }
+    }
+    @media (max-width: 768px) {
+      .invoice-container {
+        min-height: auto;
+        padding: 18px;
+      }
+      .invoice-main-grid,
+      .invoice-bottom-grid,
+      .invoice-signature-grid,
+      .invoice-top-grid {
+        grid-template-columns: 1fr;
+      }
+      .invoice-image-wrap {
+        border-right: 0;
+        padding-right: 0;
+      }
+      .invoice-lines-wrap {
+        padding-left: 0;
+      }
+      .invoice-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .invoice-table th,
+      .invoice-table td {
+        padding: 7px 6px;
+        font-size: 10px;
+      }
+      .line-title { font-size: 12px; }
+      .line-meta { font-size: 8px; }
+      .total-column { width: 84px; }
+      .invoice-total-row { font-size: 18px; }
+      .invoice-balance-row { font-size: 24px; }
     }
   </style>
 </head>
 <body>
   <div class="fixed top-0 left-0 w-full p-4 flex justify-between z-50 no-print top-bar">
     <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+    <button id="menu-toggle" type="button" class="menu-toggle" onclick="toggleMenu()">Menu</button>
     <div class="top-nav">
       <a href="/services" class="neon-yellow">Services</a>
       <a href="/jewelers" class="neon-yellow">Open Tools</a>
@@ -474,24 +534,23 @@
     </section>
 
     <section class="max-w-7xl mx-auto flex flex-col xl:flex-row gap-6">
-      <aside class="w-full xl:w-[430px] panel p-5 md:p-6 space-y-4 no-print">
+      <aside class="w-full xl:w-[430px] panel p-4 md:p-4 space-y-3 no-print">
         <div class="flex items-center justify-between">
           <div>
             <p class="text-xs uppercase tracking-[0.4em] text-gray-500">Invoice Controls</p>
             <p class="text-sm text-gray-300 mt-1">Ephemeral session only</p>
           </div>
           <div class="flex gap-2">
-            <button onclick="createNewQuotation()" class="button text-sm px-4 py-2">New Invoice</button>
-            <button onclick="window.print()" class="button text-sm px-4 py-2 bg-transparent text-yellow-300">Print</button>
+            <button onclick="createNewQuotation()" class="button">New Invoice</button>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-3">
           <button onclick="loadSampleData()" class="button w-full">Load Sample</button>
           <button onclick="exportPDF()" class="button w-full bg-transparent text-yellow-300">Export PDF</button>
-          <button onclick="saveInvoiceFile()" class="button w-full text-sm">Save Invoice</button>
-          <button onclick="triggerLoadInvoice()" class="button w-full text-sm bg-transparent text-yellow-300">Load Invoice</button>
-          <button onclick="saveCompanyProfile()" class="button w-full text-sm">Save Company</button>
-          <button onclick="triggerLoadCompanyProfile()" class="button w-full text-sm bg-transparent text-yellow-300">Load Company</button>
+          <button onclick="saveInvoiceFile()" class="button w-full">Save Invoice</button>
+          <button onclick="triggerLoadInvoice()" class="button w-full bg-transparent text-yellow-300">Load Invoice</button>
+          <button onclick="saveCompanyProfile()" class="button w-full">Save Company</button>
+          <button onclick="triggerLoadCompanyProfile()" class="button w-full bg-transparent text-yellow-300">Load Company</button>
         </div>
         <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
         <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
@@ -637,7 +696,7 @@
 
       </aside>
 
-      <section class="flex-1 panel p-3 md:p-6 overflow-auto xl:sticky xl:top-24 self-start max-h-[calc(100vh-7rem)]">
+      <section class="flex-1 panel p-3 md:p-6 overflow-visible xl:overflow-auto xl:sticky xl:top-24 self-start xl:max-h-[calc(100vh-7rem)]">
         <div id="invoice-preview" class="invoice-container">
           <div class="invoice-header">
             <div>
@@ -815,6 +874,11 @@
       renderStones();
       renderLabor();
       updatePreview();
+      document.querySelectorAll('.top-nav a').forEach((anchor) => {
+        anchor.addEventListener('click', () => {
+          document.querySelector('.top-nav')?.classList.remove('is-open');
+        });
+      });
     };
 
     function applyApiKey() {
@@ -845,6 +909,12 @@
         updatePreview();
       };
       reader.readAsDataURL(file);
+    }
+
+    function toggleMenu() {
+      const nav = document.querySelector('.top-nav');
+      if (!nav) return;
+      nav.classList.toggle('is-open');
     }
 
     function setMetalSelection(type, purity) {
