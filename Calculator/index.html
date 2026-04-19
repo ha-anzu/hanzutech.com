@@ -358,15 +358,10 @@
       color: #2b251f;
       background: #f5efe1;
     }
-    .invoice-bottom-grid {
-      margin-top: 50px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      align-items: start;
+    .invoice-lower-stack {
+      margin-top: 58px;
     }
     .invoice-lower-grid {
-      margin-top: 26px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
@@ -391,14 +386,14 @@
       white-space: pre-line;
     }
     .invoice-signature-grid {
-      margin-top: 16px;
+      margin-top: 22px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 14px;
     }
     .invoice-signature-box {
-      padding: 6px 2px;
-      min-height: 58px;
+      padding: 3px 2px;
+      min-height: 42px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -422,15 +417,60 @@
       border-top: 1px solid #e3d6bd;
       padding-top: 8px;
     }
-    .invoice-summary-panel {
+    .invoice-issuer-panel {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid #dfcfb3;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .invoice-bank-logo-wrap {
+      width: 46px;
+      height: 46px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+    .invoice-bank-logo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .invoice-bank-rows {
+      margin-top: 2px;
+      display: grid;
+      gap: 2px;
+    }
+    .invoice-bank-row {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 6px;
+      font-size: 9px;
+      line-height: 1.3;
+      color: #635745;
+    }
+    .invoice-bank-row .label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7b7367;
+      font-size: 8px;
+      padding-top: 1px;
+    }
+    .invoice-accounting-panel {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid #dfcfb3;
       width: 100%;
     }
     .invoice-summary-row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 11px;
-      padding: 6px 12px;
+      font-size: 10px;
+      padding: 4px 2px;
       color: #5d564b;
     }
     .invoice-summary-row strong {
@@ -458,8 +498,8 @@
       font-size: 18px;
       font-weight: 600;
       border-top: 1px solid #d8c6a7;
-      padding: 10px 12px 0 12px;
-      margin-top: 8px;
+      padding: 8px 2px 0 2px;
+      margin-top: 5px;
       color: #241f1b;
     }
     .invoice-deposit-row {
@@ -468,7 +508,7 @@
       font-size: 11px;
       color: #6b5a46;
       font-weight: 600;
-      padding: 6px 12px;
+      padding: 4px 2px;
     }
     .invoice-balance-row {
       display: flex;
@@ -480,12 +520,12 @@
       color: #2c2013;
       border: 0;
       box-shadow: none;
-      padding: 8px 12px 0 12px;
-      margin-top: 8px;
+      padding: 6px 2px 0 2px;
+      margin-top: 5px;
     }
     .invoice-balance-words {
-      padding: 4px 12px 0 12px;
-      font-size: 10px;
+      padding: 3px 2px 0 2px;
+      font-size: 9px;
       color: #6d614e;
       line-height: 1.35;
       font-style: italic;
@@ -577,8 +617,8 @@
         padding: 18px;
       }
       .invoice-main-grid,
-      .invoice-bottom-grid,
       .invoice-lower-grid,
+      .invoice-issuer-panel,
       .invoice-signature-grid,
       .invoice-top-grid {
         grid-template-columns: 1fr;
@@ -686,6 +726,46 @@
           <div>
             <label class="block text-xs text-gray-400 mb-2">Payment Received By (Issuer)</label>
             <input type="text" id="payment-handler" oninput="updatePreview()" placeholder="Staff name handling payment" class="w-full px-3 py-2">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Bank Name</label>
+              <input type="text" id="bank-name" oninput="updatePreview()" placeholder="Receiving bank name" class="w-full px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Bank Branch</label>
+              <input type="text" id="bank-branch" oninput="updatePreview()" placeholder="Branch name" class="w-full px-3 py-2">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Account Holder</label>
+              <input type="text" id="bank-account-holder" oninput="updatePreview()" placeholder="Account holder name" class="w-full px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Account Number</label>
+              <input type="text" id="bank-account-number" oninput="updatePreview()" placeholder="Account number" class="w-full px-3 py-2">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">IBAN</label>
+              <input type="text" id="bank-iban" oninput="updatePreview()" placeholder="IBAN (if applicable)" class="w-full px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">SWIFT / BIC</label>
+              <input type="text" id="bank-swift" oninput="updatePreview()" placeholder="SWIFT/BIC code" class="w-full px-3 py-2">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Bank Address (optional)</label>
+            <input type="text" id="bank-address" oninput="updatePreview()" placeholder="Bank address" class="w-full px-3 py-2">
+          </div>
+          <div>
+            <label for="bank-logo-upload" class="flex items-center justify-center w-full h-16 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors text-xs text-gray-400">
+              Upload optional bank logo
+            </label>
+            <input id="bank-logo-upload" type="file" class="hidden" accept="image/*" onchange="handleBankLogoUpload(event)">
           </div>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Header Subtitle (optional)</label>
@@ -958,21 +1038,56 @@
             </div>
           </div>
 
-          <div class="invoice-bottom-grid">
-            <div class="issuer-stack">
-              <h3 class="invoice-kicker">Issuer Information</h3>
-              <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
-              <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
-              <div class="invoice-summary-row">
-                <span>VAT Number</span>
-                <strong id="preview-issuer-vat">VAT-XXXX</strong>
+          <div class="invoice-lower-stack">
+            <div class="invoice-lower-grid">
+              <div class="invoice-terms-panel">
+                <h3 class="invoice-kicker">Notes</h3>
+                <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
               </div>
-              <div class="invoice-summary-row">
-                <span>Contact</span>
-                <strong id="preview-issuer-contact">contact@company.com</strong>
+              <div class="invoice-payment-panel">
+                <h3 class="invoice-kicker">Payment Method</h3>
+                <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
+                <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
+                <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
+                <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
               </div>
             </div>
-            <div class="invoice-summary-panel">
+            <div class="invoice-terms-panel">
+              <h3 class="invoice-kicker">Terms & Conditions</h3>
+              <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
+            </div>
+            <div class="invoice-issuer-panel">
+              <div class="issuer-stack">
+                <h3 class="invoice-kicker">Issuer Information</h3>
+                <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
+                <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
+                <div class="invoice-summary-row">
+                  <span>VAT Number</span>
+                  <strong id="preview-issuer-vat">VAT-XXXX</strong>
+                </div>
+                <div class="invoice-summary-row">
+                  <span>Contact</span>
+                  <strong id="preview-issuer-contact">contact@company.com</strong>
+                </div>
+              </div>
+              <div>
+                <h3 class="invoice-kicker">Bank Information</h3>
+                <div id="preview-bank-logo-wrap" class="invoice-bank-logo-wrap">
+                  <img id="preview-bank-logo" src="" alt="Bank logo">
+                </div>
+                <div class="invoice-bank-rows">
+                  <div class="invoice-bank-row"><span class="label">Bank</span><span id="preview-bank-name">-</span></div>
+                  <div class="invoice-bank-row"><span class="label">Branch</span><span id="preview-bank-branch">-</span></div>
+                  <div class="invoice-bank-row"><span class="label">Holder</span><span id="preview-bank-account-holder">-</span></div>
+                  <div class="invoice-bank-row"><span class="label">Account</span><span id="preview-bank-account-number">-</span></div>
+                  <div class="invoice-bank-row"><span class="label">IBAN</span><span id="preview-bank-iban">-</span></div>
+                  <div class="invoice-bank-row"><span class="label">SWIFT</span><span id="preview-bank-swift">-</span></div>
+                  <div class="invoice-bank-row"><span class="label">Address</span><span id="preview-bank-address">-</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="invoice-accounting-panel">
+              <h3 class="invoice-kicker">Accounting Summary</h3>
               <div class="invoice-summary-row">
                 <span>Subtotal</span>
                 <strong id="preview-subtotal">$0.00</strong>
@@ -995,23 +1110,6 @@
               </div>
               <div id="preview-balance-words" class="invoice-balance-words">Zero US Dollars</div>
             </div>
-          </div>
-          <div class="invoice-lower-grid">
-            <div class="invoice-terms-panel">
-              <h3 class="invoice-kicker">Notes</h3>
-              <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
-            </div>
-            <div class="invoice-payment-panel">
-              <h3 class="invoice-kicker">Payment Method</h3>
-              <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
-              <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
-              <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
-              <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
-            </div>
-          </div>
-          <div class="invoice-terms-panel">
-            <h3 class="invoice-kicker">Terms & Conditions</h3>
-            <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
           </div>
           <div class="invoice-signature-grid">
             <div class="invoice-signature-box">
@@ -1048,6 +1146,14 @@
       issuerAddress: '',
       issuerVat: '',
       issuerContact: '',
+      bankName: '',
+      bankBranch: '',
+      bankAccountHolder: '',
+      bankAccountNumber: '',
+      bankIban: '',
+      bankSwift: '',
+      bankAddress: '',
+      bankLogo: '',
       paymentHandler: '',
       invoiceNotes: '',
       legalTerms: '',
@@ -1088,6 +1194,13 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('bank-name').value = appState.bankName;
+      document.getElementById('bank-branch').value = appState.bankBranch;
+      document.getElementById('bank-account-holder').value = appState.bankAccountHolder;
+      document.getElementById('bank-account-number').value = appState.bankAccountNumber;
+      document.getElementById('bank-iban').value = appState.bankIban;
+      document.getElementById('bank-swift').value = appState.bankSwift;
+      document.getElementById('bank-address').value = appState.bankAddress;
       document.getElementById('payment-handler').value = appState.paymentHandler;
       document.getElementById('invoice-notes').value = appState.invoiceNotes;
       document.getElementById('legal-terms').value = appState.legalTerms;
@@ -1149,6 +1262,17 @@
       const reader = new FileReader();
       reader.onload = (e) => {
         appState.companyLogo = e.target.result;
+        updatePreview();
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleBankLogoUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        appState.bankLogo = e.target.result;
         updatePreview();
       };
       reader.readAsDataURL(file);
@@ -1440,6 +1564,14 @@
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
           issuerContact: appState.issuerContact,
+          bankName: appState.bankName,
+          bankBranch: appState.bankBranch,
+          bankAccountHolder: appState.bankAccountHolder,
+          bankAccountNumber: appState.bankAccountNumber,
+          bankIban: appState.bankIban,
+          bankSwift: appState.bankSwift,
+          bankAddress: appState.bankAddress,
+          bankLogo: appState.bankLogo,
           paymentHandler: appState.paymentHandler,
           invoiceNotes: appState.invoiceNotes,
           legalTerms: appState.legalTerms,
@@ -1478,6 +1610,14 @@
       appState.issuerAddress = String(incoming.issuerAddress || '');
       appState.issuerVat = String(incoming.issuerVat || '');
       appState.issuerContact = String(incoming.issuerContact || '');
+      appState.bankName = String(incoming.bankName || '');
+      appState.bankBranch = String(incoming.bankBranch || '');
+      appState.bankAccountHolder = String(incoming.bankAccountHolder || '');
+      appState.bankAccountNumber = String(incoming.bankAccountNumber || '');
+      appState.bankIban = String(incoming.bankIban || '');
+      appState.bankSwift = String(incoming.bankSwift || '');
+      appState.bankAddress = String(incoming.bankAddress || '');
+      appState.bankLogo = String(incoming.bankLogo || '');
       appState.paymentHandler = String(incoming.paymentHandler || '');
       appState.invoiceNotes = profileOnly ? appState.invoiceNotes : String(incoming.invoiceNotes || '');
       appState.legalTerms = String(incoming.legalTerms || '');
@@ -1496,6 +1636,13 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('bank-name').value = appState.bankName;
+      document.getElementById('bank-branch').value = appState.bankBranch;
+      document.getElementById('bank-account-holder').value = appState.bankAccountHolder;
+      document.getElementById('bank-account-number').value = appState.bankAccountNumber;
+      document.getElementById('bank-iban').value = appState.bankIban;
+      document.getElementById('bank-swift').value = appState.bankSwift;
+      document.getElementById('bank-address').value = appState.bankAddress;
       document.getElementById('payment-handler').value = appState.paymentHandler;
       document.getElementById('invoice-notes').value = appState.invoiceNotes;
       document.getElementById('legal-terms').value = appState.legalTerms;
@@ -1620,6 +1767,14 @@
           issuerAddress: appState.issuerAddress,
           issuerVat: appState.issuerVat,
           issuerContact: appState.issuerContact,
+          bankName: appState.bankName,
+          bankBranch: appState.bankBranch,
+          bankAccountHolder: appState.bankAccountHolder,
+          bankAccountNumber: appState.bankAccountNumber,
+          bankIban: appState.bankIban,
+          bankSwift: appState.bankSwift,
+          bankAddress: appState.bankAddress,
+          bankLogo: appState.bankLogo,
           paymentHandler: appState.paymentHandler,
           paymentMethod: appState.paymentMethod,
           currency: appState.currency,
@@ -1659,6 +1814,13 @@
       appState.issuerAddress = document.getElementById('issuer-address').value.trim();
       appState.issuerVat = document.getElementById('issuer-vat').value.trim();
       appState.issuerContact = document.getElementById('issuer-contact').value.trim();
+      appState.bankName = document.getElementById('bank-name').value.trim();
+      appState.bankBranch = document.getElementById('bank-branch').value.trim();
+      appState.bankAccountHolder = document.getElementById('bank-account-holder').value.trim();
+      appState.bankAccountNumber = document.getElementById('bank-account-number').value.trim();
+      appState.bankIban = document.getElementById('bank-iban').value.trim();
+      appState.bankSwift = document.getElementById('bank-swift').value.trim();
+      appState.bankAddress = document.getElementById('bank-address').value.trim();
       appState.paymentHandler = document.getElementById('payment-handler').value.trim();
       appState.invoiceNotes = document.getElementById('invoice-notes').value.trim();
       appState.legalTerms = document.getElementById('legal-terms').value.trim();
@@ -1691,6 +1853,13 @@
       document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || 'Registered company address';
       document.getElementById('preview-issuer-vat').textContent = appState.issuerVat || 'VAT-XXXX';
       document.getElementById('preview-issuer-contact').textContent = appState.issuerContact || 'contact@company.com';
+      document.getElementById('preview-bank-name').textContent = appState.bankName || '-';
+      document.getElementById('preview-bank-branch').textContent = appState.bankBranch || '-';
+      document.getElementById('preview-bank-account-holder').textContent = appState.bankAccountHolder || '-';
+      document.getElementById('preview-bank-account-number').textContent = appState.bankAccountNumber || '-';
+      document.getElementById('preview-bank-iban').textContent = appState.bankIban || '-';
+      document.getElementById('preview-bank-swift').textContent = appState.bankSwift || '-';
+      document.getElementById('preview-bank-address').textContent = appState.bankAddress || '-';
       document.getElementById('preview-notes').textContent = appState.invoiceNotes || 'No additional notes provided.';
       document.getElementById('preview-legal-terms').textContent = appState.legalTerms || 'No additional legal terms provided.';
       document.getElementById('preview-payment-method').textContent = `Method: ${appState.paymentMethod || '-'}`;
@@ -1721,6 +1890,16 @@
       } else {
         logoImage.src = '';
         logoWrap.style.display = 'none';
+      }
+
+      const bankLogoWrap = document.getElementById('preview-bank-logo-wrap');
+      const bankLogoImage = document.getElementById('preview-bank-logo');
+      if (appState.bankLogo) {
+        bankLogoImage.src = appState.bankLogo;
+        bankLogoWrap.style.display = 'flex';
+      } else {
+        bankLogoImage.src = '';
+        bankLogoWrap.style.display = 'none';
       }
 
       document.getElementById('preview-client-name').textContent = appState.clientName;
@@ -1859,6 +2038,14 @@
       appState.issuerAddress = '';
       appState.issuerVat = '';
       appState.issuerContact = '';
+      appState.bankName = '';
+      appState.bankBranch = '';
+      appState.bankAccountHolder = '';
+      appState.bankAccountNumber = '';
+      appState.bankIban = '';
+      appState.bankSwift = '';
+      appState.bankAddress = '';
+      appState.bankLogo = '';
       appState.paymentHandler = '';
       appState.invoiceNotes = '';
       appState.legalTerms = '';
@@ -1895,6 +2082,13 @@
       document.getElementById('issuer-address').value = '';
       document.getElementById('issuer-vat').value = '';
       document.getElementById('issuer-contact').value = '';
+      document.getElementById('bank-name').value = '';
+      document.getElementById('bank-branch').value = '';
+      document.getElementById('bank-account-holder').value = '';
+      document.getElementById('bank-account-number').value = '';
+      document.getElementById('bank-iban').value = '';
+      document.getElementById('bank-swift').value = '';
+      document.getElementById('bank-address').value = '';
       document.getElementById('payment-handler').value = '';
       document.getElementById('invoice-notes').value = '';
       document.getElementById('legal-terms').value = '';
@@ -1921,6 +2115,7 @@
       document.getElementById('image-upload-1').value = '';
       document.getElementById('image-upload-2').value = '';
       document.getElementById('company-logo-upload').value = '';
+      document.getElementById('bank-logo-upload').value = '';
       document.getElementById('spot-status').textContent = 'Manual price by default. API key lives only in this active tab.';
       syncReferenceUploadUI();
 
@@ -1934,6 +2129,14 @@
       appState.issuerAddress = '99 Silom Road\nBangrak, Bangkok 10500';
       appState.issuerVat = 'TH0105551234567';
       appState.issuerContact = 'sales@aurorajewelry.co | +66 2 123 4567';
+      appState.bankName = 'Bangkok Bank Public Company Limited';
+      appState.bankBranch = 'Silom Branch';
+      appState.bankAccountHolder = 'Aurora Fine Jewelry Co., Ltd.';
+      appState.bankAccountNumber = '123-4-56789-0';
+      appState.bankIban = 'N/A';
+      appState.bankSwift = 'BKKBTHBK';
+      appState.bankAddress = '333 Silom Road, Bangkok 10500';
+      appState.bankLogo = '';
       appState.paymentHandler = 'Narin S.';
       appState.invoiceNotes = 'Kindly verify item details and approve final production specs before dispatch.';
       appState.legalTerms = '1. 30-day return guarantee for verified manufacturing defects only.\n2. Balance due before final delivery.\n3. Custom approved designs are non-refundable once production starts.';
@@ -1965,6 +2168,13 @@
       document.getElementById('issuer-address').value = appState.issuerAddress;
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
+      document.getElementById('bank-name').value = appState.bankName;
+      document.getElementById('bank-branch').value = appState.bankBranch;
+      document.getElementById('bank-account-holder').value = appState.bankAccountHolder;
+      document.getElementById('bank-account-number').value = appState.bankAccountNumber;
+      document.getElementById('bank-iban').value = appState.bankIban;
+      document.getElementById('bank-swift').value = appState.bankSwift;
+      document.getElementById('bank-address').value = appState.bankAddress;
       document.getElementById('payment-handler').value = appState.paymentHandler;
       document.getElementById('invoice-notes').value = appState.invoiceNotes;
       document.getElementById('legal-terms').value = appState.legalTerms;
@@ -1980,6 +2190,7 @@
       document.getElementById('client-address').value = appState.clientAddress;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
       document.getElementById('payment-due-date').value = appState.paymentDueDate;
+      document.getElementById('bank-logo-upload').value = '';
       setMetalSelection(appState.metal.type, appState.metal.purity);
       document.getElementById('metal-weight').value = appState.metal.weight;
       document.getElementById('metal-loss').value = appState.metal.loss;
