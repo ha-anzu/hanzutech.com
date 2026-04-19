@@ -30,7 +30,7 @@
     h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
     .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
     .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
-    .card { background-color: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.6); padding: 2rem; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s, background-color 0.35s; position: relative; overflow: hidden; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
+    .card { background-color: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.6); padding: 1.35rem; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s, background-color 0.35s; position: relative; overflow: hidden; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
     .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 0, 51, 0.12), transparent 40%, rgba(255, 204, 0, 0.08)); opacity: 0.7; pointer-events: none; }
     .card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 24px rgba(255, 204, 0, 0.24); border-color: rgba(255, 204, 0, 0.85); background-color: rgba(8, 2, 5, 0.84); }
     .button {
@@ -119,27 +119,27 @@
       flex-direction: column;
       justify-content: center;
     }
-    .hero-title { max-width: 27rem; font-size: clamp(1.65rem, 3.45vw, 2.7rem); line-height: 1.08; font-weight: 700; letter-spacing: 0.01em; }
-    .hero-subtitle { max-width: 34rem; color: #d1d5db; line-height: 1.9; font-size: clamp(0.96rem, 1.4vw, 1.06rem); }
+    .hero-title { max-width: 24rem; font-size: clamp(1.35rem, 2.25vw, 2rem); line-height: 1.06; font-weight: 700; letter-spacing: 0.01em; }
+    .hero-subtitle { max-width: 32rem; color: #d1d5db; line-height: 1.55; font-size: clamp(0.84rem, 1.1vw, 0.93rem); }
     .hero-footnote { max-width: 30rem; color: #9ca3af; line-height: 1.82; font-size: 0.92rem; }
     .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.9rem; }
     .hero-actions .button { width: auto; }
     .button.button-secondary { background: rgba(255, 204, 0, 0.08); color: #ffcc00; border-color: rgba(255, 204, 0, 0.54); }
     .button.button-tertiary { padding: 0.68rem 0.88rem; font-size: 0.76rem; letter-spacing: 0.15em; background: transparent; color: #d1d5db; border-color: rgba(255,255,255,0.18); }
     .button.button-reel { min-width: 17rem; justify-content: center; }
-    .hero-kicker { display: inline-flex; align-items: center; gap: 0.9rem; text-transform: uppercase; letter-spacing: 0.32em; color: #9ca3af; font-size: 0.73rem; }
+    .hero-kicker { display: inline-flex; align-items: center; gap: 0.65rem; text-transform: uppercase; letter-spacing: 0.3em; color: #9ca3af; font-size: 0.66rem; }
     .hero-kicker::before { content: ""; width: 2.8rem; height: 1px; background: linear-gradient(90deg, rgba(255, 204, 0, 0.8), rgba(255, 0, 51, 0.2)); }
     .hero-track {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.85rem;
-      margin-top: 1.75rem;
+      gap: 0.65rem;
+      margin-top: 1rem;
       max-width: 40rem;
     }
     .hero-track-item {
       position: relative;
-      min-height: 4.8rem;
-      padding: 0.95rem 1rem;
+      min-height: 3.45rem;
+      padding: 0.62rem 0.72rem;
       border: 1px solid rgba(255, 255, 255, 0.08);
       background: linear-gradient(160deg, rgba(255, 255, 255, 0.02), rgba(255, 0, 51, 0.04));
       clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
@@ -153,8 +153,8 @@
     }
     .hero-track-item strong,
     .hero-track-item span { position: relative; z-index: 1; display: block; }
-    .hero-track-item strong { color: #ffcc00; font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; }
-    .hero-track-item span { margin-top: 0.5rem; color: #e5e7eb; font-size: 0.9rem; line-height: 1.45; }
+    .hero-track-item strong { color: #ffcc00; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; }
+    .hero-track-item span { margin-top: 0.35rem; color: #e5e7eb; font-size: 0.78rem; line-height: 1.32; }
     .technically {
       position: relative;
       font-size: 1.24rem;
@@ -301,10 +301,10 @@
       justify-content: space-between;
       align-items: center;
       gap: 1rem;
-      margin-bottom: 0.9rem;
+      margin-bottom: 0.55rem;
       text-transform: uppercase;
       letter-spacing: 0.22em;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       color: #9ca3af;
     }
     .hero-reel-label strong,
@@ -368,15 +368,15 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.88fr);
-      gap: 1.5rem;
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+      gap: 1rem;
       align-items: start;
     }
     .story-copy { min-width: 0; }
     .story-reel {
       position: relative;
       min-width: 0;
-      padding: 1rem;
+      padding: 0.72rem;
       border: 1px solid rgba(255, 255, 255, 0.08);
       background: linear-gradient(180deg, rgba(12, 12, 18, 0.92), rgba(5, 5, 8, 0.96));
       clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
@@ -411,7 +411,7 @@
     }
     .story-panel {
       position: relative;
-      padding: 2rem;
+      padding: 1.2rem;
       background: rgba(0, 0, 0, 0.66);
       border: 1px solid rgba(255, 0, 51, 0.36);
       clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
@@ -560,22 +560,22 @@
     .proof-drop { background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.52); transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
     .proof-drop[open] { border-color: rgba(255, 204, 0, 0.72); box-shadow: 0 0 20px rgba(255, 204, 0, 0.16); }
     .proof-drop:hover { transform: translateY(-3px); }
-    .proof-drop summary { list-style: none; cursor: pointer; padding: 1.1rem 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .proof-drop summary { list-style: none; cursor: pointer; padding: 0.8rem 0.95rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
     .proof-drop summary::-webkit-details-marker { display: none; }
     .proof-drop summary > span:first-child { min-width: 0; }
-    .proof-shot { margin: 0 1.25rem 1.25rem; background: linear-gradient(180deg, rgba(20, 20, 26, 0.98), rgba(8, 8, 14, 0.98)); border: 1px solid rgba(255,255,255,0.08); padding: 1rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02); }
+    .proof-shot { margin: 0 0.95rem 0.95rem; background: linear-gradient(180deg, rgba(20, 20, 26, 0.98), rgba(8, 8, 14, 0.98)); border: 1px solid rgba(255,255,255,0.08); padding: 0.75rem; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02); }
     .faq-item { background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.44); }
-    .faq-item summary { list-style: none; cursor: pointer; padding: 1.15rem 1.25rem; color: white; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .faq-item summary { list-style: none; cursor: pointer; padding: 0.9rem 0.95rem; color: white; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
     .faq-item summary::-webkit-details-marker { display: none; }
     .faq-item summary > span:first-child { min-width: 0; }
     .faq-item[open] { border-color: rgba(255, 204, 0, 0.72); box-shadow: 0 0 18px rgba(255, 204, 0, 0.12); }
-    .faq-copy { padding: 0 1.25rem 1.25rem; color: #d1d5db; line-height: 1.9; }
+    .faq-copy { padding: 0 0.95rem 0.95rem; color: #d1d5db; line-height: 1.6; font-size: 0.94rem; }
     .terminal-line { position: relative; padding-left: 1.4rem; }
     .terminal-line::before { content: '>'; position: absolute; left: 0; color: #ff0033; }
     .card-visual {
       position: relative;
-      min-height: 12rem;
-      margin-bottom: 1.4rem;
+      min-height: 14.5rem;
+      margin-bottom: 0.9rem;
       border: 1px solid rgba(255, 204, 0, 0.28);
       background: linear-gradient(135deg, rgba(255, 0, 51, 0.12), rgba(255, 204, 0, 0.06));
       clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% calc(100% - 18px), calc(100% - 18px) 100%, 0 100%, 0 18px);
@@ -648,10 +648,10 @@
       .hero-actions { flex-direction: column; align-items: stretch; }
       .button.button-reel,
       .button.button-tertiary { min-width: 0; }
-      .card-visual { min-height: 10rem; }
+      .card-visual { min-height: 11rem; }
       .hero-track { grid-template-columns: 1fr; }
       .hero-copy { display: block; min-height: 0; }
-      .hero-title { max-width: 18rem; }
+      .hero-title { max-width: 16rem; }
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
       .aka-signature { font-size: 0.94rem; letter-spacing: 0.08em; }
       .hero-media { padding-top: 0; }
@@ -742,25 +742,25 @@
           <div class="card-visual">
             <img src="/assets/placeholders/home-mission-overview.svg" alt="Mission overview placeholder" loading="lazy">
           </div>
-          <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Mission</p>
-          <h2 class="text-3xl neon-red mb-4">Solve Real Operational Problems</h2>
-          <p class="text-gray-300 leading-7">The point is not generic design. The point is building technically designed products that remove wasted motion, protect margin, and make workshops run sharper.</p>
+          <p class="text-[10px] uppercase tracking-[0.28em] text-gray-500 mb-2">Mission</p>
+          <h2 class="text-2xl neon-red mb-2">Solve Real Operational Problems</h2>
+          <p class="text-sm text-gray-300 leading-6">Build tools that cut waste and protect margin.</p>
         </article>
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-current-focus.svg" alt="Current focus placeholder" loading="lazy">
           </div>
-          <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Current Focus</p>
-          <h2 class="text-3xl neon-yellow mb-4">Jewelry Workflows First</h2>
-          <p class="text-gray-300 leading-7">Custom quoting tools, production helpers, AI-assisted systems, and manufacturing-aware interfaces for jewelers, factories, and precision shops.</p>
+          <p class="text-[10px] uppercase tracking-[0.28em] text-gray-500 mb-2">Current Focus</p>
+          <h2 class="text-2xl neon-yellow mb-2">Jewelry Workflows First</h2>
+          <p class="text-sm text-gray-300 leading-6">Quoting, production, and admin flows for workshops.</p>
         </article>
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-services-stack.svg" alt="Service stack placeholder" loading="lazy">
           </div>
-          <p class="text-[11px] uppercase tracking-[0.34em] text-gray-500 mb-4">Services</p>
-          <h2 class="text-3xl neon-red mb-4">Design, Build, Ship</h2>
-          <p class="text-gray-300 leading-7">From ZBrush sculpting and CAD to software pipelines, AI agent design, and technical consultation, Hanzu Tech moves concepts into production-grade outputs.</p>
+          <p class="text-[10px] uppercase tracking-[0.28em] text-gray-500 mb-2">Services</p>
+          <h2 class="text-2xl neon-red mb-2">Design, Build, Ship</h2>
+          <p class="text-sm text-gray-300 leading-6">From CAD and render to production-ready systems.</p>
         </article>
       </div>
     </section>
@@ -770,23 +770,21 @@
         <div class="story-panel">
           <div class="story-layout">
             <div class="story-copy">
-              <p class="hero-kicker mb-5">Operator Stack</p>
+              <p class="hero-kicker mb-3">Operator Stack</p>
               <h2 class="hero-title uppercase text-gray-100">Factory-ready systems for jewelry operations.</h2>
-              <p class="hero-subtitle mt-6">
-                Hanzu Tech builds the legitimacy layer, portfolio layer, and working systems behind unusual operators, workshops, and factory-facing teams.
-              </p>
+              <p class="hero-subtitle mt-3">Minimal copy. Maximum reel visibility.</p>
               <div class="hero-track" aria-label="Homepage narrative">
                 <div class="hero-track-item">
                   <strong>Legitimacy</strong>
-                  <span>Clear presentation and proof that the work is real.</span>
+                  <span>Proof-first presentation.</span>
                 </div>
                 <div class="hero-track-item">
                   <strong>Portfolio</strong>
-                  <span>Case-study level output that looks deliberate, not improvised.</span>
+                  <span>Case-study output.</span>
                 </div>
                 <div class="hero-track-item">
                   <strong>Working Systems</strong>
-                  <span>Tools and process fixes that survive contact with production.</span>
+                  <span>Production-safe tooling.</span>
                 </div>
               </div>
             </div>
@@ -812,25 +810,25 @@
           <div class="card-visual">
             <img src="/assets/placeholders/home-research-logic.svg" alt="Research logic placeholder" loading="lazy">
           </div>
-          <p class="mini-kicker mb-4">How It Works</p>
-          <h2 class="text-2xl neon-yellow mb-4">Research Meets Workshop Reality</h2>
-          <p class="text-gray-300 leading-7">AI and agents accelerate exploration, but every output still gets filtered through real production, tolerance, and workflow logic.</p>
+          <p class="mini-kicker mb-2">How It Works</p>
+          <h2 class="text-xl neon-yellow mb-2">Research Meets Workshop Reality</h2>
+          <p class="text-sm text-gray-300 leading-6">AI speed, production constraints, practical output.</p>
         </article>
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-pipeline-handoff.svg" alt="Pipeline handoff placeholder" loading="lazy">
           </div>
-          <p class="mini-kicker mb-4">Pipeline</p>
-          <h2 class="text-2xl neon-red mb-4">Design To Factory To Client</h2>
-          <p class="text-gray-300 leading-7">The system spans concept development, manufacturing files, custom internal tools, and polished client-facing outputs instead of stopping at visuals.</p>
+          <p class="mini-kicker mb-2">Pipeline</p>
+          <h2 class="text-xl neon-red mb-2">Design To Factory To Client</h2>
+          <p class="text-sm text-gray-300 leading-6">One flow from concept to delivery.</p>
         </article>
         <article class="card">
           <div class="card-visual">
             <img src="/assets/placeholders/home-useful-tech-only.svg" alt="Useful tech placeholder" loading="lazy">
           </div>
-          <p class="mini-kicker mb-4">Target</p>
-          <h2 class="text-2xl neon-yellow mb-4">Useful Tech Only</h2>
-          <p class="text-gray-300 leading-7">If it does not save time, increase control, improve quality, or create margin, it does not belong in the stack.</p>
+          <p class="mini-kicker mb-2">Target</p>
+          <h2 class="text-xl neon-yellow mb-2">Useful Tech Only</h2>
+          <p class="text-sm text-gray-300 leading-6">Only tools that save time or raise quality.</p>
         </article>
       </div>
     </section>
@@ -838,18 +836,18 @@
     <section class="px-6 pb-16 relative section-grid">
       <div class="page-wrap">
         <div class="mb-8">
-          <p class="mini-kicker mb-3">Customer Satisfaction</p>
+          <p class="mini-kicker mb-2">Customer Satisfaction</p>
           <h2 class="text-3xl md:text-5xl neon-red">Proof From The Field</h2>
-          <p class="mt-4 max-w-3xl text-gray-300 leading-8">A few comments from long-time customers.</p>
+          <p class="mt-2 max-w-3xl text-sm text-gray-300 leading-6">Selected comments from repeat clients.</p>
         </div>
         <div class="space-y-4">
           <details class="proof-drop" open>
             <summary>
               <span>
                 <span class="block text-xs uppercase tracking-[0.34em] text-gray-500">WhatsApp Comment</span>
-                <span class="block mt-2 text-lg text-white">Client approved faster because the design file and explanation were finally clean.</span>
+                <span class="block mt-1 text-base text-white">Client approved faster after cleaner files.</span>
               </span>
-              <span class="neon-yellow text-xs uppercase tracking-[0.24em]">Open Capture</span>
+              <span class="neon-yellow text-[10px] uppercase tracking-[0.2em]">Open Capture</span>
             </summary>
             <div class="proof-shot">
               <div class="flex items-center justify-between text-[11px] text-gray-500 mb-4">
@@ -868,9 +866,9 @@
             <summary>
               <span>
                 <span class="block text-xs uppercase tracking-[0.34em] text-gray-500">CGTrader Review</span>
-                <span class="block mt-2 text-lg text-white">Production-ready file quality and strong communication.</span>
+                <span class="block mt-1 text-base text-white">Production-ready files and communication.</span>
               </span>
-              <span class="neon-yellow text-xs uppercase tracking-[0.24em]">Open Capture</span>
+              <span class="neon-yellow text-[10px] uppercase tracking-[0.2em]">Open Capture</span>
             </summary>
             <div class="proof-shot">
               <div class="border border-yellow-400/20 bg-[#0d0d12] p-4">
@@ -887,9 +885,9 @@
             <summary>
               <span>
                 <span class="block text-xs uppercase tracking-[0.34em] text-gray-500">WhatsApp Comment</span>
-                <span class="block mt-2 text-lg text-white">The tool removed hours of manual quote cleanup.</span>
+                <span class="block mt-1 text-base text-white">The tool removed hours of quote cleanup.</span>
               </span>
-              <span class="neon-yellow text-xs uppercase tracking-[0.24em]">Open Capture</span>
+              <span class="neon-yellow text-[10px] uppercase tracking-[0.2em]">Open Capture</span>
             </summary>
             <div class="proof-shot">
               <div class="flex items-center justify-between text-[11px] text-gray-500 mb-4">
@@ -908,7 +906,7 @@
     <section class="px-6 pb-24">
       <div class="page-wrap">
         <div class="mb-8">
-          <p class="mini-kicker mb-3">FAQ</p>
+          <p class="mini-kicker mb-2">FAQ</p>
           <h2 class="text-3xl md:text-5xl neon-yellow">Frequently Asked Questions</h2>
         </div>
         <div class="space-y-4">
@@ -917,28 +915,28 @@
               <span>What exactly is Hanzu Tech building?</span>
               <span class="neon-red">01</span>
             </summary>
-            <div class="faq-copy">Technically designed products, internal tools, and production-aware systems. The first wave is focused on jewelry operations, but the broader mission is any useful tool that solves real workflow pain and can be shipped responsibly.</div>
+            <div class="faq-copy">Production-aware tools and systems for real workflow pain.</div>
           </details>
           <details class="faq-item">
             <summary>
               <span>Why focus on jewelry first?</span>
               <span class="neon-red">02</span>
             </summary>
-            <div class="faq-copy">Because the bottlenecks are obvious: quoting, design translation, admin cleanup, manufacturing handoff, and repetitive manual work. That makes the value of better tools visible very fast.</div>
+            <div class="faq-copy">Because quoting, handoff, and admin bottlenecks are immediate and measurable.</div>
           </details>
           <details class="faq-item">
             <summary>
               <span>Where does AI actually help here?</span>
               <span class="neon-red">03</span>
             </summary>
-            <div class="faq-copy">AI speeds research, reference discovery, workflow automation, internal agents, and structured outputs. It is leverage, not decoration. The system still needs technical taste and production knowledge to stay useful.</div>
+            <div class="faq-copy">AI accelerates research and automation. Production logic still decides quality.</div>
           </details>
           <details class="faq-item">
             <summary>
               <span>Is this design only or full product execution?</span>
               <span class="neon-red">04</span>
             </summary>
-            <div class="faq-copy">Both. Hanzu Tech spans visual direction, 3D work, CAD logic, factory-aware process design, AI pipelines, and software tools where needed. The objective is execution, not isolated deliverables.</div>
+            <div class="faq-copy">Both. Design and execution stay in one pipeline.</div>
           </details>
         </div>
       </div>
@@ -950,10 +948,10 @@
           <div class="card-visual">
             <img src="/assets/placeholders/journal-feed-preview.svg" alt="Journal preview placeholder" loading="lazy">
           </div>
-          <p class="mini-kicker mb-3">Updates / Journal</p>
-          <h2 class="text-2xl neon-red">A low-visibility archive entry point is now in place.</h2>
-          <p class="mt-4 max-w-3xl text-gray-300 leading-7">The page stays intentionally quiet for now. When you are ready, replace the placeholder art in `assets/placeholders/` and start dropping entries into the journal page.</p>
-          <div class="mt-6">
+          <p class="mini-kicker mb-2">Updates / Journal</p>
+          <h2 class="text-xl neon-red">Archive entry point is live.</h2>
+          <p class="mt-2 max-w-3xl text-sm text-gray-300 leading-6">Replace placeholder media and publish entries as needed.</p>
+          <div class="mt-4">
             <a href="/journal" class="text-sm uppercase tracking-[0.24em] text-gray-400 hover:text-yellow-300 transition-colors">Open Journal</a>
           </div>
         </div>
