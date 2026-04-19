@@ -55,16 +55,16 @@
     .card:hover { border-color: #cda96d; box-shadow: 0 10px 24px rgba(117, 83, 36, 0.1); }
     .button {
       padding: 0.4rem 0.62rem;
-      border: 1px solid #d1b079;
-      color: #3a2d1d;
-      background: linear-gradient(140deg, #fdf5e9, #f3e1c5);
+      border: 1px solid #dfcaa4;
+      color: #4b3b27;
+      background: linear-gradient(140deg, #fffdf8, #f7ecd9);
       transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
       letter-spacing: 0.08em;
       text-transform: uppercase;
       font-size: 0.68rem;
       line-height: 1.1;
     }
-    .button:hover { transform: translateY(-1px); border-color: #be9450; box-shadow: 0 8px 18px rgba(117, 83, 36, 0.14); background: linear-gradient(140deg, #fbefdd, #eed4a8); }
+    .button:hover { transform: translateY(-1px); border-color: #ceb383; box-shadow: 0 8px 16px rgba(117, 83, 36, 0.1); background: linear-gradient(140deg, #fffcf4, #f3e2c4); }
     .flicker { animation: none; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
     body::before {
@@ -87,6 +87,12 @@
       border: 1px solid #e2d3bb;
       box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
       backdrop-filter: blur(4px);
+    }
+    .input-block {
+      background: rgba(255, 252, 245, 0.9);
+      border: 1px solid #e3d5bd;
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.65);
+      padding: 0.75rem;
     }
     .terminal-accent {
       background-image: linear-gradient(90deg, rgba(183,133,60,0.2), rgba(226,194,141,0.32), rgba(183,133,60,0.2));
@@ -136,6 +142,8 @@
       color: #1d1b19;
       box-shadow: 0 0 18px rgba(0, 0, 0, 0.14);
       font-family: 'IBM Plex Sans', sans-serif;
+      display: flex;
+      flex-direction: column;
     }
     .invoice-header {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 252, 246, 0.62) 70%, rgba(255, 249, 239, 0.66));
@@ -219,7 +227,8 @@
       grid-template-columns: 31% 69%;
       gap: 24px;
       margin-top: 22px;
-      min-height: 0;
+      min-height: 440px;
+      flex: 1;
     }
     .invoice-image-wrap {
       padding-right: 4px;
@@ -311,9 +320,7 @@
       gap: 18px;
     }
     .invoice-signature-box {
-      border: 1px solid #dfcfb3;
-      background: rgba(255, 252, 245, 0.78);
-      padding: 10px 12px;
+      padding: 10px 2px;
       min-height: 72px;
       display: flex;
       flex-direction: column;
@@ -359,7 +366,7 @@
       justify-content: space-between;
       align-items: baseline;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 600;
       border-top: 1px solid #d8c6a7;
       padding: 10px 12px 0 12px;
@@ -379,13 +386,12 @@
       justify-content: space-between;
       align-items: baseline;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 30px;
+      font-size: 22px;
       font-weight: 600;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(251, 242, 227, 0.74));
       color: #2c2013;
-      border: 1px solid rgba(200, 167, 112, 0.62);
-      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.55);
-      padding: 10px 12px;
+      border: 0;
+      box-shadow: none;
+      padding: 8px 12px 0 12px;
       margin-top: 8px;
     }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -499,8 +505,11 @@
       .line-title { font-size: 12px; }
       .line-meta { font-size: 8px; }
       .total-column { width: 84px; }
-      .invoice-total-row { font-size: 18px; }
-      .invoice-balance-row { font-size: 24px; }
+      .invoice-main-grid {
+        min-height: auto;
+      }
+      .invoice-total-row { font-size: 16px; }
+      .invoice-balance-row { font-size: 20px; }
     }
   </style>
 </head>
@@ -555,7 +564,7 @@
         <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
         <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
 
-        <section class="space-y-4">
+        <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Issuer Details</h2>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Legal Name</label>
@@ -591,7 +600,7 @@
           </div>
         </section>
 
-        <section class="space-y-4">
+        <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Client Details</h2>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Client Name</label>
@@ -616,7 +625,7 @@
             </div>
           </div>
         </section>
-        <section class="space-y-4">
+        <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Legal Terms / Conditions</h2>
           <div>
             <label class="block text-xs text-gray-400 mb-2">Terms (multi-line)</label>
@@ -624,7 +633,7 @@
           </div>
         </section>
 
-        <section class="space-y-4">
+        <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Reference Image</h2>
           <label for="image-upload" class="flex flex-col items-center justify-center w-full h-32 border border-dashed border-[#d8c19a] bg-[#fffaf1] cursor-pointer hover:border-[#be9450] transition-colors">
             <i class="fas fa-cloud-upload-alt text-2xl neon-red mb-2"></i>
@@ -633,7 +642,7 @@
           <input id="image-upload" type="file" class="hidden" accept="image/*" onchange="handleImageUpload(event)">
         </section>
 
-        <section class="space-y-4 panel p-4">
+        <section class="input-block space-y-4">
           <div class="flex justify-between items-center">
             <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Metal Configuration</h2>
             <button onclick="applyApiKey()" class="text-xs neon-yellow">Set API Key</button>
@@ -667,7 +676,7 @@
           <button onclick="fetchMetalPrice()" id="fetch-btn" class="button w-full text-sm">Fetch Spot</button>
         </section>
 
-        <section class="space-y-4">
+        <section class="input-block space-y-4">
           <div class="flex justify-between items-center">
             <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Stones</h2>
             <button onclick="addStoneRow()" class="text-xs neon-yellow">Add Stone</button>
@@ -675,7 +684,7 @@
           <div id="stones-container" class="space-y-3"></div>
         </section>
 
-        <section class="space-y-4">
+        <section class="input-block space-y-4">
           <div class="flex justify-between items-center">
             <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Labor & Services</h2>
             <button onclick="addLaborRow()" class="text-xs neon-yellow">Add Service</button>
@@ -683,7 +692,7 @@
           <div id="labor-container" class="space-y-3"></div>
         </section>
 
-        <section class="grid grid-cols-2 gap-4">
+        <section class="input-block grid grid-cols-2 gap-4">
           <div>
             <label class="block text-xs text-gray-400 mb-2">VAT %</label>
             <input type="number" id="vat-percent" step="0.1" value="0" oninput="updatePreview()" class="w-full px-3 py-2">
