@@ -226,9 +226,14 @@
     }
     .invoice-preview-fit {
       width: 100%;
-      display: block;
-      position: relative;
       max-width: 100%;
+      display: block;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .invoice-preview-fit > .invoice-container {
+      margin: 0;
     }
     .invoice-header {
       background: linear-gradient(135deg, rgba(255, 255, 255, 0.72), rgba(255, 252, 246, 0.62) 70%, rgba(255, 249, 239, 0.66));
@@ -803,10 +808,16 @@
     }
     @media (max-width: 768px) {
       .invoice-preview-fit {
-        overflow: hidden;
-        width: 100%;
-        max-width: 100%;
-      }
+      width: 100%;
+      max-width: 100%;
+      display: block;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+    .invoice-preview-fit > .invoice-container {
+      margin: 0;
+    }
     }
 
     .mobile-nav-toggle {
@@ -1578,30 +1589,12 @@
       const fit = document.getElementById('invoice-preview-fit');
       const preview = document.getElementById('invoice-preview');
       if (!fit || !preview) return;
-
       preview.style.transform = '';
       preview.style.transformOrigin = '';
       preview.style.position = '';
       preview.style.left = '';
       preview.style.top = '';
       fit.style.height = '';
-
-      const baseWidth = preview.offsetWidth;
-      const baseHeight = preview.offsetHeight;
-      const fitWidth = fit.clientWidth;
-      if (!baseWidth || !fitWidth) return;
-
-      const scale = Math.min(1, fitWidth / baseWidth);
-      if (scale >= 0.999) {
-        return;
-      }
-
-      preview.style.transform = `scale(${scale})`;
-      preview.style.transformOrigin = 'top left';
-      preview.style.position = 'absolute';
-      preview.style.left = '0';
-      preview.style.top = '0';
-      fit.style.height = `${Math.ceil(baseHeight * scale)}px`;
     }
     function applyVisibility() {
       appState.visibility = normalizeVisibility(appState.visibility);
@@ -2769,6 +2762,7 @@ function setMetalSelection(type, purity) {
     })();
   </script></body>
 </html>
+
 
 
 
