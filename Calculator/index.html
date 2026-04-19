@@ -245,17 +245,25 @@
     }
     .invoice-top-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding: 12px 0;
+      grid-template-columns: 1.05fr 0.95fr 0.85fr;
+      gap: 0;
+      padding: 10px 0 12px 0;
       border-bottom: 1px solid #e9dfcd;
+    }
+    .invoice-top-block {
+      padding: 0 14px;
+      min-height: 86px;
+    }
+    .invoice-top-block + .invoice-top-block {
+      border-left: 1px solid #dfcfb3;
     }
     .invoice-client-name {
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 600;
       line-height: 1.1;
       letter-spacing: 0.01em;
+      margin-bottom: 4px;
     }
     .invoice-client-address {
       font-size: 10px;
@@ -288,6 +296,14 @@
       color: #5a5348;
       white-space: pre-line;
     }
+    .invoice-address-value {
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: #3a3328;
+      white-space: pre-line;
+    }
     .invoice-date {
       font-size: 11px;
       font-weight: 500;
@@ -299,6 +315,31 @@
       letter-spacing: 0.14em;
       color: #7d7468;
       margin-top: 8px;
+    }
+    .invoice-top-meta {
+      display: grid;
+      gap: 12px;
+      text-align: right;
+    }
+    .invoice-top-meta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+    }
+    .invoice-meta-value {
+      font-size: 12px;
+      font-weight: 700;
+      color: #2f2a25;
+      line-height: 1.1;
+      margin-top: 3px;
+    }
+    .invoice-address-title {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #7d7468;
+      margin-bottom: 6px;
     }
     .invoice-main-grid {
       display: grid;
@@ -388,14 +429,14 @@
       background: #f5efe1;
     }
     .invoice-details-grid {
-      margin-top: 56px;
+      margin-top: 58px;
       display: grid;
-      grid-template-columns: 1.05fr 0.95fr 1.15fr;
+      grid-template-columns: 1.02fr 0.92fr 1.18fr;
       gap: 0;
       align-items: start;
     }
     .invoice-col {
-      padding: 0 16px;
+      padding: 0 22px;
     }
     .invoice-col + .invoice-col {
       border-left: 1px solid #dfcfb3;
@@ -407,18 +448,19 @@
     }
     .issuer-bank-row {
       display: grid;
-      grid-template-columns: 62px 1fr;
-      gap: 6px;
-      font-size: 9px;
-      color: #665b4a;
-      line-height: 1.3;
+      grid-template-columns: 72px 1fr;
+      gap: 10px;
+      font-size: 11px;
+      color: #5d5242;
+      line-height: 1.35;
     }
     .issuer-bank-row .label {
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.11em;
       color: #7d7468;
-      font-size: 8px;
-      padding-top: 1px;
+      font-size: 10px;
+      padding-top: 0;
+      font-weight: 700;
     }
     .issuer-bank-logo-wrap {
       width: 48px;
@@ -437,28 +479,29 @@
       object-fit: contain;
     }
     .invoice-accounting-panel {
-      padding-left: 0;
+      padding-left: 10px;
     }
     .invoice-terms-panel {
       margin-top: 0;
-      padding: 2px 0;
+      padding: 0;
       border: 0;
       background: transparent;
     }
     .invoice-payment-panel {
       margin-top: 0;
-      padding: 2px 0;
+      padding: 0;
       border: 0;
       background: transparent;
     }
     .invoice-terms-text {
-      font-size: 9px;
-      color: #5f5443;
-      line-height: 1.4;
+      font-size: 11px;
+      color: #5e5548;
+      line-height: 1.35;
       white-space: pre-line;
+      font-weight: 600;
     }
     .invoice-signature-grid {
-      margin-top: 18px;
+      margin-top: 22px;
       padding-top: 8px;
       border-top: 1px solid #e3d6bd;
       display: grid;
@@ -481,20 +524,22 @@
       margin-bottom: 6px;
     }
     .invoice-signature-label {
-      font-size: 9px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.2em;
       color: #6f624f;
+      font-weight: 700;
     }
     .invoice-copyright {
       margin-top: 0;
-      font-size: 9px;
+      font-size: 12px;
       color: #7a6d59;
       text-align: center;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
       border-top: 0;
       padding-top: 0;
       white-space: nowrap;
+      font-weight: 700;
     }
     .invoice-summary-panel {
       width: 100%;
@@ -503,38 +548,45 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 10px;
-      padding: 3px 2px;
-      color: #5d564b;
+      font-size: 11px;
+      padding: 3px 0;
+      color: #5e5548;
+      font-weight: 600;
     }
     .invoice-summary-row strong {
       color: #221f1b;
-      font-weight: 600;
-      font-size: 11px;
+      font-weight: 700;
+      font-size: 14px;
     }
     .issuer-stack .invoice-client-name {
-      font-size: 13px;
-      margin-top: 2px;
+      font-size: 17px;
+      margin-top: 4px;
+      margin-bottom: 2px;
+      line-height: 1.08;
     }
     .issuer-stack .invoice-client-address {
-      font-size: 9px;
-      margin-top: 2px;
+      font-size: 12px;
+      margin-top: 0;
+      margin-bottom: 6px;
+      color: #645a4b;
+      line-height: 1.25;
     }
     .issuer-stack .invoice-summary-row {
-      padding: 4px 8px;
-      font-size: 10px;
+      padding: 0;
+      font-size: 11px;
     }
     .invoice-total-row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 18px;
+      font-size: 22px;
       font-weight: 600;
       border-top: 1px solid #d8c6a7;
-      padding: 6px 2px 0 2px;
+      padding: 6px 0 0 0;
       margin-top: 4px;
       color: #241f1b;
+      line-height: 1.05;
     }
     .invoice-deposit-row {
       display: flex;
@@ -542,7 +594,7 @@
       font-size: 11px;
       color: #6b5a46;
       font-weight: 600;
-      padding: 3px 2px;
+      padding: 2px 0;
     }
     .invoice-balance-row {
       display: flex;
@@ -554,15 +606,48 @@
       color: #2c2013;
       border: 0;
       box-shadow: none;
-      padding: 5px 2px 0 2px;
-      margin-top: 4px;
+      padding: 7px 0 0 0;
+      margin-top: 6px;
+      line-height: 1.05;
     }
     .invoice-balance-words {
-      padding: 2px 2px 0 2px;
+      padding: 2px 0 0 0;
       font-size: 9px;
       color: #6d614e;
-      line-height: 1.35;
+      line-height: 1.3;
       font-style: italic;
+      font-weight: 700;
+    }
+    .issuer-meta-row {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 6px;
+      align-items: baseline;
+      font-size: 11px;
+      color: #5f5548;
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+    .issuer-meta-row .label {
+      color: #6a6153;
+      font-weight: 700;
+    }
+    .issuer-meta-row .value {
+      color: #2f2922;
+      font-weight: 700;
+    }
+    .invoice-inner-divider {
+      border-top: 1px solid #dcc9a8;
+      margin: 10px 0 8px 0;
+    }
+    .invoice-section-divider {
+      border-top: 1px solid #dcc9a8;
+      width: 76%;
+      margin: 11px 0 10px 10px;
+    }
+    .notes-stack {
+      display: grid;
+      gap: 0;
     }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: #ffffff; }
@@ -668,6 +753,15 @@
       .invoice-signature-box.right {
         text-align: left;
       }
+      .invoice-top-block {
+        padding: 0;
+      }
+      .invoice-top-block + .invoice-top-block {
+        border-left: 0;
+        border-top: 1px solid #dfcfb3;
+        margin-top: 8px;
+        padding-top: 8px;
+      }
       .invoice-image-wrap {
         border-right: 0;
         padding-right: 0;
@@ -690,8 +784,14 @@
       .invoice-main-grid {
         min-height: auto;
       }
-      .invoice-total-row { font-size: 16px; }
+      .invoice-summary-row { font-size: 10px; }
+      .invoice-summary-row strong { font-size: 14px; }
+      .issuer-stack .invoice-client-name { font-size: 15px; }
+      .invoice-total-row { font-size: 18px; }
       .invoice-balance-row { font-size: 20px; }
+      .invoice-balance-words { font-size: 11px; }
+      .invoice-signature-label { font-size: 9px; letter-spacing: 0.14em; }
+      .invoice-copyright { font-size: 9px; }
     }
   </style>
 </head>
@@ -1033,7 +1133,7 @@
           </div>
 
           <div class="invoice-top-grid">
-            <div>
+            <div class="invoice-top-block">
               <h3 class="invoice-kicker">Client Information</h3>
               <p id="preview-client-name" class="invoice-client-name">CLIENT NAME</p>
               <div class="invoice-client-rows">
@@ -1045,19 +1145,29 @@
                   <span class="label">VAT</span>
                   <span id="preview-client-vat" class="value">-</span>
                 </div>
-                <div class="invoice-client-row">
-                  <span class="label">Address</span>
-                  <span id="preview-client-address" class="value">Shipping Address Details</span>
-                </div>
               </div>
             </div>
-            <div style="text-align: right;">
-              <h3 class="invoice-kicker">Issue Date</h3>
-              <p id="preview-date" class="invoice-date">MM/DD/YYYY</p>
-              <p class="invoice-date-label">Payment Due</p>
-              <p id="preview-due-date" class="invoice-date">--/--/----</p>
-              <p class="invoice-date-label">Currency</p>
-              <p id="preview-currency" class="invoice-date">USD</p>
+            <div class="invoice-top-block">
+              <p class="invoice-address-title">Address</p>
+              <p id="preview-client-address" class="invoice-address-value">Shipping Address Details</p>
+            </div>
+            <div class="invoice-top-block">
+              <div class="invoice-top-meta">
+                <div class="invoice-top-meta-row">
+                  <div>
+                    <p class="invoice-date-label" style="margin-top: 0;">Payment Due</p>
+                    <p id="preview-due-date" class="invoice-meta-value">--/--/----</p>
+                  </div>
+                  <div>
+                    <p class="invoice-date-label" style="margin-top: 0;">Issue Date</p>
+                    <p id="preview-date" class="invoice-meta-value">MM/DD/YYYY</p>
+                  </div>
+                </div>
+                <div>
+                  <p class="invoice-date-label" style="margin-top: 0;">Currency</p>
+                  <p id="preview-currency" class="invoice-meta-value">USD</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1100,19 +1210,20 @@
               <h3 class="invoice-kicker">Issuer Information</h3>
               <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
               <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
-              <div class="invoice-summary-row">
-                <span>VAT Number</span>
-                <strong id="preview-issuer-vat">VAT-XXXX</strong>
+              <div class="issuer-meta-row">
+                <span class="label">VAT Number</span>
+                <span id="preview-issuer-vat" class="value">VAT-XXXX</span>
               </div>
-              <div class="invoice-summary-row">
-                <span>Registry No.</span>
-                <strong id="preview-issuer-registry">REG-XXXX</strong>
+              <div class="issuer-meta-row">
+                <span class="label">Registry No.</span>
+                <span id="preview-issuer-registry" class="value">REG-XXXX</span>
               </div>
-              <div class="invoice-summary-row">
-                <span>Contact</span>
-                <strong id="preview-issuer-contact">contact@company.com</strong>
+              <div class="issuer-meta-row">
+                <span class="label">Contact</span>
+                <span id="preview-issuer-contact" class="value">contact@company.com</span>
               </div>
-              <h3 class="invoice-kicker" style="margin-top: 10px;">Bank Transfer Details</h3>
+              <div class="invoice-inner-divider"></div>
+              <h3 class="invoice-kicker">Bank Transfer Details</h3>
               <div id="preview-bank-logo-wrap" class="issuer-bank-logo-wrap">
                 <img id="preview-bank-logo" src="" alt="Bank logo">
               </div>
@@ -1126,19 +1237,21 @@
                 <div class="issuer-bank-row"><span class="label">Address</span><span id="preview-bank-address">-</span></div>
               </div>
             </div>
-            <div class="invoice-col">
+            <div class="invoice-col notes-stack">
               <div class="invoice-terms-panel">
                 <h3 class="invoice-kicker">Notes</h3>
                 <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
               </div>
-              <div class="invoice-payment-panel" style="margin-top: 12px;">
+              <div class="invoice-section-divider"></div>
+              <div class="invoice-payment-panel">
                 <h3 class="invoice-kicker">Payment Method</h3>
                 <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
                 <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
                 <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
                 <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
               </div>
-              <div class="invoice-terms-panel" style="margin-top: 12px;">
+              <div class="invoice-section-divider"></div>
+              <div class="invoice-terms-panel">
                 <h3 class="invoice-kicker">Terms & Conditions</h3>
                 <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
               </div>
