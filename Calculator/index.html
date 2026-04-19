@@ -619,7 +619,7 @@
       justify-content: space-between;
       align-items: baseline;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 600;
       border-top: 1px solid #d8c6a7;
       padding: 6px 0 0 0;
@@ -640,7 +640,7 @@
       justify-content: space-between;
       align-items: baseline;
       font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 600;
       color: #2c2013;
       border: 0;
@@ -651,6 +651,11 @@
     }
     .invoice-total-row span:first-child,
     .invoice-balance-row span:first-child {
+      white-space: nowrap;
+    }
+    .invoice-total-row span:last-child,
+    .invoice-balance-row span:last-child {
+      margin-left: 12px;
       white-space: nowrap;
     }
     .invoice-balance-words {
@@ -846,8 +851,8 @@
       .invoice-summary-row { font-size: 10px; }
       .invoice-summary-row strong { font-size: 14px; }
       .issuer-stack .invoice-client-name { font-size: 15px; }
-      .invoice-total-row { font-size: 16px; }
-      .invoice-balance-row { font-size: 16px; }
+      .invoice-total-row { font-size: 14px; }
+      .invoice-balance-row { font-size: 14px; }
       .invoice-balance-words { font-size: 11px; }
       .invoice-signature-label { font-size: 8px; letter-spacing: 0.12em; }
       .invoice-copyright { font-size: 8px; }
