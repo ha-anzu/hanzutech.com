@@ -387,28 +387,18 @@
       color: #2b251f;
       background: #f5efe1;
     }
-    .invoice-bottom-grid {
-      margin-top: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      align-items: start;
-    }
-    .invoice-lower-grid {
+    .invoice-details-grid {
       margin-top: 56px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: 1.05fr 0.95fr 1.15fr;
+      gap: 0;
       align-items: start;
     }
-    .invoice-issuer-accounting {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 16px;
-      align-items: start;
-      padding-top: 10px;
-      border-top: 1px solid #dfcfb3;
+    .invoice-col {
+      padding: 0 16px;
+    }
+    .invoice-col + .invoice-col {
+      border-left: 1px solid #dfcfb3;
     }
     .issuer-bank-grid {
       margin-top: 10px;
@@ -447,8 +437,7 @@
       object-fit: contain;
     }
     .invoice-accounting-panel {
-      border-left: 1px solid #dfcfb3;
-      padding-left: 14px;
+      padding-left: 0;
     }
     .invoice-terms-panel {
       margin-top: 0;
@@ -469,10 +458,13 @@
       white-space: pre-line;
     }
     .invoice-signature-grid {
-      margin-top: 10px;
+      margin-top: 18px;
+      padding-top: 8px;
+      border-top: 1px solid #e3d6bd;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr auto 1fr;
       gap: 12px;
+      align-items: end;
     }
     .invoice-signature-box {
       padding: 2px 2px;
@@ -480,6 +472,9 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
+    }
+    .invoice-signature-box.right {
+      text-align: right;
     }
     .invoice-signature-line {
       border-top: 1px solid #bfae90;
@@ -492,13 +487,14 @@
       color: #6f624f;
     }
     .invoice-copyright {
-      margin-top: 22px;
+      margin-top: 0;
       font-size: 9px;
       color: #7a6d59;
       text-align: center;
       letter-spacing: 0.06em;
-      border-top: 1px solid #e3d6bd;
-      padding-top: 8px;
+      border-top: 0;
+      padding-top: 0;
+      white-space: nowrap;
     }
     .invoice-summary-panel {
       width: 100%;
@@ -655,18 +651,22 @@
         padding: 18px;
       }
       .invoice-main-grid,
-      .invoice-bottom-grid,
-      .invoice-issuer-accounting,
-      .invoice-lower-grid,
+      .invoice-details-grid,
       .invoice-signature-grid,
       .invoice-top-grid {
         grid-template-columns: 1fr;
       }
-      .invoice-accounting-panel {
+      .invoice-col {
+        padding: 0;
+      }
+      .invoice-col + .invoice-col {
         border-left: 0;
         border-top: 1px solid #dfcfb3;
-        padding-left: 0;
-        padding-top: 8px;
+        margin-top: 10px;
+        padding-top: 10px;
+      }
+      .invoice-signature-box.right {
+        text-align: left;
       }
       .invoice-image-wrap {
         border-right: 0;
@@ -1095,8 +1095,8 @@
             </div>
           </div>
 
-          <div class="invoice-issuer-accounting">
-            <div class="issuer-stack">
+          <div class="invoice-details-grid">
+            <div class="invoice-col issuer-stack">
               <h3 class="invoice-kicker">Issuer Information</h3>
               <p id="preview-issuer-legal-name" class="invoice-client-name">LEGAL COMPANY NAME</p>
               <p id="preview-issuer-address" class="invoice-client-address">Registered company address</p>
@@ -1126,7 +1126,24 @@
                 <div class="issuer-bank-row"><span class="label">Address</span><span id="preview-bank-address">-</span></div>
               </div>
             </div>
-            <div class="invoice-accounting-panel">
+            <div class="invoice-col">
+              <div class="invoice-terms-panel">
+                <h3 class="invoice-kicker">Notes</h3>
+                <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
+              </div>
+              <div class="invoice-payment-panel" style="margin-top: 12px;">
+                <h3 class="invoice-kicker">Payment Method</h3>
+                <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
+                <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
+                <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
+                <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
+              </div>
+              <div class="invoice-terms-panel" style="margin-top: 12px;">
+                <h3 class="invoice-kicker">Terms & Conditions</h3>
+                <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
+              </div>
+            </div>
+            <div class="invoice-col invoice-accounting-panel">
               <h3 class="invoice-kicker">Accounting Summary</h3>
               <div class="invoice-summary-row">
                 <span>Subtotal</span>
@@ -1151,34 +1168,17 @@
               <div id="preview-balance-words" class="invoice-balance-words">Zero US Dollars</div>
             </div>
           </div>
-          <div class="invoice-lower-grid">
-            <div class="invoice-terms-panel">
-              <h3 class="invoice-kicker">Notes</h3>
-              <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
-            </div>
-            <div class="invoice-payment-panel">
-              <h3 class="invoice-kicker">Payment Method</h3>
-              <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
-              <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
-              <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
-              <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
-            </div>
-          </div>
-          <div class="invoice-terms-panel">
-            <h3 class="invoice-kicker">Terms & Conditions</h3>
-            <p id="preview-legal-terms" class="invoice-terms-text">No additional legal terms provided.</p>
-          </div>
           <div class="invoice-signature-grid">
             <div class="invoice-signature-box">
               <div class="invoice-signature-line"></div>
               <p class="invoice-signature-label">Receiver Signature</p>
             </div>
-            <div class="invoice-signature-box">
+            <p id="preview-copyright" class="invoice-copyright">© 2026 All rights reserved.</p>
+            <div class="invoice-signature-box right">
               <div class="invoice-signature-line"></div>
               <p class="invoice-signature-label">Authorized Signature</p>
             </div>
           </div>
-          <p id="preview-copyright" class="invoice-copyright">© 2026 All rights reserved.</p>
         </div>
       </section>
     </section>
