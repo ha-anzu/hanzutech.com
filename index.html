@@ -444,6 +444,17 @@
     .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
     .nav-shell { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 1.25rem; }
     .nav-right { justify-self: end; display: flex; align-items: center; gap: 1.75rem; }
+    .mobile-nav-toggle {
+      display: none;
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      background: rgba(12, 12, 18, 0.72);
+      color: #ffcc00;
+      width: 2.8rem;
+      height: 2.8rem;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-nav-toggle svg { width: 1.2rem; height: 1.2rem; }
     .service-hub { position: relative; justify-self: center; }
     .service-hub::after {
       content: "";
@@ -621,7 +632,12 @@
     @media (max-width: 900px) {
       .hero-layout { grid-template-columns: 1fr; min-height: auto; }
       .button { width: 100%; }
-      .nav-shell { grid-template-columns: 1fr; gap: 0.8rem; }
+      .mobile-nav-toggle { display: inline-flex; justify-self: end; }
+      .nav-shell { grid-template-columns: 1fr auto; gap: 0.8rem; }
+      .nav-shell.mobile-js .service-hub,
+      .nav-shell.mobile-js .nav-right { display: none; }
+      .nav-shell.mobile-js.is-open .service-hub { display: block; grid-column: 1 / -1; }
+      .nav-shell.mobile-js.is-open .nav-right { display: flex; grid-column: 1 / -1; }
       .nav-right { justify-self: stretch; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; }
       .nav-right a { display: block; width: 100%; }
       .service-hub { justify-self: start; width: 100%; }
@@ -647,8 +663,12 @@
 </head>
 <body class="grid-shell overflow-x-hidden">
   <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 z-50 border-b border-red-600/30 backdrop-blur-md">
-    <div class="nav-shell">
+    <div class="nav-shell" data-nav-shell>
       <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-expanded="false" aria-controls="site-nav-links">
+        <span class="sr-only">Toggle menu</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
       <div class="service-hub">
         <a href="/services" class="service-trigger"><svg class="service-trigger-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7v10l8 4 8-4V7Z" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 8.2 8.5 10v4L12 15.8 15.5 14v-4Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>Services</a>
         <div class="service-mega">
@@ -670,7 +690,7 @@
           </div>
         </div>
       </div>
-      <div class="nav-right text-sm md:text-base">
+      <div id="site-nav-links" class="nav-right text-sm md:text-base">
         <a href="/jewelers" class="neon-yellow">Open Tools</a>
         <a href="/reel" class="neon-yellow">Intro Reel</a>
         <a href="/about" class="neon-yellow">Contact Shard</a>
@@ -952,6 +972,41 @@
       <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
     </div>
   </footer>
+  <script>
+    (() => {
+      const shell = document.querySelector('[data-nav-shell]');
+      const toggle = document.querySelector('[data-mobile-nav-toggle]');
+      if (!shell || !toggle) return;
+
+      const mq = window.matchMedia('(max-width: 900px)');
+      const sync = () => {
+        if (mq.matches) {
+          shell.classList.add('mobile-js');
+          if (!shell.classList.contains('is-open')) {
+            toggle.setAttribute('aria-expanded', 'false');
+          }
+        } else {
+          shell.classList.remove('mobile-js');
+          shell.classList.remove('is-open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      };
+
+      toggle.addEventListener('click', () => {
+        if (!mq.matches) return;
+        const isOpen = shell.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+
+      if (mq.addEventListener) {
+        mq.addEventListener('change', sync);
+      } else if (mq.addListener) {
+        mq.addListener(sync);
+      }
+
+      sync();
+    })();
+  </script>
   <script>
     (() => {
       const target = document.getElementById('aka-typing');
