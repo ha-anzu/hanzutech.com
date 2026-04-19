@@ -234,6 +234,31 @@
       white-space: pre-line;
       margin-top: 3px;
     }
+    .invoice-client-rows {
+      margin-top: 4px;
+      display: grid;
+      gap: 2px;
+    }
+    .invoice-client-row {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 6px;
+      align-items: start;
+      font-size: 10px;
+      color: #716a5d;
+      line-height: 1.25;
+    }
+    .invoice-client-row .label {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7c7366;
+      font-size: 8px;
+      padding-top: 1px;
+    }
+    .invoice-client-row .value {
+      color: #5a5348;
+      white-space: pre-line;
+    }
     .invoice-date {
       font-size: 11px;
       font-weight: 500;
@@ -874,9 +899,20 @@
             <div>
               <h3 class="invoice-kicker">Client Information</h3>
               <p id="preview-client-name" class="invoice-client-name">CLIENT NAME</p>
-              <p id="preview-client-contact" class="invoice-client-address">Contact details</p>
-              <p id="preview-client-vat" class="invoice-client-address">Customer VAT: -</p>
-              <p id="preview-client-address" class="invoice-client-address">Shipping Address Details</p>
+              <div class="invoice-client-rows">
+                <div class="invoice-client-row">
+                  <span class="label">Contact</span>
+                  <span id="preview-client-contact" class="value">Contact details</span>
+                </div>
+                <div class="invoice-client-row">
+                  <span class="label">VAT</span>
+                  <span id="preview-client-vat" class="value">-</span>
+                </div>
+                <div class="invoice-client-row">
+                  <span class="label">Address</span>
+                  <span id="preview-client-address" class="value">Shipping Address Details</span>
+                </div>
+              </div>
             </div>
             <div style="text-align: right;">
               <h3 class="invoice-kicker">Issue Date</h3>
@@ -992,9 +1028,10 @@
       </section>
     </section>
 
-    <section class="max-w-7xl mx-auto mt-6 panel p-5 md:p-6 no-print">
-      <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-3">Privacy Note</p>
-      <p class="text-gray-300 leading-7">This app does not store invoice history, does not use browser storage, and does not collect or save client data. Information remains only in the current page until you export or close it.</p>
+    <section class="max-w-7xl mx-auto mt-4 panel p-3 md:p-4 no-print">
+      <p class="text-[10px] uppercase tracking-[0.32em] text-gray-500 mb-2 font-semibold">Privacy & Disclaimer</p>
+      <p class="text-xs text-gray-300 leading-6">No invoice history is stored by this page. Data stays in this session unless you export it.</p>
+      <p class="text-[11px] text-gray-400 leading-5 mt-1">Disclaimer: this tool is provided as-is for drafting invoices and is not legal, tax, or accounting advice. Users are responsible for compliance in their jurisdiction.</p>
     </section>
   </main>
 
@@ -1653,7 +1690,7 @@
 
       document.getElementById('preview-client-name').textContent = appState.clientName;
       document.getElementById('preview-client-contact').textContent = appState.clientContact;
-      document.getElementById('preview-client-vat').textContent = appState.clientVat ? `Customer VAT: ${appState.clientVat}` : 'Customer VAT: -';
+      document.getElementById('preview-client-vat').textContent = appState.clientVat || '-';
       document.getElementById('preview-client-address').textContent = appState.clientAddress;
       document.getElementById('preview-invoice-num').textContent = appState.invoiceNumber;
       document.getElementById('preview-date').textContent = formatShortDate(appState.date);
