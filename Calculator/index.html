@@ -425,6 +425,13 @@
       padding: 8px 12px 0 12px;
       margin-top: 8px;
     }
+    .invoice-balance-words {
+      padding: 4px 12px 0 12px;
+      font-size: 10px;
+      color: #6d614e;
+      line-height: 1.35;
+      font-style: italic;
+    }
     ::-webkit-scrollbar { width: 10px; height: 10px; }
     ::-webkit-scrollbar-track { background: #ffffff; }
     ::-webkit-scrollbar-thumb { background: #ffffff; border: 2px solid #f1e8da; border-radius: 999px; }
@@ -667,6 +674,29 @@
             <label class="block text-xs text-gray-400 mb-2">Payment Due Date (optional)</label>
             <input type="date" id="payment-due-date" oninput="updatePreview()" class="w-full px-3 py-2">
           </div>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Invoice Currency</label>
+            <select id="invoice-currency" oninput="updatePreview()" class="w-full px-3 py-2">
+              <option value="USD">USD - US Dollar</option>
+              <option value="MYR">MYR - Malaysian Ringgit</option>
+              <option value="THB">THB - Thai Baht</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="CAD">CAD - Canadian Dollar</option>
+              <option value="PHP">PHP - Philippine Peso</option>
+              <option value="AUD">AUD - Australian Dollar</option>
+              <option value="GBP">GBP - British Pound</option>
+              <option value="SGD">SGD - Singapore Dollar</option>
+              <option value="JPY">JPY - Japanese Yen</option>
+              <option value="CHF">CHF - Swiss Franc</option>
+            </select>
+          </div>
+        </section>
+        <section class="input-block space-y-4">
+          <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Notes</h2>
+          <div>
+            <label class="block text-xs text-gray-400 mb-2">Invoice Notes (optional)</label>
+            <textarea id="invoice-notes" oninput="updatePreview()" rows="3" placeholder="Any additional notes for this invoice..." class="w-full px-3 py-2"></textarea>
+          </div>
         </section>
         <section class="input-block space-y-4">
           <h2 class="text-xs uppercase tracking-[0.4em] text-gray-500">Legal Terms / Conditions</h2>
@@ -688,6 +718,16 @@
               <option value="PAYPAL">PAYPAL</option>
               <option value="WISE">WISE</option>
             </select>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Received Date (optional)</label>
+              <input type="date" id="payment-received-date" oninput="updatePreview()" class="w-full px-3 py-2">
+            </div>
+            <div>
+              <label class="block text-xs text-gray-400 mb-2">Received Amount (<span id="payment-amount-label-currency">USD</span>)</label>
+              <input type="number" id="payment-received-amount" step="0.01" min="0" oninput="updatePreview()" class="w-full px-3 py-2" placeholder="0.00">
+            </div>
           </div>
         </section>
 
@@ -741,7 +781,7 @@
             </div>
           </div>
           <div>
-            <label class="block text-xs text-gray-400 mb-2">Unit Price ($/g)</label>
+            <label class="block text-xs text-gray-400 mb-2">Unit Price (<span id="unit-price-label-currency">USD</span>/g)</label>
             <input type="number" id="metal-unit-price" step="0.01" oninput="updatePreview()" class="w-full px-3 py-2">
             <p id="spot-status" class="text-[11px] mt-2 text-gray-500">Manual price by default. API key lives only in this active tab.</p>
           </div>
@@ -770,7 +810,7 @@
             <input type="number" id="vat-percent" step="0.1" value="0" oninput="updatePreview()" class="w-full px-3 py-2">
           </div>
           <div>
-            <label class="block text-xs text-gray-400 mb-2">Deposit ($)</label>
+            <label class="block text-xs text-gray-400 mb-2">Deposit (<span id="deposit-label-currency">USD</span>)</label>
             <input type="number" id="deposit-amount" step="1" value="0" oninput="updatePreview()" class="w-full px-3 py-2">
           </div>
         </section>
@@ -811,6 +851,8 @@
               <p id="preview-date" class="invoice-date">MM/DD/YYYY</p>
               <p class="invoice-date-label">Payment Due</p>
               <p id="preview-due-date" class="invoice-date">--/--/----</p>
+              <p class="invoice-date-label">Currency</p>
+              <p id="preview-currency" class="invoice-date">USD</p>
             </div>
           </div>
 
@@ -877,7 +919,12 @@
                 <span>Balance Due</span>
                 <span id="preview-balance">$0.00</span>
               </div>
+              <div id="preview-balance-words" class="invoice-balance-words">Zero US Dollars</div>
             </div>
+          </div>
+          <div class="invoice-terms-panel">
+            <h3 class="invoice-kicker">Notes</h3>
+            <p id="preview-notes" class="invoice-terms-text">No additional notes provided.</p>
           </div>
           <div class="invoice-terms-panel">
             <h3 class="invoice-kicker">Terms & Conditions</h3>
@@ -886,6 +933,8 @@
           <div class="invoice-payment-panel">
             <h3 class="invoice-kicker">Payment Method</h3>
             <p id="preview-payment-method" class="invoice-terms-text">Method: -</p>
+            <p id="preview-payment-received-date" class="invoice-terms-text">Received date: -</p>
+            <p id="preview-payment-received-amount" class="invoice-terms-text">Received amount: -</p>
             <p id="preview-payment-handler" class="invoice-terms-text">Received by: -</p>
           </div>
           <div class="invoice-signature-grid">
@@ -923,8 +972,12 @@
       issuerVat: '',
       issuerContact: '',
       paymentHandler: '',
+      invoiceNotes: '',
       legalTerms: '',
       paymentMethod: '',
+      paymentReceivedDate: '',
+      paymentReceivedAmount: 0,
+      currency: 'USD',
       invoiceTitle: 'Invoice',
       invoiceSubtitle: '',
       companyLogo: '',
@@ -959,8 +1012,12 @@
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
       document.getElementById('payment-handler').value = appState.paymentHandler;
+      document.getElementById('invoice-notes').value = appState.invoiceNotes;
       document.getElementById('legal-terms').value = appState.legalTerms;
       document.getElementById('payment-method').value = appState.paymentMethod;
+      document.getElementById('payment-received-date').value = appState.paymentReceivedDate;
+      document.getElementById('payment-received-amount').value = appState.paymentReceivedAmount;
+      document.getElementById('invoice-currency').value = appState.currency;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('invoice-number').value = appState.invoiceNumber;
@@ -1160,6 +1217,94 @@
         .slice(0, 80);
     }
 
+    const currencyMeta = {
+      USD: { locale: 'en-US', label: 'US Dollars' },
+      MYR: { locale: 'ms-MY', label: 'Malaysian Ringgit' },
+      THB: { locale: 'th-TH', label: 'Thai Baht' },
+      EUR: { locale: 'de-DE', label: 'Euros' },
+      CAD: { locale: 'en-CA', label: 'Canadian Dollars' },
+      PHP: { locale: 'en-PH', label: 'Philippine Pesos' },
+      AUD: { locale: 'en-AU', label: 'Australian Dollars' },
+      GBP: { locale: 'en-GB', label: 'British Pounds' },
+      SGD: { locale: 'en-SG', label: 'Singapore Dollars' },
+      JPY: { locale: 'ja-JP', label: 'Japanese Yen' },
+      CHF: { locale: 'de-CH', label: 'Swiss Francs' }
+    };
+
+    function getCurrencyMeta(code) {
+      return currencyMeta[code] || currencyMeta.USD;
+    }
+
+    function formatCurrency(amount) {
+      const meta = getCurrencyMeta(appState.currency);
+      return new Intl.NumberFormat(meta.locale, {
+        style: 'currency',
+        currency: appState.currency,
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(Number.isFinite(amount) ? amount : 0);
+    }
+
+    function formatShortDate(value) {
+      const dateValue = value ? new Date(value) : null;
+      if (!dateValue || Number.isNaN(dateValue.getTime())) return '--/--/----';
+      return dateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' });
+    }
+
+    function integerToWords(num) {
+      const ones = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+      const teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
+      const tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+      const scales = ['', 'thousand', 'million', 'billion'];
+
+      if (num === 0) return 'zero';
+
+      function chunkToWords(n) {
+        let out = '';
+        const hundred = Math.floor(n / 100);
+        const remainder = n % 100;
+        if (hundred > 0) out += `${ones[hundred]} hundred`;
+        if (remainder > 0) {
+          if (out) out += ' ';
+          if (remainder < 10) out += ones[remainder];
+          else if (remainder < 20) out += teens[remainder - 10];
+          else {
+            const ten = Math.floor(remainder / 10);
+            const one = remainder % 10;
+            out += tens[ten];
+            if (one > 0) out += `-${ones[one]}`;
+          }
+        }
+        return out;
+      }
+
+      let remaining = Math.floor(num);
+      let scaleIndex = 0;
+      const parts = [];
+      while (remaining > 0) {
+        const chunk = remaining % 1000;
+        if (chunk > 0) {
+          const chunkWords = chunkToWords(chunk);
+          parts.unshift(scales[scaleIndex] ? `${chunkWords} ${scales[scaleIndex]}` : chunkWords);
+        }
+        remaining = Math.floor(remaining / 1000);
+        scaleIndex += 1;
+      }
+      return parts.join(' ');
+    }
+
+    function amountToWords(amount) {
+      const safeAmount = Number.isFinite(amount) ? amount : 0;
+      const isNegative = safeAmount < 0;
+      const abs = Math.abs(safeAmount);
+      const whole = Math.floor(abs);
+      const cents = Math.round((abs - whole) * 100);
+      const words = integerToWords(whole);
+      const currencyLabel = getCurrencyMeta(appState.currency).label;
+      const centsPart = cents > 0 ? ` and ${cents}/100` : '';
+      return `${isNegative ? 'minus ' : ''}${words} ${currencyLabel}${centsPart}`;
+    }
+
     function downloadJson(payload, filename) {
       const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -1184,8 +1329,12 @@
           issuerVat: appState.issuerVat,
           issuerContact: appState.issuerContact,
           paymentHandler: appState.paymentHandler,
+          invoiceNotes: appState.invoiceNotes,
           legalTerms: appState.legalTerms,
           paymentMethod: appState.paymentMethod,
+          paymentReceivedDate: appState.paymentReceivedDate,
+          paymentReceivedAmount: appState.paymentReceivedAmount,
+          currency: appState.currency,
           invoiceTitle: appState.invoiceTitle,
           invoiceSubtitle: appState.invoiceSubtitle,
           companyLogo: appState.companyLogo,
@@ -1218,8 +1367,15 @@
       appState.issuerVat = String(incoming.issuerVat || '');
       appState.issuerContact = String(incoming.issuerContact || '');
       appState.paymentHandler = String(incoming.paymentHandler || '');
+      appState.invoiceNotes = profileOnly ? appState.invoiceNotes : String(incoming.invoiceNotes || '');
       appState.legalTerms = String(incoming.legalTerms || '');
       appState.paymentMethod = String(incoming.paymentMethod || incoming.transferMethod || '');
+      appState.paymentReceivedDate = profileOnly ? appState.paymentReceivedDate : String(incoming.paymentReceivedDate || '');
+      appState.paymentReceivedAmount = profileOnly
+        ? appState.paymentReceivedAmount
+        : (Number.isFinite(Number(incoming.paymentReceivedAmount)) ? Number(incoming.paymentReceivedAmount) : 0);
+      appState.currency = String(incoming.currency || 'USD').toUpperCase();
+      if (!currencyMeta[appState.currency]) appState.currency = 'USD';
       appState.invoiceTitle = String(incoming.invoiceTitle || 'Invoice');
       appState.invoiceSubtitle = String(incoming.invoiceSubtitle || '');
       appState.companyLogo = String(incoming.companyLogo || '');
@@ -1229,8 +1385,12 @@
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
       document.getElementById('payment-handler').value = appState.paymentHandler;
+      document.getElementById('invoice-notes').value = appState.invoiceNotes;
       document.getElementById('legal-terms').value = appState.legalTerms;
       document.getElementById('payment-method').value = appState.paymentMethod;
+      document.getElementById('payment-received-date').value = appState.paymentReceivedDate;
+      document.getElementById('payment-received-amount').value = appState.paymentReceivedAmount;
+      document.getElementById('invoice-currency').value = appState.currency;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
 
@@ -1350,6 +1510,7 @@
           issuerContact: appState.issuerContact,
           paymentHandler: appState.paymentHandler,
           paymentMethod: appState.paymentMethod,
+          currency: appState.currency,
           invoiceTitle: appState.invoiceTitle,
           invoiceSubtitle: appState.invoiceSubtitle,
           companyLogo: appState.companyLogo
@@ -1387,8 +1548,12 @@
       appState.issuerVat = document.getElementById('issuer-vat').value.trim();
       appState.issuerContact = document.getElementById('issuer-contact').value.trim();
       appState.paymentHandler = document.getElementById('payment-handler').value.trim();
+      appState.invoiceNotes = document.getElementById('invoice-notes').value.trim();
       appState.legalTerms = document.getElementById('legal-terms').value.trim();
       appState.paymentMethod = document.getElementById('payment-method').value;
+      appState.paymentReceivedDate = document.getElementById('payment-received-date').value;
+      appState.paymentReceivedAmount = parseFloat(document.getElementById('payment-received-amount').value) || 0;
+      appState.currency = document.getElementById('invoice-currency').value || 'USD';
       appState.invoiceTitle = document.getElementById('invoice-title').value.trim() || 'Invoice';
       appState.invoiceSubtitle = document.getElementById('invoice-subtitle').value.trim();
       appState.clientName = document.getElementById('client-name').value || 'CLIENT NAME';
@@ -1414,12 +1579,19 @@
       document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || 'Registered company address';
       document.getElementById('preview-issuer-vat').textContent = appState.issuerVat || 'VAT-XXXX';
       document.getElementById('preview-issuer-contact').textContent = appState.issuerContact || 'contact@company.com';
+      document.getElementById('preview-notes').textContent = appState.invoiceNotes || 'No additional notes provided.';
       document.getElementById('preview-legal-terms').textContent = appState.legalTerms || 'No additional legal terms provided.';
       document.getElementById('preview-payment-method').textContent = `Method: ${appState.paymentMethod || '-'}`;
+      document.getElementById('preview-payment-received-date').textContent = `Received date: ${formatShortDate(appState.paymentReceivedDate)}`;
+      document.getElementById('preview-payment-received-amount').textContent = `Received amount: ${appState.paymentReceivedAmount > 0 ? formatCurrency(appState.paymentReceivedAmount) : '-'}`;
       document.getElementById('preview-payment-handler').textContent = `Received by: ${appState.paymentHandler || '-'}`;
       const currentYear = new Date().getFullYear();
       const rightsOwner = appState.issuerLegalName || 'Issuer';
       document.getElementById('preview-copyright').textContent = `© ${currentYear} ${rightsOwner}. All rights reserved.`;
+      document.getElementById('preview-currency').textContent = appState.currency;
+      document.getElementById('unit-price-label-currency').textContent = appState.currency;
+      document.getElementById('deposit-label-currency').textContent = appState.currency;
+      document.getElementById('payment-amount-label-currency').textContent = appState.currency;
       const subtitleNode = document.getElementById('preview-invoice-subtitle');
       if (appState.invoiceSubtitle) {
         subtitleNode.textContent = appState.invoiceSubtitle;
@@ -1444,16 +1616,8 @@
       document.getElementById('preview-client-vat').textContent = appState.clientVat ? `Customer VAT: ${appState.clientVat}` : 'Customer VAT: -';
       document.getElementById('preview-client-address').textContent = appState.clientAddress;
       document.getElementById('preview-invoice-num').textContent = appState.invoiceNumber;
-      const dateValue = appState.date ? new Date(appState.date) : null;
-      document.getElementById('preview-date').textContent =
-        dateValue && !Number.isNaN(dateValue.getTime())
-          ? dateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
-          : '--/--/----';
-      const dueDateValue = appState.paymentDueDate ? new Date(appState.paymentDueDate) : null;
-      document.getElementById('preview-due-date').textContent =
-        dueDateValue && !Number.isNaN(dueDateValue.getTime())
-          ? dueDateValue.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
-          : '--/--/----';
+      document.getElementById('preview-date').textContent = formatShortDate(appState.date);
+      document.getElementById('preview-due-date').textContent = formatShortDate(appState.paymentDueDate);
 
       const placeholder = document.getElementById('image-placeholder');
       let hasAnyRef = false;
@@ -1490,8 +1654,8 @@
           <div class="line-meta">Purity: ${(appState.metal.purity * 100).toFixed(1)}%</div>
         </td>
         <td style="text-align: center;">${totalMetalUsed.toFixed(2)} g</td>
-        <td style="text-align: right;">$${(appState.metal.unitPrice * appState.metal.purity).toFixed(2)}</td>
-        <td class="total-column">$${metalTotal.toFixed(2)}</td>
+        <td style="text-align: right;">${formatCurrency(appState.metal.unitPrice * appState.metal.purity)}</td>
+        <td class="total-column">${formatCurrency(metalTotal)}</td>
       `;
       tbody.appendChild(metalRow);
 
@@ -1505,8 +1669,8 @@
             <div class="line-meta">Natural or selected stone input</div>
           </td>
           <td style="text-align: center;">${stone.carats.toFixed(2)} ct</td>
-          <td style="text-align: right;">$${stone.price.toLocaleString()}</td>
-          <td class="total-column">$${stoneTotal.toFixed(2)}</td>
+          <td style="text-align: right;">${formatCurrency(stone.price)}</td>
+          <td class="total-column">${formatCurrency(stoneTotal)}</td>
         `;
         tbody.appendChild(row);
       });
@@ -1518,8 +1682,8 @@
         row.innerHTML = `
           <td><div class="line-title">${escapeHtml(item.description)}</div></td>
           <td style="text-align: center;">${item.qty} ${item.unit}</td>
-          <td style="text-align: right;">$${item.price.toLocaleString()}</td>
-          <td class="total-column">$${itemTotal.toFixed(2)}</td>
+          <td style="text-align: right;">${formatCurrency(item.price)}</td>
+          <td class="total-column">${formatCurrency(itemTotal)}</td>
         `;
         tbody.appendChild(row);
       });
@@ -1528,12 +1692,13 @@
       const grandTotal = subtotal + vatAmount;
       const balance = grandTotal - appState.deposit;
 
-      document.getElementById('preview-subtotal').textContent = `$${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('preview-subtotal').textContent = formatCurrency(subtotal);
       document.getElementById('preview-vat-rate').textContent = appState.vat;
-      document.getElementById('preview-vat-amount').textContent = `$${vatAmount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('preview-grand-total').textContent = `$${grandTotal.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('preview-deposit').textContent = `-$${appState.deposit.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-      document.getElementById('preview-balance').textContent = `$${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      document.getElementById('preview-vat-amount').textContent = formatCurrency(vatAmount);
+      document.getElementById('preview-grand-total').textContent = formatCurrency(grandTotal);
+      document.getElementById('preview-deposit').textContent = `-${formatCurrency(appState.deposit)}`;
+      document.getElementById('preview-balance').textContent = formatCurrency(balance);
+      document.getElementById('preview-balance-words').textContent = amountToWords(balance);
     }
 
     async function fetchMetalPrice() {
@@ -1564,7 +1729,7 @@
         const data = await response.json();
         const pricePerGram = data.price / 31.1034768;
         document.getElementById('metal-unit-price').value = pricePerGram.toFixed(2);
-        status.textContent = `Live spot loaded: $${pricePerGram.toFixed(2)}/g. Key remains unsaved.`;
+        status.textContent = `Live spot loaded in USD: $${pricePerGram.toFixed(2)}/g. Convert manually if using another invoice currency.`;
         updatePreview();
       } catch (error) {
         console.error(error);
@@ -1582,8 +1747,12 @@
       appState.issuerVat = '';
       appState.issuerContact = '';
       appState.paymentHandler = '';
+      appState.invoiceNotes = '';
       appState.legalTerms = '';
       appState.paymentMethod = '';
+      appState.paymentReceivedDate = '';
+      appState.paymentReceivedAmount = 0;
+      appState.currency = 'USD';
       appState.invoiceTitle = 'Invoice';
       appState.invoiceSubtitle = '';
       appState.companyLogo = '';
@@ -1614,8 +1783,12 @@
       document.getElementById('issuer-vat').value = '';
       document.getElementById('issuer-contact').value = '';
       document.getElementById('payment-handler').value = '';
+      document.getElementById('invoice-notes').value = '';
       document.getElementById('legal-terms').value = '';
       document.getElementById('payment-method').value = '';
+      document.getElementById('payment-received-date').value = '';
+      document.getElementById('payment-received-amount').value = 0;
+      document.getElementById('invoice-currency').value = 'USD';
       document.getElementById('invoice-title').value = 'Invoice';
       document.getElementById('invoice-subtitle').value = '';
       document.getElementById('client-name').value = '';
@@ -1649,8 +1822,12 @@
       appState.issuerVat = 'TH0105551234567';
       appState.issuerContact = 'sales@aurorajewelry.co | +66 2 123 4567';
       appState.paymentHandler = 'Narin S.';
+      appState.invoiceNotes = 'Kindly verify item details and approve final production specs before dispatch.';
       appState.legalTerms = '1. 30-day return guarantee for verified manufacturing defects only.\n2. Balance due before final delivery.\n3. Custom approved designs are non-refundable once production starts.';
       appState.paymentMethod = 'SWIFT';
+      appState.paymentReceivedDate = '';
+      appState.paymentReceivedAmount = 0;
+      appState.currency = 'THB';
       appState.invoiceTitle = 'Custom Jewelry Invoice';
       appState.invoiceSubtitle = 'Handcrafted pieces with production-ready costing';
       appState.clientName = 'Sample Client';
@@ -1676,8 +1853,12 @@
       document.getElementById('issuer-vat').value = appState.issuerVat;
       document.getElementById('issuer-contact').value = appState.issuerContact;
       document.getElementById('payment-handler').value = appState.paymentHandler;
+      document.getElementById('invoice-notes').value = appState.invoiceNotes;
       document.getElementById('legal-terms').value = appState.legalTerms;
       document.getElementById('payment-method').value = appState.paymentMethod;
+      document.getElementById('payment-received-date').value = appState.paymentReceivedDate;
+      document.getElementById('payment-received-amount').value = appState.paymentReceivedAmount;
+      document.getElementById('invoice-currency').value = appState.currency;
       document.getElementById('invoice-title').value = appState.invoiceTitle;
       document.getElementById('invoice-subtitle').value = appState.invoiceSubtitle;
       document.getElementById('client-name').value = appState.clientName;
@@ -1731,3 +1912,4 @@
   </script>
 </body>
 </html>
+
