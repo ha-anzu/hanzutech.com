@@ -12,7 +12,7 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="dark">
   <title>Services | Hanzu Tech</title>
-  <meta name="description" content="Jewelry design, CAD, rendering, technical consultation, and custom software by Hanzu Tech.">
+  <meta name="description" content="Design and graphics, CAD and 3D modeling, rendering and visualization, and organic 3D modelling by Hanzu Tech.">
   <link rel="canonical" href="https://hanzutech.com/services">
   <meta property="og:type" content="website">
   <meta property="og:title" content="Services | Hanzu Tech">
@@ -115,6 +115,13 @@
     .service-points { display: grid; gap: 0.65rem; color: #d1d5db; }
     .service-points li { position: relative; padding-left: 1rem; }
     .service-points li::before { content: ""; position: absolute; left: 0; top: 0.72em; width: 0.4rem; height: 1px; background: #ffcc00; box-shadow: 0 0 10px rgba(255, 204, 0, 0.4); }
+    .service-directory { display: grid; gap: 1.2rem; }
+    .service-directory-card { display: grid; gap: 1.1rem; border: 1px solid rgba(255, 0, 51, 0.46); background: rgba(0, 0, 0, 0.72); padding: 1.2rem; }
+    .service-directory-card img { width: 100%; min-height: 13rem; object-fit: cover; border: 1px solid rgba(255, 204, 0, 0.24); background: rgba(255, 0, 51, 0.08); }
+    .service-directory-copy { display: grid; gap: 0.8rem; }
+    .service-link-row { display: flex; flex-wrap: wrap; gap: 0.8rem; align-items: center; }
+    .status-badge { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.45rem 0.72rem; border: 1px solid rgba(255, 204, 0, 0.44); color: #ffcc00; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; }
+    @media (min-width: 1024px) { .service-directory-card { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center; } }
     .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); }
     .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
     .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
@@ -149,16 +156,11 @@
             <p class="mt-2 text-sm text-gray-300">Design, build, automate, and ship.</p>
           </div>
           <div class="service-grid">
-            <a href="/services#jewelry-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 7 9l5 11 5-11-5-5Z"/><path d="M9.4 9h5.2"/></svg></span><span class="service-label">Jewelry Design</span></a>
-            <a href="/services#3d-sculpting" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 7 4v10l-7 4-7-4V7Z"/><path d="M12 7v10M5 7l7 4 7-4"/></svg></span><span class="service-label">3D Sculpting</span></a>
-            <a href="/services#jewelry-cad-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4Z"/><path d="M8 10h8M8 14h5"/></svg></span><span class="service-label">Jewelry CAD Design</span></a>
-            <a href="/services#jewelry-rendering" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v12H5Z"/><path d="m8 14 2.5-3 2 2 2.5-4 1.5 5"/><circle cx="9" cy="10" r="1"/></svg></span><span class="service-label">Jewelry Rendering/Visualization</span></a>
-            <a href="/services#graphic-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5Z"/><path d="m8 16 8-8"/><path d="M8 8h.01M16 16h.01"/></svg></span><span class="service-label">Graphic Design</span></a>
-            <a href="/services#ecommerce-shopify" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 10H7L6 8Z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg></span><span class="service-label">E-Commerce Shopify Setup</span></a>
-            <a href="/services#portfolio-website" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16v12H4Z"/><path d="M4 10h16"/><path d="M8 8h.01"/></svg></span><span class="service-label">Portfolio Website Design</span></a>
-            <a href="/services#technical-consultation" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="M8 12h8"/><path d="M10 16h4"/></svg></span><span class="service-label">Technical and Design Consultation</span></a>
-            <a href="/services#custom-software" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 8 5 12l3 4"/><path d="m16 8 3 4-3 4"/><path d="m13 6-2 12"/></svg></span><span class="service-label">Custom Software Development</span></a>
-            <a href="/services#ai-agent-design" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg></span><span class="service-label">AI Agent Design</span></a>
+            <a href="/services/design-graphics" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h14v14H5Z"/><path d="m8 16 8-8"/><path d="M8 8h.01M16 16h.01"/></svg></span><span class="service-label">Design and Graphics</span></a>
+            <a href="/services/cad-3d-modeling" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 7 4v10l-7 4-7-4V7Z"/><path d="M12 7v10M5 7l7 4 7-4"/></svg></span><span class="service-label">CAD and 3D Modeling</span></a>
+            <a href="/services/rendering-visualization" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v12H5Z"/><path d="m8 14 2.5-3 2 2 2.5-4 1.5 5"/><circle cx="9" cy="10" r="1"/></svg></span><span class="service-label">Rendering and Visualization</span></a>
+            <a href="/services/organic-3d-modelling" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 7 9l5 11 5-11-5-5Z"/><path d="M9.4 9h5.2"/></svg></span><span class="service-label">Organic 3D Modelling</span></a>
+            <a href="/services/automation" class="service-link neon-yellow"><span class="service-thumb"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="2"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></svg></span><span class="service-label">Automation (Coming Soon)</span></a>
           </div>
         </div>
       </div>
@@ -174,200 +176,90 @@
     <section class="px-6 py-10">
       <div class="max-w-6xl mx-auto page-header p-6 md:p-8">
         <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">Services</p>
-        <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Services</h1>
-        <p class="page-quote mt-3">Precision pays when the design handoff reaches the factory clean.</p>
+        <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Service Directory</h1>
+        <p class="page-quote mt-3">Focused stack. Direct portfolio routes. Easy content replacement later.</p>
       </div>
     </section>
 
     <section class="px-6 pb-20">
-      <div class="max-w-6xl mx-auto space-y-6">
-        <article id="jewelry-design" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelry Design</p>
-              <h2 class="text-3xl neon-red mb-4">Concept direction with production awareness</h2>
-              <p class="text-gray-300 leading-8">Original jewelry design work shaped for brands, custom clients, and workshops that want creative direction without losing the manufacturing plot. The service covers reference research, concept structure, silhouette logic, and decision-making that actually survives the bench.</p>
-              <ul class="service-points mt-6">
-                <li>Concept boards, ring families, and collection direction.</li>
-                <li>Design language that fits casting, wearability, and client approval.</li>
-                <li>Space for concept boards, sketch refinements, and approval-ready views.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-jewelry-design.svg" alt="Jewelry design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Concept Key Visual</p><p class="mt-2 text-sm text-gray-200">Collection or solitaire direction</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-jewelry-design.svg" alt="Jewelry design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Design Language Board</p><p class="mt-2 text-sm text-gray-200">Mood, stone logic, metal language</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-jewelry-design.svg" alt="Jewelry design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval Presentation</p><p class="mt-2 text-sm text-gray-200">Rationale, notes, and decision support</p></div>
+      <div class="max-w-6xl mx-auto service-directory">
+        <article class="service-directory-card">
+          <img src="/assets/placeholders/services/design-graphics/overview.svg" alt="Design and graphics placeholder overview" loading="lazy">
+          <div class="service-directory-copy">
+            <p class="text-xs uppercase tracking-[0.34em] text-gray-500">Design and Graphics</p>
+            <h2 class="text-3xl neon-red">Brand-led visual systems and campaign execution</h2>
+            <p class="text-gray-300 leading-8">Editorial composition, visual hierarchy, and identity systems tuned for premium product storytelling, packaging, and launch communication.</p>
+            <ul class="service-points">
+              <li>Dedicated portfolio page with structured case studies.</li>
+              <li>Placeholders stored in `assets/placeholders/services/design-graphics/`.</li>
+              <li>Built to swap visuals and copy quickly without touching layout logic.</li>
+            </ul>
+            <div class="service-link-row">
+              <a href="/services/design-graphics" class="button">Open Portfolio</a>
             </div>
           </div>
         </article>
-        <article id="3d-sculpting" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">3D Sculpting</p>
-              <h2 class="text-3xl neon-yellow mb-4">ZBrush forms with real surface intent</h2>
-              <p class="text-gray-300 leading-8">For pieces that need organic volume, surface control, and a stronger hand-feel before they move into production. This is where expressive forms, unusual silhouettes, and premium detail work get sharpened into usable digital assets.</p>
-              <ul class="service-points mt-6">
-                <li>Organic surfaces, sculpted details, and advanced form shaping.</li>
-                <li>Presentation-ready stills and review captures.</li>
-                <li>Space for sculpt overviews, detail crops, and validation angles.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-3d-sculpting.svg" alt="3D sculpting placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Sculpt Overview</p><p class="mt-2 text-sm text-gray-200">Primary sculpt angle</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-3d-sculpting.svg" alt="3D sculpting placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Surface Detail</p><p class="mt-2 text-sm text-gray-200">Texture or ornament zone</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-3d-sculpting.svg" alt="3D sculpting placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Validation Still</p><p class="mt-2 text-sm text-gray-200">Form and proportion checkpoint</p></div>
+
+        <article class="service-directory-card">
+          <img src="/assets/placeholders/services/cad-3d-modeling/overview.svg" alt="CAD and 3D modeling placeholder overview" loading="lazy">
+          <div class="service-directory-copy">
+            <p class="text-xs uppercase tracking-[0.34em] text-gray-500">CAD and 3D Modeling</p>
+            <h2 class="text-3xl neon-yellow">Engineering-grade CAD with production-ready geometry</h2>
+            <p class="text-gray-300 leading-8">Technical model presentation optimized for tolerances, sectional logic, and file readiness for manufacturing handoff.</p>
+            <ul class="service-points">
+              <li>Dedicated portfolio page with blueprint-style structure.</li>
+              <li>Placeholders stored in `assets/placeholders/services/cad-3d-modeling/`.</li>
+              <li>Slot-by-slot image naming for fast content swaps.</li>
+            </ul>
+            <div class="service-link-row">
+              <a href="/services/cad-3d-modeling" class="button">Open Portfolio</a>
             </div>
           </div>
         </article>
-        <article id="jewelry-cad-design" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelry CAD Design</p>
-              <h2 class="text-3xl neon-red mb-4">Factory-ready models, not fragile files</h2>
-              <p class="text-gray-300 leading-8">Precise CAD work for stone settings, tolerances, casting allowances, and revisions that need to move cleanly into fabrication. The emphasis is file logic that respects bench reality and avoids expensive back-and-forth.</p>
-              <ul class="service-points mt-6">
-                <li>Stone seat logic, wall thickness control, and structural cleanup.</li>
-                <li>Revision support for production problems and client changes.</li>
-                <li>Space for model overviews, engineering cuts, and measurement callouts.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-cad-modeling.svg" alt="CAD modeling placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Model Overview</p><p class="mt-2 text-sm text-gray-200">Primary production angle</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-cad-modeling.svg" alt="CAD modeling placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Engineering Cut</p><p class="mt-2 text-sm text-gray-200">Construction and tolerance logic</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-cad-modeling.svg" alt="CAD modeling placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Revision Record</p><p class="mt-2 text-sm text-gray-200">Before and after fixes</p></div>
+
+        <article class="service-directory-card">
+          <img src="/assets/placeholders/services/rendering-visualization/overview.svg" alt="Rendering and visualization placeholder overview" loading="lazy">
+          <div class="service-directory-copy">
+            <p class="text-xs uppercase tracking-[0.34em] text-gray-500">Rendering and Visualization</p>
+            <h2 class="text-3xl neon-red">High-impact visuals for approvals and launch assets</h2>
+            <p class="text-gray-300 leading-8">Cinematic render framing, material variation storytelling, and lighting breakdowns that support client decisions and marketing output.</p>
+            <ul class="service-points">
+              <li>Dedicated portfolio page with gallery-first structure.</li>
+              <li>Placeholders stored in `assets/placeholders/services/rendering-visualization/`.</li>
+              <li>Clear naming for hero, lighting, and comparison assets.</li>
+            </ul>
+            <div class="service-link-row">
+              <a href="/services/rendering-visualization" class="button">Open Portfolio</a>
             </div>
           </div>
         </article>
-        <article id="jewelry-rendering" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Jewelry Rendering / Visualization</p>
-              <h2 class="text-3xl neon-yellow mb-4">Approval visuals that sell the idea cleanly</h2>
-              <p class="text-gray-300 leading-8">Render packs for client approvals, product decks, launch assets, and factory communication. The output should look premium, explain clearly, and shorten the path from concept to decision.</p>
-              <ul class="service-points mt-6">
-                <li>Hero images, material variations, and marketing-ready shots.</li>
-                <li>Client approval visuals with clean annotation space.</li>
-                <li>Space for lifestyle, studio, and exploded component renders.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-rendering-visualization.svg" alt="Rendering placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Hero render</p><p class="mt-2 text-sm text-gray-200">Front-facing premium frame</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-rendering-visualization.svg" alt="Rendering placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Material variation</p><p class="mt-2 text-sm text-gray-200">Yellow / white / rose comparison</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-rendering-visualization.svg" alt="Rendering placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Approval panel</p><p class="mt-2 text-sm text-gray-200">Render plus note space</p></div>
+
+        <article class="service-directory-card">
+          <img src="/assets/placeholders/services/organic-3d-modelling/overview.svg" alt="Organic 3D modelling placeholder overview" loading="lazy">
+          <div class="service-directory-copy">
+            <p class="text-xs uppercase tracking-[0.34em] text-gray-500">Organic 3D Modelling</p>
+            <h2 class="text-3xl neon-yellow">Sculptural form language with surface-level precision</h2>
+            <p class="text-gray-300 leading-8">Organic form development, expressive silhouettes, and sculpt detail flow presented in a portfolio format tuned for art-direction and surface review.</p>
+            <ul class="service-points">
+              <li>Dedicated portfolio page with sculpt-first showcase layout.</li>
+              <li>Placeholders stored in `assets/placeholders/services/organic-3d-modelling/`.</li>
+              <li>Simple folder and file map for fast updates.</li>
+            </ul>
+            <div class="service-link-row">
+              <a href="/services/organic-3d-modelling" class="button">Open Portfolio</a>
             </div>
           </div>
         </article>
-        <article id="graphic-design" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Graphic Design</p>
-              <h2 class="text-3xl neon-red mb-4">Brand systems, packaging, and launch material</h2>
-              <p class="text-gray-300 leading-8">Visual support for premium brands, technical products, and launch campaigns that need more than generic layout work. This includes brand materials, packaging direction, campaign graphics, and interface visuals with stronger taste and production logic.</p>
-              <ul class="service-points mt-6">
-                <li>Packaging directions, sales assets, and system graphics.</li>
-                <li>Presentation documents and technical communication boards.</li>
-                <li>Space for posters, dielines, and brand composition samples.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-graphic-design.svg" alt="Graphic design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Packaging mockup</p><p class="mt-2 text-sm text-gray-200">Box, card, or insert layout</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-graphic-design.svg" alt="Graphic design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Campaign visual</p><p class="mt-2 text-sm text-gray-200">Launch or promo treatment</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-graphic-design.svg" alt="Graphic design placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System graphic</p><p class="mt-2 text-sm text-gray-200">Diagram or branded document</p></div>
-            </div>
-          </div>
-        </article>
-        <article id="ecommerce-shopify" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">E-Commerce Shopify Setup</p>
-              <h2 class="text-3xl neon-yellow mb-4">Storefronts with cleaner structure and merch logic</h2>
-              <p class="text-gray-300 leading-8">Shopify setups for brands that need a sharper storefront, clearer product organization, and launch-ready foundations. The work focuses on reducing clutter and creating sales paths that feel direct and premium.</p>
-              <ul class="service-points mt-6">
-                <li>Collection structure, product page hierarchy, and launch cleanup.</li>
-                <li>Visual systems aligned to the brand and product type.</li>
-                <li>Space for homepage, PDP, and collection screenshots.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-shopify-setup.svg" alt="Shopify setup placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage capture</p><p class="mt-2 text-sm text-gray-200">Storefront direction</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-shopify-setup.svg" alt="Shopify setup placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Product page</p><p class="mt-2 text-sm text-gray-200">Conversion-focused layout</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-shopify-setup.svg" alt="Shopify setup placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Collection view</p><p class="mt-2 text-sm text-gray-200">Catalog structure sample</p></div>
-            </div>
-          </div>
-        </article>
-        <article id="portfolio-website" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Portfolio Website Design</p>
-              <h2 class="text-3xl neon-red mb-4">Fast, sharp sites that frame expertise properly</h2>
-              <p class="text-gray-300 leading-8">Portfolio sites for designers, studios, and product builders who need to present complex work cleanly. The emphasis is strong hierarchy, better storytelling, and proof-forward layouts instead of template noise.</p>
-              <ul class="service-points mt-6">
-                <li>Portfolio structure, project pages, and direct service messaging.</li>
-                <li>Mobile-aware layouts with cleaner visual pacing.</li>
-                <li>Space for project page, homepage, and case-study screenshots.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-portfolio-website.svg" alt="Portfolio website placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Homepage layout</p><p class="mt-2 text-sm text-gray-200">Portfolio landing direction</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-portfolio-website.svg" alt="Portfolio website placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Case study page</p><p class="mt-2 text-sm text-gray-200">Project narrative sample</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-portfolio-website.svg" alt="Portfolio website placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Mobile view</p><p class="mt-2 text-sm text-gray-200">Responsive proof area</p></div>
-            </div>
-          </div>
-        </article>
-        <article id="technical-consultation" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Technical and Design Consultation</p>
-              <h2 class="text-3xl neon-yellow mb-4">Direction for production bottlenecks and design systems</h2>
-              <p class="text-gray-300 leading-8">Consultation for teams that need clarity on tooling, workflow design, production handoff, and design decisions that are slowing the pipeline down. This is where the weak parts of the system get mapped and cleaned up.</p>
-              <ul class="service-points mt-6">
-                <li>Workflow audits, handoff analysis, and process recommendations.</li>
-                <li>Design and manufacturing strategy with AI leverage where useful.</li>
-                <li>Space for audit snapshots, diagrams, and process maps.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-consultation.svg" alt="Consultation placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Workflow diagnosis board</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-consultation.svg" alt="Consultation placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Decision matrix</p><p class="mt-2 text-sm text-gray-200">Fix priority notes</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-consultation.svg" alt="Consultation placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Implementation plan</p><p class="mt-2 text-sm text-gray-200">Action item space</p></div>
-            </div>
-          </div>
-        </article>
-        <article id="custom-software" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Custom Software Development</p>
-              <h2 class="text-3xl neon-red mb-4">Private tools built around real edge cases</h2>
-              <p class="text-gray-300 leading-8">Internal tools, quote systems, factory dashboards, calculators, and workflow utilities for teams whose problems do not fit generic software. The priority is fast, low-friction systems that actually match the operation.</p>
-              <ul class="service-points mt-6">
-                <li>Private calculators, dashboards, quoting tools, and ops helpers.</li>
-                <li>Lean interfaces built for speed, privacy, and direct use.</li>
-                <li>Space for app screenshots, workflow states, and logic maps.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-custom-software.svg" alt="Custom software placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Interface screen</p><p class="mt-2 text-sm text-gray-200">Tool dashboard view</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-custom-software.svg" alt="Custom software placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Logic flow</p><p class="mt-2 text-sm text-gray-200">Process or formula path</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-custom-software.svg" alt="Custom software placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Result panel</p><p class="mt-2 text-sm text-gray-200">Output / report area</p></div>
-            </div>
-          </div>
-        </article>
-        <article id="ai-agent-design" class="card service-block">
-          <div class="grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
-            <div>
-              <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">AI Agent Design</p>
-              <h2 class="text-3xl neon-yellow mb-4">Agent systems that increase leverage without noise</h2>
-              <p class="text-gray-300 leading-8">AI workflows for research, intake, operations, document handling, and team support. The value is not gimmicks. The value is more structured output, cleaner decisions, and fewer repetitive tasks for the human team.</p>
-              <ul class="service-points mt-6">
-                <li>Agent orchestration for internal ops, reference discovery, and admin help.</li>
-                <li>Careful prompting, system logic, and workflow integration.</li>
-                <li>Space for agent maps, interface states, and output examples.</li>
-              </ul>
-            </div>
-            <div class="portfolio-grid">
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-ai-agents.svg" alt="AI agents placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Agent console</p><p class="mt-2 text-sm text-gray-200">Task orchestration view</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-ai-agents.svg" alt="AI agents placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">Output sample</p><p class="mt-2 text-sm text-gray-200">Structured result space</p></div>
-              <div class="portfolio-shot"><img src="/assets/placeholders/services-ai-agents.svg" alt="AI agents placeholder" loading="lazy"><p class="text-xs uppercase tracking-[0.28em] text-gray-400">System map</p><p class="mt-2 text-sm text-gray-200">Multi-agent workflow diagram</p></div>
+
+        <article class="service-directory-card">
+          <img src="/assets/placeholders/services/automation/overview.svg" alt="Automation coming soon placeholder overview" loading="lazy">
+          <div class="service-directory-copy">
+            <p class="text-xs uppercase tracking-[0.34em] text-gray-500">Automation</p>
+            <h2 class="text-3xl neon-red">Workflow automation stack</h2>
+            <p class="text-gray-300 leading-8">Automation service is currently being structured and will be published with a full portfolio and workflow examples after internal validation.</p>
+            <div class="service-link-row">
+              <span class="status-badge">Coming Soon</span>
+              <a href="/services/automation" class="neon-yellow uppercase tracking-[0.24em] text-xs">Preview Page</a>
             </div>
           </div>
         </article>
