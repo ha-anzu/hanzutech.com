@@ -255,31 +255,19 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-direction: column;
+      gap: 6px;
       background: #f6f1e8;
       overflow: hidden;
-      position: relative;
     }
-    .preview-stack-img {
-      position: absolute;
-      width: 84%;
-      height: 84%;
+    .preview-col-img {
+      width: 100%;
+      height: calc((100% - 12px) / 3);
       object-fit: contain;
       background: rgba(255, 255, 255, 0.65);
       border: 1px solid rgba(216, 193, 154, 0.7);
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
       display: none;
-    }
-    .preview-stack-0 {
-      transform: translate(-10px, -10px);
-      z-index: 1;
-    }
-    .preview-stack-1 {
-      transform: translate(0px, 0px);
-      z-index: 2;
-    }
-    .preview-stack-2 {
-      transform: translate(10px, 10px);
-      z-index: 3;
     }
     .invoice-image-note {
       font-size: 9px;
@@ -829,9 +817,9 @@
           <div class="invoice-main-grid">
             <div class="invoice-image-wrap">
               <div class="preview-image-box">
-                <img id="preview-image-0" src="" alt="" class="preview-stack-img preview-stack-0">
-                <img id="preview-image-1" src="" alt="" class="preview-stack-img preview-stack-1">
-                <img id="preview-image-2" src="" alt="" class="preview-stack-img preview-stack-2">
+                <img id="preview-image-0" src="" alt="" class="preview-col-img">
+                <img id="preview-image-1" src="" alt="" class="preview-col-img">
+                <img id="preview-image-2" src="" alt="" class="preview-col-img">
                 <div id="image-placeholder" style="text-align: center; color: #9ca3af; padding: 20px;">
                   <i class="fas fa-image" style="font-size: 38px; margin-bottom: 8px;"></i>
                   <p style="font-size: 8pt; letter-spacing: 0.12em;">REFERENCE IMAGE</p>
