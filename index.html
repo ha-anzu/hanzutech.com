@@ -618,11 +618,12 @@
       80% { transform: translate(-2px, 1px); clip-path: inset(62% 0 10% 0); }
     }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .hero-layout { grid-template-columns: 1fr; min-height: auto; }
       .button { width: 100%; }
-      .nav-shell { grid-template-columns: 1fr; }
-      .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; }
+      .nav-shell { grid-template-columns: 1fr; gap: 0.8rem; }
+      .nav-right { justify-self: stretch; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; }
+      .nav-right a { display: block; width: 100%; }
       .service-hub { justify-self: start; width: 100%; }
       .service-trigger { width: 100%; justify-content: space-between; }
       .service-mega { display: none !important; }

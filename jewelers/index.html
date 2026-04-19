@@ -68,7 +68,7 @@
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
     @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-    @media (max-width: 768px) { .nav-shell { grid-template-columns: 1fr; } .nav-right { justify-self: start; flex-wrap: wrap; gap: 1rem 1.4rem; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } }
+    @media (max-width: 900px) { .nav-shell { grid-template-columns: 1fr; gap: 0.8rem; } .nav-right { justify-self: stretch; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; } .nav-right a { display: block; width: 100%; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } }
   </style>
 </head>
 <body class="overflow-x-hidden">
