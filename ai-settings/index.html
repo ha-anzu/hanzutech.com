@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data:; connect-src 'self' https://formsubmit.co https://www.goldapi.io; form-action 'self' https://formsubmit.co mailto:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
+  <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark">
+  <title>AI Settings | Hanzu Tech</title>
+  <meta name="description" content="Hanzu Tech AI operating settings: design first, stable interfaces, deep modules, TDD slices, and evidence-led execution.">
+  <link rel="canonical" href="https://hanzutech.com/ai-settings/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AI Settings | Hanzu Tech">
+  <meta property="og:description" content="The simple operating rules for using AI in Hanzu Tech work.">
+  <meta property="og:url" content="https://hanzutech.com/ai-settings/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; }
+    h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
+    .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
+    .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
+    .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
+    .nav-shell { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 1.25rem; }
+    .nav-right { justify-self: end; display: flex; align-items: center; gap: 1.75rem; }
+    .mobile-nav-toggle { display: none; width: 2.7rem; height: 2.7rem; border: 1px solid rgba(255, 0, 51, 0.42); background: rgba(12, 12, 18, 0.72); color: #ffcc00; align-items: center; justify-content: center; }
+    .mobile-nav-toggle svg { width: 1.15rem; height: 1.15rem; }
+    .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); clip-path: polygon(0 0, calc(100% - 32px) 0, 100% 32px, 100% 100%, 22px 100%, 0 calc(100% - 22px)); }
+    .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    .button { padding: 0.92rem 1.25rem; border: 2px solid #ffcc00; color: black; background: linear-gradient(135deg, #ff0033, #ff4a32 60%, #ffcc00 120%); background-size: 200% 200%; transition: background-position 0.35s, transform 0.35s, box-shadow 0.35s, border-color 0.35s; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.15em; position: relative; overflow: hidden; }
+    .button:hover { background-position: 100% 50%; border-color: #ff0033; transform: translateY(-3px); box-shadow: 0 0 24px rgba(255, 204, 0, 0.28); }
+    .grid-shell::before { content: ""; position: fixed; inset: 0; background: radial-gradient(circle at 20% 20%, rgba(255, 0, 51, 0.16), transparent 24%), radial-gradient(circle at 78% 12%, rgba(255, 204, 0, 0.1), transparent 18%), linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px); background-size: auto, auto, 72px 72px, 72px 72px; pointer-events: none; z-index: -2; }
+    .signal-card { position: relative; padding: 1.35rem; background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.52); clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); overflow: hidden; }
+    .signal-card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 0, 51, 0.1), transparent 44%, rgba(255, 204, 0, 0.08)); pointer-events: none; }
+    .signal-card > * { position: relative; z-index: 1; }
+    .terminal-line { position: relative; padding-left: 1.4rem; }
+    .terminal-line::before { content: '>'; position: absolute; left: 0; color: #ff0033; }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+    @media (max-width: 900px) {
+      .mobile-nav-toggle { display: inline-flex; justify-self: end; }
+      .nav-shell { grid-template-columns: 1fr auto; }
+      .nav-shell .nav-right { grid-column: 1 / -1; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; }
+      .nav-shell .nav-right a { display: block; width: 100%; }
+      .nav-shell.mobile-js .nav-right { display: none !important; }
+      .nav-shell.mobile-js.is-open .nav-right { display: flex !important; }
+      .button { width: 100%; }
+    }
+  </style>
+</head>
+<body class="overflow-x-hidden grid-shell">
+  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 z-50 border-b border-red-600/30 backdrop-blur-md">
+    <div class="nav-shell" data-nav-shell>
+      <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+      </button>
+      <div class="nav-right text-sm md:text-base">
+        <a href="/services" class="neon-yellow">Services</a>
+        <a href="/opentools" class="neon-yellow">OpenTools</a>
+        <a href="/skills" class="neon-yellow">Skills</a>
+        <a href="/about" class="neon-yellow">Contact Shard</a>
+      </div>
+    </div>
+  </div>
+
+  <main class="pt-28">
+    <section class="px-6 py-10">
+      <div class="max-w-6xl mx-auto page-header p-6 md:p-8">
+        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">AI Settings</p>
+        <h1 class="faulty-neon text-4xl md:text-6xl uppercase">Use AI Like A System</h1>
+        <p class="page-quote mt-3">Design first. Evidence always. Interfaces stay stable.</p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+          <a href="/skills" class="button">Open Skills Library</a>
+          <a href="/opentools" class="button bg-transparent text-yellow-300">Back To OpenTools</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-2 xl:grid-cols-3 gap-5">
+        <article class="signal-card"><p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">01</p><h2 class="text-2xl neon-yellow mb-3">Grill Before Code</h2><p class="text-gray-300 leading-7">Resolve outcome, interface, terms, behavior, dependencies, and validation before implementation when design is unclear.</p></article>
+        <article class="signal-card"><p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">02</p><h2 class="text-2xl neon-red mb-3">Use Exact Terms</h2><p class="text-gray-300 leading-7">Domain words are contracts. Code, tests, comments, and plans use the same Ubiquitous Language.</p></article>
+        <article class="signal-card"><p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">03</p><h2 class="text-2xl neon-yellow mb-3">One Test, One Slice</h2><p class="text-gray-300 leading-7">For risky logic, write one failing behavior test, implement the minimum, then refactor green.</p></article>
+        <article class="signal-card"><p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">04</p><h2 class="text-2xl neon-red mb-3">Deep Modules</h2><p class="text-gray-300 leading-7">Keep the public interface small. Hide orchestration, parsing, retries, data shape, and internal decisions.</p></article>
+        <article class="signal-card"><p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">05</p><h2 class="text-2xl neon-yellow mb-3">Question, Delete, Simplify</h2><p class="text-gray-300 leading-7">Challenge requirements, delete parts first, simplify what remains, accelerate later, automate last.</p></article>
+        <article class="signal-card"><p class="text-xs uppercase tracking-[0.3em] text-gray-500 mb-3">06</p><h2 class="text-2xl neon-red mb-3">Verify From Reality</h2><p class="text-gray-300 leading-7">Prefer source, tests, logs, runtime output, screenshots, and metrics over memory or stale documentation.</p></article>
+      </div>
+    </section>
+
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto page-header p-6 md:p-8">
+        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Operating Loop</p>
+        <p class="terminal-line text-gray-300 leading-7">Define the interface. Build behind it. Validate through the boundary.</p>
+        <p class="terminal-line text-gray-300 leading-7">Report the top five signals, not a bloated activity log.</p>
+        <p class="terminal-line text-gray-300 leading-7">Keep docs short. Let the Skills page hold the full rules.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
+    <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
+      <p>Designed by Hanzu</p>
+      <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const mq = window.matchMedia('(max-width: 900px)');
+      document.querySelectorAll('[data-nav-shell]').forEach((container) => {
+        const btn = container.querySelector('[data-mobile-nav-toggle]');
+        const closeMenu = () => {
+          container.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        };
+        const sync = () => {
+          if (mq.matches) container.classList.add('mobile-js');
+          else {
+            container.classList.remove('mobile-js');
+            closeMenu();
+          }
+        };
+        btn.addEventListener('click', () => {
+          if (!mq.matches) return;
+          const isOpen = container.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+        window.addEventListener('scroll', () => {
+          if (mq.matches && container.classList.contains('is-open')) closeMenu();
+        }, { passive: true });
+        if (mq.addEventListener) mq.addEventListener('change', sync);
+        else if (mq.addListener) mq.addListener(sync);
+        sync();
+      });
+    })();
+  </script>
+</body>
+</html>

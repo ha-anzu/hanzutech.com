@@ -11,13 +11,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="dark">
-  <title>Intro Reel | Hanzu Tech</title>
-  <meta name="description" content="Intro reel and presentation layer for Hanzu Tech projects and execution style.">
-  <link rel="canonical" href="https://hanzutech.com/reel">
+  <title>OpenTools | Hanzu Tech</title>
+  <meta name="description" content="OpenTools from Hanzu Tech: practical tools, AI operating references, and reusable workflow skills.">
+  <link rel="canonical" href="https://hanzutech.com/opentools/">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Intro Reel | Hanzu Tech">
-  <meta property="og:description" content="The signal lands when the edit carries the whole story.">
-  <meta property="og:url" content="https://hanzutech.com/reel">
+  <meta property="og:title" content="OpenTools | Hanzu Tech">
+  <meta property="og:description" content="Practical tools and AI workflow references refined through real work.">
+  <meta property="og:url" content="https://hanzutech.com/opentools/">
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -30,13 +30,18 @@
     h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
     .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
     .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
-    .card { background-color: black; border: 1px solid #ff0033; padding: 2rem; transition: transform 0.3s; position: relative; overflow: hidden; }
-    .card:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255, 204, 0, 0.22); }
-    .button { padding: 1rem 2rem; border: 2px solid #ffcc00; color: black; background: linear-gradient(135deg, #ff0033, #ff4a32 60%, #ffcc00 120%); background-size: 200% 200%; transition: background-position 0.35s, transform 0.35s, box-shadow 0.35s, border-color 0.35s; display: inline-flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .card { background-color: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.6); padding: 1.35rem; transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s, background-color 0.35s; position: relative; overflow: hidden; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 16px 100%, 0 calc(100% - 16px)); }
+    .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255, 0, 51, 0.12), transparent 40%, rgba(255, 204, 0, 0.08)); opacity: 0.7; pointer-events: none; }
+    .card > * { position: relative; z-index: 1; }
+    .card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 24px rgba(255, 204, 0, 0.24); border-color: rgba(255, 204, 0, 0.85); background-color: rgba(8, 2, 5, 0.84); }
+    .button { padding: 1rem 2rem; border: 2px solid #ffcc00; color: black; background: linear-gradient(135deg, #ff0033, #ff4a32 60%, #ffcc00 120%); background-size: 200% 200%; transition: background-position 0.35s, transform 0.35s, box-shadow 0.35s, border-color 0.35s; display: inline-flex; align-items: center; justify-content: center; text-transform: uppercase; letter-spacing: 0.16em; position: relative; overflow: hidden; }
     .button::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent); transform: translateX(-140%); transition: transform 0.45s ease; }
     .button:hover { background-position: 100% 50%; border-color: #ff0033; transform: translateY(-3px); box-shadow: 0 0 24px rgba(255, 204, 0, 0.32), 0 0 42px rgba(255, 0, 51, 0.18); }
     .button:hover::before { transform: translateX(140%); }
     .flicker { animation: flicker 2s infinite; }
+    .technically { font-size: 1.45rem; font-weight: 700; color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.45); letter-spacing: 0.26em; text-transform: uppercase; display: inline-block; }
+    .panel { background: rgba(0, 0, 0, 0.72); border: 1px solid rgba(255, 0, 51, 0.4); box-shadow: 0 0 24px rgba(255, 0, 51, 0.1); }
+    .hero { background: linear-gradient(180deg, rgba(0,0,0,0.28), rgba(0,0,0,0.84)), radial-gradient(circle at center, rgba(255, 204, 0, 0.08), transparent 28%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='900' viewBox='0 0 1600 900'%3E%3Cg fill='none'%3E%3Cpath d='M800 120c110 0 198 88 198 198s-88 198-198 198-198-88-198-198 88-198 198-198Z' stroke='rgba(255,204,0,0.16)' stroke-width='10'/%3E%3Cpath d='M800 210c60 0 108 48 108 108s-48 108-108 108-108-48-108-108 48-108 108-108Z' stroke='rgba(255,0,51,0.14)' stroke-width='6'/%3E%3Cpath d='M260 760 620 450 760 520 1260 180' stroke='rgba(255,0,51,0.14)' stroke-width='2'/%3E%3C/g%3E%3C/svg%3E"); background-size: cover; background-position: center; }
     .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
     .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
     .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
@@ -56,15 +61,21 @@
     .service-thumb { width: 2.3rem; height: 2.3rem; flex: 0 0 2.3rem; border: 1px solid rgba(255, 204, 0, 0.38); background: linear-gradient(135deg, rgba(255, 0, 51, 0.18), rgba(255, 204, 0, 0.1)); display: inline-flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.82); }
     .service-thumb svg { width: 1.05rem; height: 1.05rem; stroke: currentColor; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
     .service-label { min-width: 0; line-height: 1.3; }
-    .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.1), transparent); transform: translateX(-120%); animation: sweep 8s linear infinite; pointer-events: none; }
-    .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); }
+    .terminal-line { position: relative; padding-left: 1.4rem; }
+    .terminal-line::before { content: '>'; position: absolute; left: 0; color: #ff0033; }
+    .page-header { background: linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)), linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08)); border: 1px solid rgba(255, 0, 51, 0.42); box-shadow: 0 0 24px rgba(255, 0, 51, 0.12); clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 18px 100%, 0 calc(100% - 18px)); }
     .faulty-neon { color: #ff0033; text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28); animation: faultyNeon 4.2s steps(1, end) infinite; }
     .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    .reference-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin-top: 1rem; }
+    .reference-link { display: block; padding: 1rem; border: 1px solid rgba(255, 204, 0, 0.32); background: rgba(255, 204, 0, 0.045); color: #e5e7eb; clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); transition: transform 0.28s ease, border-color 0.28s ease, background-color 0.28s ease; }
+    .reference-link:hover { transform: translateY(-4px); border-color: rgba(255, 0, 51, 0.76); background: rgba(255, 0, 51, 0.08); }
+    .reference-link strong { display: block; color: #ffcc00; text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.78rem; }
+    .reference-link span { display: block; margin-top: 0.55rem; color: #d1d5db; line-height: 1.55; font-size: 0.9rem; }
     @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
-    @keyframes sweep { 0% { transform: translateX(-120%); opacity: 0; } 20% { opacity: 0.18; } 100% { transform: translateX(120%); opacity: 0; } }
     @keyframes retroSweep { 0% { transform: translateX(-100%); opacity: 0; } 18% { opacity: 0.14; } 100% { transform: translateX(100%); opacity: 0; } }
     @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
-    @media (max-width: 900px) { .nav-shell { grid-template-columns: 1fr; gap: 0.8rem; } .nav-right { justify-self: stretch; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; } .nav-right a { display: block; width: 100%; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+    @media (max-width: 900px) { .nav-shell { grid-template-columns: 1fr; gap: 0.8rem; } .nav-right { justify-self: stretch; width: 100%; flex-direction: column; align-items: stretch; gap: 0.7rem; } .nav-right a { display: block; width: 100%; } .service-hub { justify-self: start; width: 100%; } .service-trigger { width: 100%; justify-content: space-between; } .service-mega { display: none !important; } .button { width: 100%; } .reference-grid { grid-template-columns: 1fr; } }
 
     .mobile-nav-toggle {
       display: none;
@@ -144,16 +155,57 @@
     </div>
   </div>
 
-  <main class="pt-28 px-6 pb-20">
-    <section class="max-w-4xl mx-auto page-header p-6 md:p-8">
-      <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">Intro Reel</p>
-      <h1 class="faulty-neon text-5xl md:text-7xl uppercase">Intro Reel</h1>
-      <p class="page-quote mt-3">The signal lands when the edit is tight enough to carry the whole story.</p>
+  <main class="pt-28">
+    <section class="px-6 py-10">
+      <div class="max-w-6xl mx-auto grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-start">
+        <div class="page-header p-6 md:p-8">
+          <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-3">OpenTools</p>
+          <h1 class="faulty-neon text-4xl md:text-6xl uppercase">OpenTools</h1>
+          <p class="page-quote mt-3">Useful systems earn their place when they survive real pressure.</p>
+          <p class="mt-5 max-w-2xl text-gray-300 leading-7">Tools, AI settings, and reusable skills kept as a working reference instead of buried in chat history.</p>
+          <div class="mt-8 flex flex-col sm:flex-row gap-4">
+            <a href="/Calculator" class="button">Open Pro Jewelry Invoice</a>
+            <a href="/ai-settings" class="button bg-transparent text-yellow-300">AI Settings</a>
+            <a href="/skills" class="button bg-transparent text-yellow-300">Skills Library</a>
+          </div>
+        </div>
+        <div class="panel p-6">
+          <pre class="text-xs md:text-sm leading-7 text-gray-300 whitespace-pre-wrap"><span class="neon-red">BUILD LIST //</span>
+Open-source releases
+AI operating settings
+Skill references
+Daily-use fixes
+Stone + metal costing
+Cleaner quote logic
+Admin cleanup
+Production helpers
+Useful weird tools</pre>
+        </div>
+      </div>
     </section>
-    <section class="max-w-4xl mx-auto mt-6 w-full card text-center">
-      <p class="text-2xl neon-yellow mb-6">Reel dropping soon.</p>
-      <p class="text-gray-300 leading-8 max-w-2xl mx-auto">Edits are still being tightened. Check back soon for the finished intro packet.</p>
-      <div class="mt-10 flex justify-center"><a href="/" class="button">Back To HQ</a></div>
+
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto space-y-6">
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Reference</p><h2 class="text-3xl neon-red mb-4">AI Settings Belong Here</h2><p class="text-gray-300 leading-7">The AI page holds the operating rules: design first, stable interfaces, deep modules, direct evidence, and short validation loops.</p><div class="reference-grid"><a href="/ai-settings" class="reference-link"><strong>AI Settings</strong><span>The way Hanzu uses AI for real work.</span></a><a href="/skills" class="reference-link"><strong>Skills</strong><span>Grouped skills with full dropdown content.</span></a></div></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Open Source</p><h2 class="text-3xl neon-yellow mb-4">Free To Use, Refined In Production</h2><p class="text-gray-300 leading-7">The tool stack stays practical. If a release does not reduce drag in real work, it does not belong here.</p></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">First Release</p><h2 class="text-3xl neon-red mb-4 flicker">Pro Jewelry Invoice Leads The Stack</h2><p class="text-gray-300 leading-7">Pro Jewelry Invoice gives jewelers a private invoice-building workflow without storing client data.</p><div class="mt-6"><a href="/Calculator" class="button">Launch Pro Jewelry Invoice</a></div></article>
+      </div>
+    </section>
+
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Design</p><h2 class="text-3xl neon-yellow mb-4">Small Interface</h2><p class="text-gray-300 leading-7">Pages stay simple. The depth lives behind the dropdowns, tools, and references.</p></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Execution</p><h2 class="text-3xl neon-red mb-4">Evidence First</h2><p class="text-gray-300 leading-7">The workflow favors running code, tests, logs, source inspection, and visible outputs.</p></article>
+        <article class="card"><p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Library</p><h2 class="text-3xl neon-yellow mb-4">Skills Stay Open</h2><p class="text-gray-300 leading-7">Each skill can be opened directly on the Skills page and read without leaving the site.</p></article>
+      </div>
+    </section>
+
+    <section class="px-6 pb-20">
+      <div class="max-w-6xl mx-auto panel p-8">
+        <p class="text-xs uppercase tracking-[0.34em] text-gray-500 mb-4">Directive</p>
+        <p class="terminal-line text-gray-300 leading-7">Keep OpenTools as the public reference layer for useful software, AI settings, and reusable skills.</p>
+        <p class="terminal-line text-gray-300 leading-7">Remove noise. Keep the interface small. Let the depth open only when someone asks for it.</p>
+      </div>
     </section>
   </main>
 
