@@ -2,6 +2,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { metalLots } from "@/lib/db/schema";
 
 const schema = z.object({
@@ -27,16 +28,19 @@ export async function POST(request: Request) {
   try {
     requireRole(roleFromHeaders(new Headers(request.headers)), "Production");
     const payload = schema.parse(await request.json());
-    const [lot] = await db
-      .insert(metalLots)
-      .values({
-        ...payload,
-        purity: String(payload.purity),
-        gramsReceived: String(payload.gramsReceived),
-        gramsAvailable: String(payload.gramsAvailable),
-        costTotal: String(payload.costTotal)
-      })
-      .returning();
+    const lot = oneRow(
+      await db
+        .insert(metalLots)
+        .values({
+          ...payload,
+          purity: String(payload.purity),
+          gramsReceived: String(payload.gramsReceived),
+          gramsAvailable: String(payload.gramsAvailable),
+          costTotal: String(payload.costTotal)
+        })
+        .returning(),
+      "Create metal lot"
+    );
     return ok(lot, 201);
   } catch (error) {
     return fail(error, 400);

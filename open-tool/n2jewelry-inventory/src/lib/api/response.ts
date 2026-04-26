@@ -6,5 +6,6 @@ export function ok(data: unknown, status = 200) {
 
 export function fail(error: unknown, status = 400) {
   const message = error instanceof Error ? error.message : "Unknown error";
+  console.error("API_ERROR", { status, message, error });
   return NextResponse.json({ ok: false, error: message }, { status });
 }

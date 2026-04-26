@@ -3,6 +3,7 @@ import { makeUploadUrl } from "@/lib/assets/storage";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { digitalAssets } from "@/lib/db/schema";
 
 const schema = z.object({
@@ -21,13 +22,16 @@ export async function POST(request: Request) {
     const objectKey = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}-${payload.fileName}`;
     const upload = await makeUploadUrl(objectKey, payload.mimeType);
 
-    const [asset] = await db
+    const asset = oneRow(
+      await db
       .insert(digitalAssets)
       .values({
         ...payload,
         objectKey
       })
-      .returning();
+      .returning(),
+      "Create digital asset"
+    );
 
     return ok({ asset, upload }, 201);
   } catch (error) {

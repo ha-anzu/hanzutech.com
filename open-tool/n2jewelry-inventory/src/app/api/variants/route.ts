@@ -2,6 +2,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { variants } from "@/lib/db/schema";
 
 const schema = z.object({
@@ -22,7 +23,7 @@ export async function POST(request: Request) {
   try {
     requireRole(roleFromHeaders(new Headers(request.headers)), "Production");
     const payload = schema.parse(await request.json());
-    const [item] = await db.insert(variants).values(payload).returning();
+    const item = oneRow(await db.insert(variants).values(payload).returning(), "Create variant");
     return ok(item, 201);
   } catch (error) {
     return fail(error, 400);

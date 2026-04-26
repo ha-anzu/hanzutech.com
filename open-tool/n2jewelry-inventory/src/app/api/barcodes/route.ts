@@ -4,6 +4,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { barcodes, skus } from "@/lib/db/schema";
 import { generateBarcodeValue } from "@/lib/inventory/sku";
 
@@ -16,16 +17,17 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const value = url.searchParams.get("value");
+    const format = (url.searchParams.get("format") ?? "code128").toLowerCase();
     if (!value) {
       return ok(await db.select().from(barcodes));
     }
 
     const png = await bwipjs.toBuffer({
-      bcid: "code128",
+      bcid: format === "qrcode" ? "qrcode" : "code128",
       text: value,
-      scale: 2,
-      height: 12,
-      includetext: true,
+      scale: format === "qrcode" ? 4 : 2,
+      height: format === "qrcode" ? undefined : 12,
+      includetext: format === "qrcode" ? false : true,
       textxalign: "center"
     });
 
@@ -50,14 +52,17 @@ export async function POST(request: Request) {
     }
 
     const barcodeValue = payload.barcodeValue ?? generateBarcodeValue(sku.skuCode);
-    const [created] = await db
+    const created = oneRow(
+      await db
       .insert(barcodes)
       .values({
         skuId: payload.skuId,
         barcodeValue,
         symbology: "CODE128"
       })
-      .returning();
+      .returning(),
+      "Create barcode"
+    );
 
     return ok(created, 201);
   } catch (error) {

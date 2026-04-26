@@ -2,6 +2,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { skus } from "@/lib/db/schema";
 import { generateSku } from "@/lib/inventory/sku";
 
@@ -29,14 +30,17 @@ export async function POST(request: Request) {
     const payload = schema.parse(await request.json());
     const skuCode = payload.manualSkuCode ? payload.manualSkuCode.trim().toUpperCase() : generateSku(payload);
 
-    const [created] = await db
-      .insert(skus)
-      .values({
-        variantId: payload.variantId,
-        skuCode,
-        manualOverride: !!payload.manualSkuCode
-      })
-      .returning();
+    const created = oneRow(
+      await db
+        .insert(skus)
+        .values({
+          variantId: payload.variantId,
+          skuCode,
+          manualOverride: !!payload.manualSkuCode
+        })
+        .returning(),
+      "Create SKU"
+    );
 
     return ok(created, 201);
   } catch (error) {

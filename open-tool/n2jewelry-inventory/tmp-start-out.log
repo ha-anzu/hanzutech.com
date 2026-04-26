@@ -1,0 +1,10 @@
+
+> n2jewelry-inventory@1.0.0 start
+> next start -p 3020
+
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3020
+   - Network:      http://192.168.100.125:3020
+
+ ✓ Starting...
+ ✓ Ready in 304ms

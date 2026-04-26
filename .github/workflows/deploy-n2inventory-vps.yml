@@ -1,0 +1,23 @@
+name: Deploy N2 Inventory To VPS
+
+on:
+  push:
+    branches: [main, codex/n2jewelry-inventory-v1]
+    paths:
+      - "open-tool/n2jewelry-inventory/**"
+      - ".github/workflows/deploy-n2inventory-vps.yml"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.N2_VPS_HOST }}
+          username: ${{ secrets.N2_VPS_USER }}
+          key: ${{ secrets.N2_VPS_SSH_KEY }}
+          port: ${{ secrets.N2_VPS_PORT || '22' }}
+          script: |
+            cd /opt/n2jewelry-inventory/open-tool/n2jewelry-inventory
+            bash ops/scripts/vps-deploy.sh ${{ github.ref_name }}

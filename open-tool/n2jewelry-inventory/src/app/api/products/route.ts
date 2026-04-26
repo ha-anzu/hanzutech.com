@@ -3,6 +3,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { products } from "@/lib/db/schema";
 
 const createSchema = z.object({
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
     requireRole(role, "Production");
     const payload = createSchema.parse(await request.json());
 
-    const [product] = await db.insert(products).values(payload).returning();
+    const product = oneRow(await db.insert(products).values(payload).returning(), "Create product");
     return ok(product, 201);
   } catch (error) {
     return fail(error, 400);
@@ -54,7 +55,7 @@ export async function PATCH(request: Request) {
     if (payload.description !== undefined) updateValues.description = payload.description;
     if (payload.active !== undefined) updateValues.active = payload.active;
 
-    const [updated] = await db.update(products).set(updateValues).where(eq(products.id, payload.id)).returning();
+    const updated = oneRow(await db.update(products).set(updateValues).where(eq(products.id, payload.id)).returning(), "Update product");
 
     return ok(updated);
   } catch (error) {

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { metalLots, productionOrders } from "@/lib/db/schema";
 
 const schema = z.object({
@@ -34,11 +35,14 @@ export async function POST(request: Request) {
       .where(eq(metalLots.id, payload.lotId));
 
     const updatedLots = [...order.inputLots, { lotId: payload.lotId, grams: payload.grams }];
-    const [updatedOrder] = await db
-      .update(productionOrders)
-      .set({ inputLots: updatedLots })
-      .where(eq(productionOrders.id, payload.orderId))
-      .returning();
+    const updatedOrder = oneRow(
+      await db
+        .update(productionOrders)
+        .set({ inputLots: updatedLots })
+        .where(eq(productionOrders.id, payload.orderId))
+        .returning(),
+      "Update production order input lots"
+    );
 
     return ok(updatedOrder);
   } catch (error) {

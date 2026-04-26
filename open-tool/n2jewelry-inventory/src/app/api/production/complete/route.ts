@@ -3,6 +3,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { productionOrders } from "@/lib/db/schema";
 import { recordMovement } from "@/lib/inventory/movement";
 
@@ -30,11 +31,14 @@ export async function POST(request: Request) {
       referenceId: order.id
     });
 
-    const [updated] = await db
-      .update(productionOrders)
-      .set({ completedQty: order.completedQty + payload.quantity, status: "completed" })
-      .where(eq(productionOrders.id, payload.orderId))
-      .returning();
+    const updated = oneRow(
+      await db
+        .update(productionOrders)
+        .set({ completedQty: order.completedQty + payload.quantity, status: "completed" })
+        .where(eq(productionOrders.id, payload.orderId))
+        .returning(),
+      "Update production order"
+    );
 
     return ok({ order: updated, movement });
   } catch (error) {

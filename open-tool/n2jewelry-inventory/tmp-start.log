@@ -1,0 +1,17 @@
+
+> n2jewelry-inventory@1.0.0 start
+> next start -p 3020
+
+   ▲ Next.js 15.5.15
+   - Local:        http://localhost:3020
+   - Network:      http://192.168.100.125:3020
+
+ ✓ Starting...
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of C:\Users\ADMIN\package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * C:\Users\ADMIN\OneDrive\Hanzu.Dev\Hanzu Tech OU\Repo\hanzutech.com\open-tool\n2jewelry-inventory\package-lock.json
+
+ ✓ Ready in 199ms

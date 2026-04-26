@@ -1,5 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { inventoryBalances, stockMovements } from "@/lib/db/schema";
 
 export type MovementInput = {
@@ -87,7 +88,7 @@ export async function recordMovement(input: MovementInput) {
     await upsertBalance(input.skuId, outboundLocation, afterFrom.nextQtyOnHand);
   }
 
-  if (input.movementType === "transfer" && input.toLocationId) {
+  if (["transfer", "consignment"].includes(input.movementType) && input.toLocationId) {
     const toBalance = await db.query.inventoryBalances.findFirst({
       where: and(eq(inventoryBalances.skuId, input.skuId), eq(inventoryBalances.locationId, input.toLocationId))
     });
@@ -125,22 +126,25 @@ export async function recordMovement(input: MovementInput) {
     await upsertBalance(input.skuId, input.toLocationId, afterTo.nextQtyOnHand);
   }
 
-  const [movement] = await db
-    .insert(stockMovements)
-    .values({
-      movementType: input.movementType,
-      skuId: input.skuId,
-      fromLocationId: input.fromLocationId,
-      toLocationId: input.toLocationId,
-      quantity: input.quantity,
-      currency: input.currency ?? "USD",
-      referenceType: input.referenceType,
-      referenceId: input.referenceId,
-      notes: input.notes,
-      performedBy: input.performedBy,
-      overrideNegative: !!input.overrideNegative
-    })
-    .returning();
+  const movement = oneRow(
+    await db
+      .insert(stockMovements)
+      .values({
+        movementType: input.movementType,
+        skuId: input.skuId,
+        fromLocationId: input.fromLocationId,
+        toLocationId: input.toLocationId,
+        quantity: input.quantity,
+        currency: input.currency ?? "USD",
+        referenceType: input.referenceType,
+        referenceId: input.referenceId,
+        notes: input.notes,
+        performedBy: input.performedBy,
+        overrideNegative: !!input.overrideNegative
+      })
+      .returning(),
+    "Create stock movement"
+  );
 
   return movement;
 }

@@ -3,6 +3,7 @@ import { z } from "zod";
 import { fail, ok } from "@/lib/api/response";
 import { requireRole, roleFromHeaders } from "@/lib/auth";
 import { db } from "@/lib/db/client";
+import { oneRow } from "@/lib/db/results";
 import { consignmentSettlements, consignmentShipments } from "@/lib/db/schema";
 import { recordMovement } from "@/lib/inventory/movement";
 
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const [settlement] = await db.insert(consignmentSettlements).values(payload).returning();
+    const settlement = oneRow(await db.insert(consignmentSettlements).values(payload).returning(), "Create consignment settlement");
     return ok(settlement, 201);
   } catch (error) {
     return fail(error, 400);
