@@ -1382,7 +1382,7 @@
               <div class="invoice-signature-line"></div>
               <p class="invoice-signature-label">Receiver Signature</p>
             </div>
-            <p id="preview-copyright" class="invoice-copyright">© 2026 All rights reserved.</p>
+            <p id="preview-copyright" class="invoice-copyright">Â© 2026 All rights reserved.</p>
             <div class="invoice-signature-box right">
               <div class="invoice-signature-line"></div>
               <p class="invoice-signature-label">Authorized Signature</p>
@@ -2304,7 +2304,7 @@ function setMetalSelection(type, purity) {
       document.getElementById('preview-payment-handler').textContent = `Received by: ${appState.paymentHandler || '-'}`;
       const currentYear = new Date().getFullYear();
       const rightsOwner = appState.issuerLegalName || 'Issuer';
-      document.getElementById('preview-copyright').textContent = `© ${currentYear} ${rightsOwner}. All rights reserved.`;
+      document.getElementById('preview-copyright').textContent = `Â© ${currentYear} ${rightsOwner}. All rights reserved.`;
       document.getElementById('preview-currency').textContent = appState.currency;
       document.getElementById('unit-price-label-currency').textContent = appState.currency;
       document.getElementById('deposit-label-currency').textContent = appState.currency;
