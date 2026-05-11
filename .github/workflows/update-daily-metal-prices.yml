@@ -25,6 +25,23 @@ jobs:
           GOLDAPI_KEY: ${{ secrets.GOLDAPI_KEY }}
         run: node scripts/update-daily-metal-prices.mjs
 
+      - name: Validate price snapshot
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const snapshot = JSON.parse(fs.readFileSync('Calculator/daily-metal-prices.json', 'utf8'));
+          const metals = ['XAU', 'XAG', 'XPT', 'XPD'];
+          const invalid = metals.filter((symbol) => {
+            const value = Number(snapshot?.prices?.[symbol]?.price_per_gram_usd);
+            return !Number.isFinite(value) || value <= 0;
+          });
+          if (!snapshot.updated_at || invalid.length) {
+            throw new Error(`Invalid daily metal snapshot. Missing timestamp or invalid prices: ${invalid.join(', ') || 'none'}`);
+          }
+          console.log(`Daily metal snapshot status: ${snapshot.status || 'unknown'}`);
+          console.log(`Daily metal snapshot timestamp: ${snapshot.updated_at}`);
+          NODE
+
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"

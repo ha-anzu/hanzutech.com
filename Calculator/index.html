@@ -1484,6 +1484,21 @@
       visibility: normalizeVisibility()
     };
 
+    const embeddedDailyMetalPriceFallback = {
+      updated_at: '2026-05-08T12:00:00+07:00',
+      base_currency: 'USD',
+      unit: 'USD_per_gram',
+      source: 'manual_market_snapshot',
+      status: 'bootstrap_fallback',
+      fallback_reason: 'Daily price file could not be loaded; using the built-in bootstrap snapshot.',
+      prices: {
+        XAU: { price_per_gram_usd: 151.591735 },
+        XAG: { price_per_gram_usd: 2.583312 },
+        XPT: { price_per_gram_usd: 66.079429 },
+        XPD: { price_per_gram_usd: 48.033215 }
+      }
+    };
+
     window.onload = () => {
       document.getElementById('issuer-legal-name').value = appState.issuerLegalName;
       document.getElementById('issuer-address').value = appState.issuerAddress;
@@ -1742,30 +1757,76 @@ function setMetalSelection(type, purity) {
       return select.value;
     }
 
-    async function loadDailySpotPrice(silent = false) {
+    function formatDailySnapshotTime(value) {
+      const refreshedAt = value ? new Date(value) : null;
+      if (!refreshedAt || Number.isNaN(refreshedAt.getTime())) {
+        return 'undated snapshot';
+      }
+      return refreshedAt.toLocaleString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    function getValidDailyPrice(data, symbol) {
+      const entry = data?.prices?.[symbol];
+      const price = Number(entry?.price_per_gram_usd);
+      return Number.isFinite(price) && price > 0 ? price : null;
+    }
+
+    function describeDailySnapshot(data, symbol, pricePerGram) {
+      const refreshedLabel = formatDailySnapshotTime(data?.updated_at);
+      const status = data?.status || 'live';
+      const reason = data?.fallback_reason ? ` ${data.fallback_reason}` : '';
+      if (status === 'live') {
+        return `Daily spot loaded (${symbol}, ${refreshedLabel}, ${pricePerGram.toFixed(2)} USD/g).`;
+      }
+      if (status === 'partial_fallback') {
+        return `Daily spot loaded with fallback coverage (${symbol}, ${refreshedLabel}, ${pricePerGram.toFixed(2)} USD/g).${reason}`;
+      }
+      return `Fallback daily spot loaded (${symbol}, ${refreshedLabel}, ${pricePerGram.toFixed(2)} USD/g). Verify or enter a manual price before sending quotes.${reason}`;
+    }
+
+    async function loadDailySpotPrice(silent = false, prefix = '') {
       const status = document.getElementById('spot-status');
       const symbol = getActiveMetalSymbol();
-      if (!symbol || symbol === 'CUSTOM') return;
+      if (!symbol || symbol === 'CUSTOM') {
+        if (status && !silent) {
+          status.textContent = 'Custom metal selected. Enter the unit price manually.';
+        }
+        return false;
+      }
       try {
         const response = await fetch(`./daily-metal-prices.json?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Daily price file unavailable (${response.status})`);
-        const data = await response.json();
-        const entry = data?.prices?.[symbol];
-        if (!entry || !Number.isFinite(Number(entry.price_per_gram_usd))) {
-          throw new Error(`No daily price for ${symbol}`);
+        let data = await response.json();
+        let pricePerGram = getValidDailyPrice(data, symbol);
+        if (pricePerGram === null) {
+          data = embeddedDailyMetalPriceFallback;
+          pricePerGram = getValidDailyPrice(data, symbol);
         }
-        const pricePerGram = Number(entry.price_per_gram_usd);
+        if (pricePerGram === null) {
+          throw new Error(`No valid daily price for ${symbol}`);
+        }
         document.getElementById('metal-unit-price').value = pricePerGram.toFixed(2);
-        const refreshedAt = data?.updated_at ? new Date(data.updated_at) : null;
-        const refreshedLabel = refreshedAt && !Number.isNaN(refreshedAt.getTime())
-          ? refreshedAt.toLocaleString('en-GB', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
-          : 'latest daily update';
-        status.textContent = `Daily spot loaded (${symbol}, ${refreshedLabel}, 12:00 Asia/Bangkok schedule).`;
+        status.textContent = `${prefix}${describeDailySnapshot(data, symbol, pricePerGram)}`;
         updatePreview();
+        return true;
       } catch (error) {
-        if (!silent && status) {
-          status.textContent = 'Daily spot unavailable. Enter manual price or use your own GoldAPI key for live fetch.';
+        const fallbackPrice = getValidDailyPrice(embeddedDailyMetalPriceFallback, symbol);
+        if (fallbackPrice !== null) {
+          document.getElementById('metal-unit-price').value = fallbackPrice.toFixed(2);
+          status.textContent = `${prefix}${describeDailySnapshot(embeddedDailyMetalPriceFallback, symbol, fallbackPrice)}`;
+          updatePreview();
+          return true;
         }
+        if (status) {
+          status.textContent = 'No valid daily spot is available. Enter a manual price or use your own GoldAPI key for live fetch.';
+        }
+        return false;
       }
     }
 
@@ -2463,7 +2524,8 @@ function setMetalSelection(type, purity) {
         updatePreview();
       } catch (error) {
         console.error(error);
-        status.textContent = 'Fetch failed. Check the API key or enter a manual price.';
+        status.textContent = 'Live fetch failed. Trying the daily snapshot...';
+        await loadDailySpotPrice(false, 'Live fetch failed; ');
       } finally {
         btn.disabled = false;
         btn.textContent = 'Fetch Spot';
