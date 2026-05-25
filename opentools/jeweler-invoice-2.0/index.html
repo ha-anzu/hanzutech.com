@@ -396,6 +396,9 @@
       min-height: 500px;
       flex: 1;
     }
+    .invoice-main-grid.reference-hidden .invoice-lines-wrap {
+      grid-column: 2;
+    }
     .invoice-image-wrap {
       padding-right: 4px;
       border-right: 1px solid #ece3d4;
@@ -1809,7 +1812,10 @@
       if (imageWrap) imageWrap.classList.toggle('is-hidden', !visibility.referenceImages);
       if (linesWrap) linesWrap.classList.toggle('is-hidden', !visibility.itemsTable);
       if (customsPanel) customsPanel.classList.toggle('is-hidden', !visibility.customs || !visibility.itemsTable);
-      if (mainGrid) mainGrid.classList.toggle('is-hidden', !visibility.referenceImages && !visibility.itemsTable);
+      if (mainGrid) {
+        mainGrid.classList.toggle('reference-hidden', !visibility.referenceImages && visibility.itemsTable);
+        mainGrid.classList.toggle('is-hidden', !visibility.referenceImages && !visibility.itemsTable);
+      }
 
       const issuerCol = get('preview-issuer-col');
       const bankSection = get('preview-bank-section');
