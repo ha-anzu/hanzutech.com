@@ -1973,7 +1973,7 @@ function setMetalSelection(type, purity) {
         return false;
       }
       try {
-        const response = await fetch(`/Calculator/daily-metal-prices.json?v=${Date.now()}`, { cache: 'no-store' });
+        const response = await fetch(`./daily-metal-prices.json?v=${Date.now()}`, { cache: 'no-store' });
         if (!response.ok) throw new Error(`Daily price file unavailable (${response.status})`);
         let data = await response.json();
         let pricePerGram = getValidDailyPrice(data, symbol);

@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const TROY_OUNCE_GRAMS = 31.1034768;
 const metals = ['XAU', 'XAG', 'XPT', 'XPD'];
-const targetPath = path.join(process.cwd(), 'Calculator', 'daily-metal-prices.json');
+const targetPath = path.join(process.cwd(), 'opentools', 'jeweler-invoice-2.0', 'daily-metal-prices.json');
 
 const bootstrapSnapshot = {
   updated_at: '2026-05-08T12:00:00+07:00',

@@ -29,7 +29,7 @@ jobs:
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
-          const snapshot = JSON.parse(fs.readFileSync('Calculator/daily-metal-prices.json', 'utf8'));
+          const snapshot = JSON.parse(fs.readFileSync('opentools/jeweler-invoice-2.0/daily-metal-prices.json', 'utf8'));
           const metals = ['XAU', 'XAG', 'XPT', 'XPD'];
           const invalid = metals.filter((symbol) => {
             const value = Number(snapshot?.prices?.[symbol]?.price_per_gram_usd);
@@ -46,7 +46,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add Calculator/daily-metal-prices.json
+          git add opentools/jeweler-invoice-2.0/daily-metal-prices.json
           if git diff --staged --quiet; then
             echo "No changes to commit."
             exit 0
