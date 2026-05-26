@@ -26,7 +26,10 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { width: 100%; max-width: 100%; overflow-x: clip; }
+    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; position: relative; }
+    img, video, svg { max-width: 100%; }
     h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
     .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
     .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
@@ -74,6 +77,7 @@
       background-size: cover;
       background-position: center;
       position: relative;
+      overflow: hidden;
     }
     .hero-shell::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.08), transparent); transform: translateX(-120%); animation: sweep 15s linear infinite; pointer-events: none; }
     .console-panel {
@@ -84,6 +88,7 @@
       clip-path: polygon(0 0, calc(100% - 38px) 0, 100% 38px, 100% 100%, 26px 100%, 0 calc(100% - 26px));
       position: relative;
       overflow: hidden;
+      min-width: 0;
     }
     .console-panel::before,
     .console-panel::after {
@@ -115,6 +120,7 @@
     .hero-copy {
       max-width: 48rem;
       min-height: 100%;
+      min-width: 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -194,18 +200,22 @@
       width: 100%;
       max-width: 100%;
       overflow: hidden;
+      contain: inline-size;
     }
     .aka-typing {
       display: block;
       white-space: nowrap;
       width: 100%;
       max-width: 100%;
+      min-width: 0;
+      min-height: 1.15em;
       overflow: hidden;
       text-overflow: clip;
       vertical-align: bottom;
+      contain: layout paint;
     }
     .aka-typing::after { content: "_"; color: #ffcc00; margin-left: 0.12em; animation: caretBlink 0.85s steps(1, end) infinite; }
-    .hero-tagline { margin-top: 0; max-width: 36rem; }
+    .hero-tagline { margin-top: 0; max-width: 36rem; min-width: 0; overflow: hidden; }
     .hero-story { margin-top: 1.3rem; max-width: 33rem; color: #9ca3af; line-height: 1.82; font-size: 0.98rem; }
     .contact-shard {
       display: inline-flex;
@@ -664,6 +674,7 @@
       .hero-copy { display: block; min-height: 0; }
       .hero-title { max-width: 16rem; }
       .technically { font-size: 1.2rem; letter-spacing: 0.24em; }
+      .designer-glow { font-size: clamp(2.9rem, 13vw, 3.35rem) !important; }
       .aka-signature { font-size: clamp(0.66rem, 2.8vw, 0.9rem); letter-spacing: 0.06em; }
       .hero-media { padding-top: 0; }
       .hero-reel-panel { width: 100%; max-width: 100%; }
@@ -739,7 +750,7 @@
             </div>
             <div class="hero-tall-screen placeholder-screen">
               <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Homepage vertical reel placeholder">
-                <source src="/assets/reels/home-hero-vertical-placeholder.mp4" type="video/mp4">
+                <source data-home-media="heroVerticalReel" src="/assets/reels/home-hero-vertical-placeholder.mp4" type="video/mp4">
               </video>
             </div>
           </div>
@@ -751,7 +762,7 @@
       <div class="page-wrap grid md:grid-cols-3 gap-6">
         <article class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/home-mission-overview.svg" alt="Mission overview placeholder" loading="lazy">
+            <img data-home-media="missionOverview" src="/assets/placeholders/home-mission-overview.svg" alt="Mission overview placeholder" loading="lazy">
           </div>
           <p class="text-[10px] uppercase tracking-[0.28em] text-gray-500 mb-2">Mission</p>
           <h2 class="text-2xl neon-red mb-2">Solve Real Operational Problems</h2>
@@ -759,7 +770,7 @@
         </article>
         <article class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/home-current-focus.svg" alt="Current focus placeholder" loading="lazy">
+            <img data-home-media="currentFocus" src="/assets/placeholders/home-current-focus.svg" alt="Current focus placeholder" loading="lazy">
           </div>
           <p class="text-[10px] uppercase tracking-[0.28em] text-gray-500 mb-2">Current Focus</p>
           <h2 class="text-2xl neon-yellow mb-2">Jewelry Workflows First</h2>
@@ -767,7 +778,7 @@
         </article>
         <article class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/home-services-stack.svg" alt="Service stack placeholder" loading="lazy">
+            <img data-home-media="servicesStack" src="/assets/placeholders/home-services-stack.svg" alt="Service stack placeholder" loading="lazy">
           </div>
           <p class="text-[10px] uppercase tracking-[0.28em] text-gray-500 mb-2">Services</p>
           <h2 class="text-2xl neon-red mb-2">Design, Build, Ship</h2>
@@ -806,7 +817,7 @@
               </div>
               <div class="wide-screen placeholder-screen">
                 <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Operator stack horizontal reel placeholder">
-                  <source src="/assets/reels/operator-stack-horizontal-placeholder.mp4" type="video/mp4">
+                  <source data-home-media="operatorStackReel" src="/assets/reels/operator-stack-horizontal-placeholder.mp4" type="video/mp4">
                 </video>
               </div>
             </div>
@@ -819,7 +830,7 @@
       <div class="page-wrap grid md:grid-cols-3 gap-6">
         <article class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/home-research-logic.svg" alt="Research logic placeholder" loading="lazy">
+            <img data-home-media="researchLogic" src="/assets/placeholders/home-research-logic.svg" alt="Research logic placeholder" loading="lazy">
           </div>
           <p class="mini-kicker mb-2">How It Works</p>
           <h2 class="text-xl neon-yellow mb-2">Research Meets Workshop Reality</h2>
@@ -827,7 +838,7 @@
         </article>
         <article class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/home-pipeline-handoff.svg" alt="Pipeline handoff placeholder" loading="lazy">
+            <img data-home-media="pipelineHandoff" src="/assets/placeholders/home-pipeline-handoff.svg" alt="Pipeline handoff placeholder" loading="lazy">
           </div>
           <p class="mini-kicker mb-2">Pipeline</p>
           <h2 class="text-xl neon-red mb-2">Design To Factory To Client</h2>
@@ -835,7 +846,7 @@
         </article>
         <article class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/home-useful-tech-only.svg" alt="Useful tech placeholder" loading="lazy">
+            <img data-home-media="usefulTechOnly" src="/assets/placeholders/home-useful-tech-only.svg" alt="Useful tech placeholder" loading="lazy">
           </div>
           <p class="mini-kicker mb-2">Target</p>
           <h2 class="text-xl neon-yellow mb-2">Useful Tech Only</h2>
@@ -885,7 +896,7 @@
               <div class="border border-yellow-400/20 bg-[#0d0d12] p-4">
                 <div class="flex items-center justify-between">
                   <p class="text-sm uppercase tracking-[0.22em] text-gray-500">CGTrader // rating</p>
-                  <p class="neon-yellow">?????</p>
+                  <p class="neon-yellow">5 / 5</p>
                 </div>
                 <p class="mt-4 text-white">"Excellent detail, fast revisions, and a model that actually worked for production instead of just looking good on screen."</p>
                 <p class="mt-3 text-sm text-gray-400">Verified marketplace feedback style block</p>
@@ -957,7 +968,7 @@
       <div class="page-wrap max-w-6xl">
         <div class="card">
           <div class="card-visual">
-            <img src="/assets/placeholders/journal-feed-preview.svg" alt="Journal preview placeholder" loading="lazy">
+            <img data-home-media="journalPreview" src="/assets/placeholders/journal-feed-preview.svg" alt="Journal preview placeholder" loading="lazy">
           </div>
           <p class="mini-kicker mb-2">Updates / Journal</p>
           <h2 class="text-xl neon-red">Archive entry point is live.</h2>
@@ -976,6 +987,30 @@
       <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
     </div>
   </footer>
+  <script>
+    const HOME_MEDIA = Object.freeze({
+      heroVerticalReel: '/assets/reels/home-hero-vertical-placeholder.mp4',
+      operatorStackReel: '/assets/reels/operator-stack-horizontal-placeholder.mp4',
+      missionOverview: '/assets/placeholders/home-mission-overview.svg',
+      currentFocus: '/assets/placeholders/home-current-focus.svg',
+      servicesStack: '/assets/placeholders/home-services-stack.svg',
+      researchLogic: '/assets/placeholders/home-research-logic.svg',
+      pipelineHandoff: '/assets/placeholders/home-pipeline-handoff.svg',
+      usefulTechOnly: '/assets/placeholders/home-useful-tech-only.svg',
+      journalPreview: '/assets/placeholders/journal-feed-preview.svg',
+    });
+
+    (() => {
+      document.querySelectorAll('[data-home-media]').forEach((media) => {
+        const src = HOME_MEDIA[media.dataset.homeMedia];
+        if (!src || media.getAttribute('src') === src) return;
+
+        media.setAttribute('src', src);
+        const player = media.closest('video, audio');
+        if (player) player.load();
+      });
+    })();
+  </script>
   <script>
     (() => {
       const target = document.getElementById('aka-typing');
