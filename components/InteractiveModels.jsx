@@ -63,7 +63,7 @@ function PipelineGraph({ active = 1 }) {
   });
 
   return (
-    <group ref={group}>
+    <group ref={group} position={[0, 0.32, 0]} scale={0.68}>
       <Line points={points} color="#ffcc00" lineWidth={2} transparent opacity={0.72} />
       {points.map((point, index) => (
         <mesh key={index} position={point}>
@@ -111,7 +111,7 @@ export function JewelryShowcase({ active = 0, compact = false }) {
 export function PipelineShowcase({ active = 1 }) {
   return (
     <div className="pipeline-canvas">
-      <Canvas camera={{ position: [0, 0.16, 5.2], fov: 40 }} dpr={[1, 1.5]}>
+      <Canvas camera={{ position: [0, 0.16, 6.2], fov: 38 }} dpr={[1, 1.5]}>
         <Suspense fallback={null}>
           <SceneLights />
           <PipelineGraph active={active} />

@@ -259,6 +259,7 @@ function Navbar() {
           ))}
         </div>
         <span className="active-rail" style={{ "--active-index": Math.max(0, navItems.findIndex(([, href]) => href === `#${active}`)) }} />
+        <span className="mobile-menu-scrim" aria-hidden="true" />
       </div>
     </motion.div>
   );
