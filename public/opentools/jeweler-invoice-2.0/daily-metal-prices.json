@@ -1,0 +1,31 @@
+{
+  "updated_at": "2026-05-08T12:00:00+07:00",
+  "base_currency": "USD",
+  "unit": "USD_per_gram",
+  "source": "manual_market_snapshot",
+  "status": "stale_fallback",
+  "fallback_reason": "Missing GOLDAPI_KEY; using the best available saved snapshot.",
+  "notes": "Values are USD per gram. Live daily updates use GoldAPI.io; fallback snapshots are clearly marked.",
+  "prices": {
+    "XAU": {
+      "price_per_gram_usd": 151.591735,
+      "source_price_per_troy_ounce_usd": 4715.03,
+      "source": "manual_market_snapshot"
+    },
+    "XAG": {
+      "price_per_gram_usd": 2.583312,
+      "source_price_per_troy_ounce_usd": 80.35,
+      "source": "manual_market_snapshot"
+    },
+    "XPT": {
+      "price_per_gram_usd": 66.079429,
+      "source_price_per_troy_ounce_usd": 2055.3,
+      "source": "manual_market_snapshot"
+    },
+    "XPD": {
+      "price_per_gram_usd": 48.033215,
+      "source_price_per_troy_ounce_usd": 1494,
+      "source": "manual_market_snapshot"
+    }
+  }
+}

@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data:; connect-src 'self' https://formsubmit.co https://www.goldapi.io; form-action 'self' https://formsubmit.co mailto:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
+  <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+    }
+  </script>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark">
+  <title>Contact Shard | Hanzu Tech</title>
+  <meta name="description" content="Contact Hanzu Tech for jewelry design, factory-facing workflows, and custom software systems.">
+  <link rel="canonical" href="https://hanzutech.com/about">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact Shard | Hanzu Tech">
+  <meta property="og:description" content="Direct contact for design, tooling, and production-focused builds.">
+  <meta property="og:url" content="https://hanzutech.com/about">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0a0a0f; color: white; font-family: 'IBM Plex Mono', monospace; }
+    h1, h2 { font-family: 'IBM Plex Sans', sans-serif; font-weight: bold; }
+    .neon-red { color: #ff0033; text-shadow: 0 0 10px #ff0033; }
+    .neon-yellow { color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    .technically-mark {
+      display: inline-block;
+      font-size: 1rem;
+      line-height: 1;
+      font-weight: 700;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: #ffcc00;
+      text-shadow: 0 0 14px rgba(255, 204, 0, 0.4);
+    }
+    .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .brand-mark .brand-hanzu { color: #ff0033; text-shadow: 0 0 12px rgba(255, 0, 51, 0.45); }
+    .brand-mark .brand-tech { color: #ffcc00; text-shadow: 0 0 12px rgba(255, 204, 0, 0.42); }
+    .card { background-color: black; border: 1px solid #ff0033; padding: 2rem; transition: transform 0.3s; }
+    .card:hover { transform: scale(1.02); box-shadow: 0 0 20px #ffcc00; }
+    .button { padding: 1rem 2rem; border: 2px solid #ffcc00; color: black; background-color: #ff0033; transition: background-color 0.3s; }
+    .button:hover { background-color: #ffcc00; border-color: #ff0033; }
+    .flicker { animation: flicker 2s infinite; }
+    .scan::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent, rgba(255, 204, 0, 0.08), transparent);
+      animation: scan 10s linear infinite;
+      pointer-events: none;
+    }
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 3rem;
+      height: 3rem;
+      border: 1px solid rgba(255, 0, 51, 0.38);
+      background: rgba(0, 0, 0, 0.72);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .social-link:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255, 204, 0, 0.75);
+      box-shadow: 0 0 18px rgba(255, 204, 0, 0.18);
+    }
+    .social-link svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      fill: currentColor;
+    }
+    .top-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .page-header {
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.78), rgba(7,7,12,0.88)),
+        linear-gradient(120deg, rgba(255,0,51,0.08), transparent 45%, rgba(255,204,0,0.08));
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      box-shadow: 0 0 24px rgba(255, 0, 51, 0.12);
+    }
+    .faulty-neon {
+      color: #ff0033;
+      text-shadow: 0 0 10px rgba(255, 0, 51, 0.9), 0 0 28px rgba(255, 0, 51, 0.28);
+      animation: faultyNeon 4.2s steps(1, end) infinite;
+    }
+    .page-quote { color: #9ca3af; letter-spacing: 0.18em; text-transform: uppercase; font-size: 0.78rem; }
+    .form-status {
+      min-height: 1.5rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+    .form-status.is-error { color: #fca5a5; }
+    .form-status.is-success { color: #86efac; }
+    @keyframes flicker { 0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; } 20%, 22%, 24%, 55% { opacity: 0.5; } }
+    @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+    @keyframes faultyNeon { 0%, 16%, 19%, 23%, 54%, 57%, 100% { opacity: 1; } 17%, 22%, 55% { opacity: 0.35; } 18%, 56% { opacity: 0.82; } }
+    @media (max-width: 900px) {
+      .top-nav {
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+        width: 100%;
+      }
+      .top-nav a { display: block; width: 100%; }
+      .button { width: 100%; }
+    }
+
+    .mobile-nav-toggle {
+      display: none;
+      width: 2.7rem;
+      height: 2.7rem;
+      border: 1px solid rgba(255, 0, 51, 0.42);
+      background: rgba(12, 12, 18, 0.72);
+      color: #ffcc00;
+      align-items: center;
+      justify-content: center;
+    }
+    .mobile-nav-toggle svg { width: 1.15rem; height: 1.15rem; }
+    @media (max-width: 900px) {
+      .mobile-nav-toggle { display: inline-flex; justify-self: end; }
+      .nav-shell { grid-template-columns: 1fr auto !important; }
+      .nav-shell .service-hub,
+      .nav-shell .nav-right { grid-column: 1 / -1; }
+      .nav-shell.mobile-js .service-hub,
+      .nav-shell.mobile-js .nav-right { display: none !important; }
+      .nav-shell.mobile-js.is-open .service-hub { display: block !important; }
+      .nav-shell.mobile-js.is-open .nav-right { display: flex !important; }
+      .nav-shell .nav-right {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      .nav-shell .nav-right a { display: block; width: 100%; }
+      [data-top-nav-wrap] {
+        display: grid !important;
+        grid-template-columns: 1fr auto;
+        gap: 0.8rem;
+        align-items: center;
+      }
+      [data-top-nav-wrap] .top-nav { grid-column: 1 / -1; }
+      [data-top-nav-wrap].mobile-js .top-nav { display: none !important; }
+      [data-top-nav-wrap].is-open .top-nav {
+        display: flex !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.7rem;
+      }
+      [data-top-nav-wrap] .top-nav a { display: block; width: 100%; }
+    }  </style>
+</head>
+<body class="overflow-x-hidden">
+  <div class="fixed top-0 left-0 w-full bg-black bg-opacity-90 p-4 flex justify-between z-50 border-b border-red-600/30 backdrop-blur-md" data-top-nav-wrap>
+    <a href="/" class="text-3xl font-bold brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <button type='button' class='mobile-nav-toggle' data-mobile-nav-toggle aria-label='Toggle menu' aria-expanded='false'>
+  <svg viewBox='0 0 24 24' aria-hidden='true'>
+    <path d='M4 7h16M4 12h16M4 17h16' fill='none' stroke='currentColor' stroke-width='1.7' stroke-linecap='round'/>
+  </svg>
+</button>
+
+    <div class="top-nav">
+      <a href="/services" class="neon-yellow">Services</a>
+      <a href="/opentools" class="neon-yellow">OpenTools</a>
+      <a href="/reel" class="neon-yellow">Intro Reel</a>
+      <a href="/about" class="neon-yellow">Contact Shard</a>
+    </div>
+  </div>
+
+  <main class="pt-24 px-6 pb-16">
+    <section class="max-w-5xl mx-auto">
+      <div class="page-header p-6 md:p-8">
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-3">Contact Shard</p>
+        <h1 class="faulty-neon text-5xl md:text-7xl uppercase">Contact Shard</h1>
+        <p class="page-quote mt-3">A tight operator stack beats a noisy team every time.</p>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto mt-10 grid lg:grid-cols-[1fr_0.9fr] gap-6">
+      <div class="card">
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Background</p>
+        <p class="text-gray-300 leading-8">
+          The work sits at the intersection of technical design, software tooling, and physical product thinking. That means quoting systems, jewelry production helpers, admin interfaces, and whatever else closes the gap between an idea and an operational result. The end state is independence through useful tech, not trend-chasing.
+        </p>
+      </div>
+      <div class="card">
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Direct Contact</p>
+        <p class="text-gray-300 leading-8">Operation Location:</p>
+        <p class="text-gray-300 leading-8">Sathupradit, Rama 3, Yan nawa, Sathon, Bangkok, Thailand</p>
+        <p class="text-gray-300 leading-8">hanzutechou@gmail.com</p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="https://www.linkedin.com/in/ha-anzu/" class="social-link neon-yellow" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5A2.48 2.48 0 1 0 5 8.46 2.48 2.48 0 0 0 4.98 3.5ZM3 9h4v12H3Zm7 0h3.83v1.64h.05c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.12V21h-4v-5.54c0-1.32-.03-3.01-1.84-3.01-1.84 0-2.12 1.44-2.12 2.92V21h-4Z"/></svg>
+          </a>
+          <a href="https://x.com/ha_anzu" class="social-link neon-yellow" aria-label="X">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.77 7.73L23 22h-6.1l-4.77-6.24L6.67 22H3.56l7.23-8.27L1 2h6.26l4.31 5.69Zm-1.07 18h1.69L6.35 3.9H4.53Z"/></svg>
+          </a>
+          <a href="https://www.cgtrader.com/designers/ha-anzu" class="social-link neon-yellow" aria-label="CGTrader">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 6.8v10.4L12 22l9-4.8V6.8Zm0 2.08 6.88 3.67L12 11.42 5.12 7.75Zm-7 5.17 6 3.2v6.88l-6-3.2Zm14 6.88-6 3.2v-6.88l6-3.2Z"/></svg>
+          </a>
+          <a href="https://wa.me/message/DPLPR3GDRZH6N1" class="social-link neon-yellow" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.52 3.48A11.78 11.78 0 0 0 12.08 0C5.56 0 .24 5.3.24 11.82c0 2.08.55 4.12 1.6 5.92L0 24l6.44-1.68a11.8 11.8 0 0 0 5.64 1.44h.01c6.52 0 11.84-5.3 11.84-11.82 0-3.15-1.23-6.11-3.41-8.46ZM12.09 21.7h-.01a9.77 9.77 0 0 1-4.98-1.37l-.36-.21-3.82 1 .99-3.72-.24-.38a9.76 9.76 0 0 1-1.5-5.19c0-5.4 4.4-9.8 9.82-9.8 2.62 0 5.08 1.02 6.93 2.87a9.74 9.74 0 0 1 2.88 6.93c0 5.4-4.4 9.8-9.81 9.8Zm5.37-7.34c-.29-.14-1.72-.85-1.99-.95-.26-.1-.45-.14-.64.15-.19.29-.74.95-.9 1.15-.17.19-.33.22-.62.07-.29-.14-1.2-.44-2.29-1.4-.84-.75-1.4-1.67-1.57-1.95-.17-.29-.02-.44.12-.58.13-.13.29-.33.43-.5.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.5-.07-.14-.64-1.54-.87-2.1-.23-.56-.47-.48-.64-.49h-.55c-.19 0-.5.07-.76.36-.26.29-1 1-.99 2.44 0 1.44 1.04 2.83 1.19 3.03.14.19 2.04 3.12 4.94 4.38.69.3 1.23.47 1.65.6.69.22 1.32.19 1.82.12.56-.08 1.72-.7 1.96-1.37.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.33Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-5xl mx-auto mt-10 grid lg:grid-cols-[1.05fr_0.95fr] gap-6">
+      <div class="card">
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Contact Form</p>
+        <p class="text-gray-300 leading-8 mb-6">Send a brief for design, tooling, or a factory-facing build and Hanzu Tech will reply directly.</p>
+        <form data-contact-form class="grid md:grid-cols-2 gap-4">
+          <label class="sr-only" for="contact-name">Contact Name</label>
+          <input id="contact-name" type="text" name="name" required placeholder="Contact Name" class="bg-black border border-red-600/40 px-4 py-3 text-white focus:outline-none focus:border-yellow-400">
+          <label class="sr-only" for="contact-email">Email</label>
+          <input id="contact-email" type="email" name="email" required placeholder="Email" class="bg-black border border-red-600/40 px-4 py-3 text-white focus:outline-none focus:border-yellow-400">
+          <label class="sr-only" for="contact-company">Company / Project</label>
+          <input id="contact-company" type="text" name="company" placeholder="Company / Project" class="md:col-span-2 bg-black border border-red-600/40 px-4 py-3 text-white focus:outline-none focus:border-yellow-400">
+          <label class="sr-only" for="contact-brief">Project Brief</label>
+          <textarea id="contact-brief" name="message" required placeholder="What needs to be built?" rows="6" class="md:col-span-2 bg-black border border-red-600/40 px-4 py-3 text-white focus:outline-none focus:border-yellow-400"></textarea>
+          <input type="hidden" name="_subject" value="Hanzu Tech Contact Inquiry">
+          <input type="hidden" name="_captcha" value="false">
+          <button type="submit" class="button w-full md:w-auto">Transmit Inquiry</button>
+          <p class="form-status md:col-span-2" data-form-status aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="card">
+        <p class="text-xs uppercase tracking-[0.4em] text-gray-500 mb-4">Company Info</p>
+        <div class="space-y-4 text-gray-300 leading-8">
+          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Legal Name</span><br>hanzu tech OÜ</p>
+          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Registry Code</span><br>17409420</p>
+          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Legal Address</span><br>Harju maakond, Tallinn, Lasnamäe linnaosa, Sepapaja tn 6, 15551 Tallinn, Estonia</p>
+          <p><span class="text-gray-500 uppercase tracking-[0.24em] text-xs">Contact</span><br>info@hanzutech.com</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-black p-4 text-xs text-gray-500 mt-8 border-t border-red-600/20">
+    <div class="max-w-6xl mx-auto space-y-2 text-center md:text-left md:pl-8">
+      <p class="neon-red flicker">Designed by Hanzu</p>
+      <p><a href="/privacy">Privacy</a> &bull; <a href="/legal">Legal</a> &bull; <a href="/journal">Journal</a></p>
+    </div>
+  </footer>
+  <script>
+    (() => {
+      const form = document.querySelector('[data-contact-form]');
+      if (!form) return;
+      const status = form.querySelector('[data-form-status]');
+
+      const setStatus = (message, state) => {
+        status.textContent = message;
+        status.classList.remove('is-error', 'is-success');
+        if (state) status.classList.add(state);
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        setStatus('Transmitting...', '');
+
+        const payload = new FormData(form);
+        try {
+          const response = await fetch('https://formsubmit.co/ajax/hanzutechou@gmail.com', {
+            method: 'POST',
+            body: payload,
+            headers: { Accept: 'application/json' }
+          });
+          if (!response.ok) throw new Error('Submission failed');
+
+          form.reset();
+          setStatus('Inquiry sent. We will reply by email.', 'is-success');
+        } catch (error) {
+          setStatus('Transmission failed. Please email info@hanzutech.com.', 'is-error');
+        }
+      });
+    })();
+  </script>
+
+    <script>
+    (() => {
+      const mq = window.matchMedia('(max-width: 900px)');
+
+      const bindMenu = (container) => {
+        const btn = container.querySelector('[data-mobile-nav-toggle]');
+        if (!btn) return;
+
+        const closeMenu = () => {
+          container.classList.remove('is-open');
+          btn.setAttribute('aria-expanded', 'false');
+        };
+
+        const sync = () => {
+          if (mq.matches) {
+            container.classList.add('mobile-js');
+            if (!container.classList.contains('is-open')) btn.setAttribute('aria-expanded', 'false');
+          } else {
+            container.classList.remove('mobile-js');
+            closeMenu();
+          }
+        };
+
+        btn.addEventListener('click', (event) => {
+          if (!mq.matches) return;
+          event.stopPropagation();
+          const isOpen = container.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        container.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            if (mq.matches) closeMenu();
+          });
+        });
+
+        document.addEventListener('click', (event) => {
+          if (!mq.matches || !container.classList.contains('is-open')) return;
+          if (!container.contains(event.target)) closeMenu();
+        });
+
+        let touchStartY = 0;
+        window.addEventListener('touchstart', (event) => {
+          if (!event.touches || !event.touches[0]) return;
+          touchStartY = event.touches[0].clientY;
+        }, { passive: true });
+
+        window.addEventListener('touchmove', (event) => {
+          if (!mq.matches || !container.classList.contains('is-open')) return;
+          if (!event.touches || !event.touches[0]) return;
+          if (Math.abs(event.touches[0].clientY - touchStartY) > 8) closeMenu();
+        }, { passive: true });
+
+        window.addEventListener('scroll', () => {
+          if (mq.matches && container.classList.contains('is-open')) closeMenu();
+        }, { passive: true });
+
+        sync();
+        return sync;
+      };
+
+      const syncFns = [];
+      document.querySelectorAll('[data-nav-shell], [data-top-nav-wrap]').forEach((el) => {
+        const sync = bindMenu(el);
+        if (sync) syncFns.push(sync);
+      });
+
+      const onChange = () => syncFns.forEach((fn) => fn());
+      if (mq.addEventListener) mq.addEventListener('change', onChange);
+      else if (mq.addListener) mq.addListener(onChange);
+    })();
+  </script></body>
+</html>
