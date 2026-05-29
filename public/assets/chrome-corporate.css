@@ -106,13 +106,14 @@ form,
 
 .top-nav,
 .nav-right {
-  gap: clamp(0.75rem, 1.5vw, 1.35rem) !important;
-  max-width: min(52vw, 42rem);
+  gap: clamp(0.62rem, 1.1vw, 1rem) !important;
+  max-width: min(48vw, 38rem);
+  padding-right: clamp(0.25rem, 1vw, 0.8rem);
 }
 
 .top-nav a,
 .nav-right a {
-  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+  font-size: clamp(0.74rem, 0.95vw, 0.88rem) !important;
   white-space: nowrap;
 }
 
