@@ -1,1 +1,7 @@
 open-tool/
+node_modules/
+.next/
+out/
+.vercel/
+
+.vercel
