@@ -104,6 +104,18 @@ form,
   transition: color 0.24s ease, border-color 0.24s ease, transform 0.24s ease, background-color 0.24s ease;
 }
 
+.top-nav,
+.nav-right {
+  gap: clamp(0.75rem, 1.5vw, 1.35rem) !important;
+  max-width: min(52vw, 42rem);
+}
+
+.top-nav a,
+.nav-right a {
+  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
+  white-space: nowrap;
+}
+
 .top-nav a:hover,
 .nav-right a:hover,
 .service-link:hover {
