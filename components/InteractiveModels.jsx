@@ -5,6 +5,94 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
 
+const orbitBodies = [
+  { radius: 0.42, orbit: 0.82, speed: 0.34, color: "#cfd4d8", emissive: "#111318", tilt: 0.12, phase: 0.1 },
+  { radius: 0.14, orbit: 1.24, speed: -0.52, color: "#ffcc00", emissive: "#332400", tilt: -0.28, phase: 1.4 },
+  { radius: 0.22, orbit: 1.7, speed: 0.24, color: "#e9edf0", emissive: "#14161a", tilt: 0.38, phase: 2.5 },
+  { radius: 0.18, orbit: 2.14, speed: -0.19, color: "#ff0033", emissive: "#3a0010", tilt: -0.1, phase: 3.4 },
+  { radius: 0.28, orbit: 2.62, speed: 0.15, color: "#8f969d", emissive: "#101215", tilt: 0.22, phase: 4.1 },
+  { radius: 0.1, orbit: 3.06, speed: -0.42, color: "#ffd86a", emissive: "#2c2100", tilt: -0.42, phase: 5.2 }
+];
+
+function OrbitRing({ radius, tilt = 0 }) {
+  return (
+    <mesh rotation={[Math.PI / 2 + tilt, 0, 0]}>
+      <torusGeometry args={[radius, 0.004, 8, 192]} />
+      <meshBasicMaterial color="#cbd5df" transparent opacity={0.28} />
+    </mesh>
+  );
+}
+
+function OrbitBody({ body, active = false }) {
+  const pivot = useRef(null);
+  const mesh = useRef(null);
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (pivot.current) pivot.current.rotation.y = body.phase + t * body.speed;
+    if (mesh.current) mesh.current.rotation.y = t * (body.speed > 0 ? 0.9 : -0.9);
+  });
+
+  return (
+    <group ref={pivot} rotation={[body.tilt, 0, 0]}>
+      <mesh ref={mesh} position={[body.orbit, 0, 0]}>
+        <sphereGeometry args={[body.radius * (active ? 1.16 : 1), 36, 36]} />
+        <meshPhysicalMaterial
+          color={body.color}
+          emissive={active ? "#4a0012" : body.emissive}
+          metalness={active ? 0.78 : 0.62}
+          roughness={0.18}
+          clearcoat={1}
+          clearcoatRoughness={0.12}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+function SolarSystemAssembly({ compact = false }) {
+  const group = useRef(null);
+  const core = useRef(null);
+  const scale = compact ? 0.78 : 0.9;
+
+  useFrame(({ clock }) => {
+    const t = clock.getElapsedTime();
+    if (group.current) group.current.rotation.y = t * 0.09;
+    if (core.current) {
+      core.current.rotation.y = t * 0.42;
+      core.current.scale.setScalar(1 + Math.sin(t * 1.8) * 0.018);
+    }
+  });
+
+  return (
+    <group ref={group} rotation={[0.34, -0.42, 0]} scale={scale}>
+      <Float speed={1.05} rotationIntensity={0.08} floatIntensity={0.12}>
+        <mesh ref={core}>
+          <icosahedronGeometry args={[0.36, 2]} />
+          <meshPhysicalMaterial
+            color="#ffcc00"
+            emissive="#7a1800"
+            metalness={0.5}
+            roughness={0.12}
+            clearcoat={1}
+          />
+        </mesh>
+        <pointLight intensity={2.4} distance={7} color="#ff3b30" />
+        {orbitBodies.map((body, index) => (
+          <OrbitRing key={`ring-${index}`} radius={body.orbit} tilt={body.tilt} />
+        ))}
+        {orbitBodies.map((body, index) => (
+          <OrbitBody key={index} body={body} active={index === 3} />
+        ))}
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[3.42, 0.014, 12, 220]} />
+          <meshStandardMaterial color="#ff0033" emissive="#2c0008" metalness={0.7} roughness={0.2} />
+        </mesh>
+      </Float>
+    </group>
+  );
+}
+
 function RingAssembly({ active = 0, compact = false }) {
   const group = useRef(null);
   const gem = useRef(null);
@@ -102,6 +190,21 @@ export function JewelryShowcase({ active = 0, compact = false }) {
           <Stars radius={10} depth={12} count={500} factor={2.2} saturation={0} fade speed={0.2} />
           <RingAssembly active={active} compact={compact} />
           <OrbitControls enablePan={false} enableZoom={!compact} autoRotate autoRotateSpeed={0.45} />
+        </Suspense>
+      </Canvas>
+    </div>
+  );
+}
+
+export function CadOrbitShowcase({ compact = false }) {
+  return (
+    <div className={compact ? "showcase-canvas compact solar-system-canvas" : "showcase-canvas solar-system-canvas"}>
+      <Canvas camera={{ position: [0, compact ? 0.42 : 0.54, compact ? 6.7 : 6.1], fov: compact ? 36 : 40 }} dpr={[1, 1.5]}>
+        <Suspense fallback={null}>
+          <SceneLights />
+          <Stars radius={14} depth={14} count={700} factor={2} saturation={0} fade speed={0.14} />
+          <SolarSystemAssembly compact={compact} />
+          <OrbitControls enablePan={false} enableZoom={!compact} autoRotate autoRotateSpeed={0.28} />
         </Suspense>
       </Canvas>
     </div>

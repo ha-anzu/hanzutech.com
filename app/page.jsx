@@ -3,10 +3,16 @@
 import dynamic from "next/dynamic";
 import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import { ChevronDown, Cuboid, Menu, Workflow, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { animate, createTimeline, stagger, utils } from "animejs";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const JewelryShowcase = dynamic(
   () => import("@/components/InteractiveModels").then((mod) => mod.JewelryShowcase),
+  { ssr: false, loading: () => <div className="showcase-canvas is-loading" /> }
+);
+
+const CadOrbitShowcase = dynamic(
+  () => import("@/components/InteractiveModels").then((mod) => mod.CadOrbitShowcase),
   { ssr: false, loading: () => <div className="showcase-canvas is-loading" /> }
 );
 
@@ -151,23 +157,15 @@ function useTypewriter(text) {
 
   useEffect(() => {
     let index = 0;
-    let direction = 1;
     let timer;
 
     const tick = () => {
       setValue(text.slice(0, index));
-      if (direction === 1 && index < text.length) {
+      if (index < text.length) {
         index += 1;
-        timer = window.setTimeout(tick, index === text.length ? 1200 : 75);
-      } else if (direction === 1) {
-        direction = -1;
-        timer = window.setTimeout(tick, 1200);
-      } else if (index > 0) {
-        index -= 1;
-        timer = window.setTimeout(tick, 28);
+        timer = window.setTimeout(tick, index === text.length ? 85 : 58);
       } else {
-        direction = 1;
-        timer = window.setTimeout(tick, 480);
+        setValue(text);
       }
     };
 
@@ -176,6 +174,107 @@ function useTypewriter(text) {
   }, [text]);
 
   return value;
+}
+
+function useAnimeSignature() {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const hero = document.querySelector("[data-anime-hero]");
+    const cards = utils.$(".anime-card");
+    const lines = utils.$(".pipeline-signal-line");
+
+    const timeline = createTimeline({
+      defaults: { ease: "outExpo" }
+    });
+
+    timeline
+      .add(".hero-chrome-frame", { opacity: [0, 1], y: [18, 0], duration: 900 })
+      .add(".anime-hero-fragment", { opacity: [0, 1], y: [18, 0], filter: ["blur(8px)", "blur(0px)"], duration: 760, delay: stagger(75) }, "-=520")
+      .add(".hero-reel-panel", { opacity: [0, 1], x: [26, 0], duration: 860 }, "-=620")
+      .add(".anime-orbit-rail", { rotate: [8, 0], opacity: [0, 1], duration: 900 }, "-=660");
+
+    const pointerMove = (event) => {
+      const x = (event.clientX / window.innerWidth - 0.5) * 18;
+      const y = (event.clientY / window.innerHeight - 0.5) * 18;
+      document.documentElement.style.setProperty("--pointer-x", `${x}px`);
+      document.documentElement.style.setProperty("--pointer-y", `${y}px`);
+    };
+
+    window.addEventListener("pointermove", pointerMove, { passive: true });
+
+    const observers = [];
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          animate(entry.target.querySelectorAll(".anime-card"), {
+            opacity: [0, 1],
+            translateY: [28, 0],
+            scale: [0.985, 1],
+            duration: 820,
+            delay: stagger(70),
+            ease: "outExpo"
+          });
+          observers.forEach((observer) => observer.unobserve(entry.target));
+        });
+      },
+      { threshold: 0.18 }
+    );
+
+    document.querySelectorAll("[data-anime-scope]").forEach((node) => {
+      revealObserver.observe(node);
+      observers.push(revealObserver);
+    });
+
+    if (lines.length) {
+      animate(lines, {
+        strokeDashoffset: [220, 0],
+        opacity: [0.18, 0.9],
+        duration: 1800,
+        delay: stagger(120),
+        ease: "inOutQuad",
+        loop: true,
+        alternate: true
+      });
+    }
+
+    if (hero) {
+      animate(".dynamic-backdrop .scan-beam", {
+        translateX: ["-120%", "120%"],
+        opacity: [0, 0.85, 0],
+        duration: 4200,
+        ease: "inOutQuad",
+        loop: true,
+        delay: 600
+      });
+    }
+
+    cards.forEach((card) => {
+      card.addEventListener("pointerenter", () => {
+        animate(card, { translateY: -9, scale: 1.018, duration: 360, ease: "outExpo" });
+        animate(card.querySelectorAll(".anime-card-detail"), { translateX: [0, 8, 0], duration: 460, delay: stagger(45), ease: "outQuad" });
+      });
+      card.addEventListener("pointerleave", () => {
+        animate(card, { translateY: 0, scale: 1, duration: 420, ease: "outExpo" });
+      });
+    });
+
+    return () => {
+      window.removeEventListener("pointermove", pointerMove);
+      revealObserver.disconnect();
+    };
+  }, []);
+}
+
+function DynamicBackdrop({ variant = "default" }) {
+  return (
+    <div className={`dynamic-backdrop backdrop-${variant}`} aria-hidden="true">
+      <span className="scan-beam" />
+      <span className="chrome-orbit anime-orbit-rail" />
+      <span className="data-ticks" />
+    </div>
+  );
 }
 
 function Navbar() {
@@ -269,37 +368,38 @@ function Hero() {
   const typed = useTypewriter("AKA JACK OF ALL TRADES");
 
   return (
-    <section id="hero" className="hero-shell min-h-[calc(100svh-7rem)] flex items-center px-6 py-8">
+    <section id="hero" data-anime-hero className="hero-shell min-h-[calc(100svh-7rem)] flex items-center px-6 py-8">
+      <DynamicBackdrop variant="hero" />
       <div className="page-wrap hero-layout">
         <motion.div
-          className="console-panel w-full px-6 py-10 md:px-12 md:py-14"
+          className="console-panel hero-chrome-frame w-full px-6 py-10 md:px-12 md:py-14"
           initial="hidden"
           animate="show"
           variants={{ show: { transition: { staggerChildren: 0.09 } } }}
         >
-          <motion.div variants={reveal} className="flex flex-wrap gap-3 mb-8 text-[11px] uppercase tracking-[0.34em]">
+          <motion.div variants={reveal} className="anime-hero-fragment flex flex-wrap gap-3 mb-8 text-[11px] uppercase tracking-[0.34em]">
             <span className="signal px-3 py-1 rounded-full">Jewelry Ops</span>
             <span className="signal px-3 py-1 rounded-full">Factory-Ready Design</span>
           </motion.div>
           <div className="hero-copy">
             <div className="hero-tagline">
-              <motion.span variants={reveal} className="technically" data-text="TECHNICALLY">
+              <motion.span variants={reveal} className="technically anime-hero-fragment" data-text="TECHNICALLY">
                 TECHNICALLY
               </motion.span>
-              <motion.h1 variants={reveal} className="designer-glow text-6xl md:text-[5.8rem] uppercase leading-none mt-2">
+              <motion.h1 variants={reveal} className="designer-glow anime-hero-fragment text-6xl md:text-[5.8rem] uppercase leading-none mt-2">
                 Designer
               </motion.h1>
-              <motion.p variants={reveal} className="hero-story">
+              <motion.p variants={reveal} className="hero-story anime-hero-fragment">
                 Design direction, technical problem-solving, and production logic in one lane instead of split across five people.
               </motion.p>
-              <motion.p variants={reveal} className="aka-signature mt-8">
+              <motion.p variants={reveal} className="aka-signature anime-hero-fragment mt-8">
                 <span className="aka-typing">{typed}</span>
               </motion.p>
             </div>
-            <motion.p variants={reveal} className="hero-footnote mt-8">
+            <motion.p variants={reveal} className="hero-footnote anime-hero-fragment mt-8">
               AI stays in the stack as support for research, automation, and workflow speed when it is actually useful.
             </motion.p>
-            <motion.div variants={reveal} className="hero-actions mt-10">
+            <motion.div variants={reveal} className="hero-actions anime-hero-fragment mt-10">
               <a href="#services" className="button">Services</a>
               <a href="/reel" className="button button-secondary button-reel">Intro Reel</a>
               <a href="/opentools" className="button button-tertiary">OpenTools</a>
@@ -314,10 +414,10 @@ function Hero() {
             <span className="hero-reel-rails" aria-hidden="true" />
             <div className="hero-reel-label">
               <strong>CAD Orbit</strong>
-              <span>01 / Live Model</span>
+              <span>01 / Solar Mock</span>
             </div>
             <div className="hero-tall-screen placeholder-screen">
-              <JewelryShowcase compact />
+              <CadOrbitShowcase compact />
             </div>
           </div>
         </motion.aside>
@@ -371,16 +471,17 @@ function Services() {
         </motion.div>
         <motion.div
           className="interactive-service-grid"
+          data-anime-scope
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-120px" }}
           variants={{ show: { transition: { staggerChildren: 0.08 } } }}
         >
           {services.map((service) => (
-            <motion.button
+          <motion.button
               type="button"
               key={service.label}
-              className="card service-card-button text-left"
+              className="card service-card-button anime-card text-left"
               variants={reveal}
               whileHover={{ y: -8, scale: 1.018, transition: { duration: 0.28, ease: [0.16, 1, 0.3, 1] } }}
               onClick={() => setSelected(service)}
@@ -388,10 +489,10 @@ function Services() {
               <div className="card-visual">
                 <img src={service.media} alt={`${service.label} preview`} loading="lazy" />
               </div>
-              <p className="text-xs uppercase tracking-[0.28em] text-gray-500">{service.label}</p>
-              <h3 className={`text-2xl ${service.tone === "yellow" ? "neon-yellow" : "neon-red"} mt-2`}>{service.title}</h3>
-              <p className="text-gray-300 mt-3">{service.body}</p>
-              <p className="quiet-link mt-5">{service.comingSoon ? "Coming Soon" : "Open Capture"}</p>
+              <p className="anime-card-detail text-xs uppercase tracking-[0.28em] text-gray-500">{service.label}</p>
+              <h3 className={`anime-card-detail text-2xl ${service.tone === "yellow" ? "neon-yellow" : "neon-red"} mt-2`}>{service.title}</h3>
+              <p className="anime-card-detail text-gray-300 mt-3">{service.body}</p>
+              <p className="anime-card-detail quiet-link mt-5">{service.comingSoon ? "Coming Soon" : "Open Capture"}</p>
             </motion.button>
           ))}
         </motion.div>
@@ -404,15 +505,17 @@ function Services() {
 function Mission() {
   return (
     <section id="mission" className="px-6 pt-8 pb-16 relative z-10">
+      <DynamicBackdrop variant="mission" />
       <motion.div
         className="page-wrap grid md:grid-cols-3 gap-6"
+        data-anime-scope
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, margin: "-120px" }}
         variants={{ show: { transition: { staggerChildren: 0.08 } } }}
       >
         {featureCards.map((card) => (
-          <motion.article key={card.title} className="card" variants={reveal}>
+          <motion.article key={card.title} className="card anime-card" variants={reveal}>
             <div className="card-visual">
               <img src={card.media} alt={`${card.kicker} placeholder`} loading="lazy" />
             </div>
@@ -468,12 +571,18 @@ function Pipeline() {
 
   return (
     <section id="pipeline" className="px-6 pb-16 relative">
+      <DynamicBackdrop variant="pipeline" />
       <div className="page-wrap pipeline-layout">
         <div className="pipeline-viz">
+          <svg className="pipeline-signal-svg" viewBox="0 0 400 640" aria-hidden="true">
+            <path className="pipeline-signal-line" d="M72 92 C210 160 154 286 322 352 C216 416 250 520 88 582" />
+            <path className="pipeline-signal-line" d="M328 82 C176 194 248 292 96 366 C222 446 174 526 318 594" />
+          </svg>
           <PipelineShowcase active={active} />
         </div>
         <motion.div
           className="pipeline-list"
+          data-anime-scope
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-120px" }}
@@ -483,7 +592,7 @@ function Pipeline() {
             <motion.button
               key={step.title}
               type="button"
-              className={`card pipeline-step ${active === index ? "is-active" : ""}`}
+              className={`card pipeline-step anime-card ${active === index ? "is-active" : ""}`}
               variants={reveal}
               onClick={() => setActive(index)}
             >
@@ -616,6 +725,8 @@ function Journal() {
 }
 
 export default function Home() {
+  useAnimeSignature();
+
   return (
     <>
       <Navbar />
