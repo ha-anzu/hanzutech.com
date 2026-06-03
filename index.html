@@ -863,13 +863,10 @@
           <div class="hero-reel-panel">
             <span class="hero-reel-rails" aria-hidden="true"></span>
             <div class="hero-reel-label">
-              <strong>Vertical Reel</strong>
-              <span>01 / Home Feed</span>
+              <strong>Hanzu Duck</strong>
+              <span>01 / Ask Mode</span>
             </div>
-            <div class="hero-tall-screen placeholder-screen">
-              <video class="reel-video" autoplay muted loop playsinline preload="metadata" aria-label="Homepage vertical reel placeholder">
-                <source data-home-media="heroVerticalReel" src="/assets/reels/home-hero-vertical-placeholder.mp4" type="video/mp4">
-              </video>
+            <div class="hero-tall-screen hanzu-duck-hero-stage" data-hanzu-duck-stage role="button" tabindex="0" aria-label="Ask Hanzu Duck a question">
             </div>
           </div>
         </aside>
@@ -1257,5 +1254,7 @@
       if (mq.addEventListener) mq.addEventListener('change', onChange);
       else if (mq.addListener) mq.addListener(onChange);
     })();
-  </script></body>
+  </script>
+  <script src="/assets/duck-widget.js" defer></script>
+</body>
 </html>

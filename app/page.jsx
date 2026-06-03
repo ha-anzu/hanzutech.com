@@ -11,11 +11,6 @@ const JewelryShowcase = dynamic(
   { ssr: false, loading: () => <div className="showcase-canvas is-loading" /> }
 );
 
-const CadOrbitShowcase = dynamic(
-  () => import("@/components/InteractiveModels").then((mod) => mod.CadOrbitShowcase),
-  { ssr: false, loading: () => <div className="showcase-canvas is-loading" /> }
-);
-
 const PipelineShowcase = dynamic(
   () => import("@/components/InteractiveModels").then((mod) => mod.PipelineShowcase),
   { ssr: false, loading: () => <div className="pipeline-canvas is-loading" /> }
@@ -151,6 +146,76 @@ const reveal = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } }
 };
+
+function DuckFace({ className = "" }) {
+  return (
+    <svg className={`duck-face ${className}`} viewBox="0 0 520 520" role="img" aria-label="Friendly Hanzu rubber duck">
+      <defs>
+        <linearGradient id="duckBody" x1="104" x2="420" y1="96" y2="424" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#fff06a" />
+          <stop offset="0.5" stopColor="#ffcc00" />
+          <stop offset="1" stopColor="#f28b00" />
+        </linearGradient>
+        <linearGradient id="duckBeak" x1="338" x2="476" y1="172" y2="268" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#ff6533" />
+          <stop offset="1" stopColor="#ff0033" />
+        </linearGradient>
+        <filter id="duckGlow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="10" result="blur" />
+          <feColorMatrix in="blur" type="matrix" values="1 0 0 0 1 0 .82 0 0 .32 0 0 0 0 .02 0 0 0 .62 0" result="gold" />
+          <feMerge>
+            <feMergeNode in="gold" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <g className="duck-shadow">
+        <ellipse cx="260" cy="420" rx="170" ry="28" />
+      </g>
+      <g className="duck-body" filter="url(#duckGlow)">
+        <path d="M74 304c0-58 45-106 112-122 13-58 63-101 123-101 68 0 121 50 129 115l65 24-23 63-73 10c-29 60-99 103-185 103H112l-38-38z" fill="url(#duckBody)" />
+        <path d="M171 193c24-62 95-97 160-73 31 12 55 34 70 63-23-20-56-33-92-33-54 0-102 24-138 43z" fill="#fff7a2" fillOpacity="0.66" />
+        <path d="M94 334c38 32 84 45 139 45 77 0 142-31 176-78-17 60-88 105-187 105H112l-38-38z" fill="#8a4c00" fillOpacity="0.2" />
+        <path className="duck-beak" d="M414 195h57l32 31-23 57-76 10c10-29 13-66 10-98z" fill="url(#duckBeak)" />
+      </g>
+      <g className="duck-circuit">
+        <path d="M146 318h188l45-34M150 352h112M188 260h93M185 280h62" />
+        <path d="M154 428h216l31-31M126 118h86l26-26M392 126h44" />
+      </g>
+      <g className="duck-eye duck-eye-left">
+        <circle cx="302" cy="164" r="31" />
+        <circle className="duck-pupil" cx="312" cy="154" r="9" />
+        <path className="duck-lid" d="M270 163c10-24 52-24 64 0" />
+      </g>
+      <g className="duck-eye duck-eye-right">
+        <circle cx="367" cy="166" r="25" />
+        <circle className="duck-pupil" cx="374" cy="158" r="7" />
+        <path className="duck-lid" d="M340 165c9-20 43-20 53 0" />
+      </g>
+      <path className="duck-smile" d="M427 237c16 12 38 12 52 0" />
+      <g className="duck-corners" aria-hidden="true">
+        <path d="M50 128V54h74M398 54h74v74M472 394v74h-74M124 468H50v-74" />
+      </g>
+    </svg>
+  );
+}
+
+function HanzuDuckStage() {
+  const openDuck = () => {
+    window.dispatchEvent(new CustomEvent("hanzu-duck:open"));
+  };
+
+  return (
+    <button type="button" className="duck-stage" onClick={openDuck} aria-label="Ask Hanzu Duck a question">
+      <span className="duck-stage-grid" aria-hidden="true" />
+      <DuckFace className="duck-stage-face" />
+      <span className="duck-stage-status">
+        <strong>Hanzu Duck</strong>
+        <small>tap to ask</small>
+      </span>
+    </button>
+  );
+}
 
 function useTypewriter(text) {
   const [value, setValue] = useState("");
@@ -413,11 +478,11 @@ function Hero() {
           <div className="hero-reel-panel interactive-reel">
             <span className="hero-reel-rails" aria-hidden="true" />
             <div className="hero-reel-label">
-              <strong>CAD Orbit</strong>
-              <span>01 / Solar Mock</span>
+              <strong>Hanzu Duck</strong>
+              <span>01 / Ask Mode</span>
             </div>
             <div className="hero-tall-screen placeholder-screen">
-              <CadOrbitShowcase compact />
+              <HanzuDuckStage />
             </div>
           </div>
         </motion.aside>

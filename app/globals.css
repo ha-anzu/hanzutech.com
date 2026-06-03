@@ -857,6 +857,182 @@
   display: none;
 }
 
+.duck-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 28rem;
+  border: 0;
+  background:
+    radial-gradient(circle at 52% 34%, rgba(255, 204, 0, 0.18), transparent 29%),
+    radial-gradient(circle at 34% 78%, rgba(255, 0, 51, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(8, 8, 14, 0.24), rgba(0, 0, 0, 0.82));
+  color: inherit;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.duck-stage-grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,0.95), transparent 76%);
+}
+
+.duck-stage::before,
+.duck-stage::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.duck-stage::before {
+  width: 84%;
+  height: 84%;
+  border: 1px solid rgba(255, 204, 0, 0.18);
+  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+}
+
+.duck-stage::after {
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.14), transparent);
+  transform: translateX(-120%);
+  animation: duckStageSweep 6.8s linear infinite;
+}
+
+.duck-face {
+  overflow: visible;
+}
+
+.duck-stage-face {
+  position: relative;
+  z-index: 1;
+  width: min(92%, 28rem);
+  max-height: 78%;
+  filter: drop-shadow(0 0 24px rgba(255, 204, 0, 0.24));
+  animation: duckStageFloat 4.6s ease-in-out infinite;
+}
+
+.duck-shadow ellipse,
+.duck-shadow {
+  fill: #000;
+  opacity: 0.36;
+}
+
+.duck-body {
+  transform-origin: 50% 78%;
+  animation: duckBreathe 3.7s ease-in-out infinite;
+}
+
+.duck-circuit path,
+.duck-circuit {
+  fill: none;
+  stroke: #15151d;
+  stroke-width: 8;
+  stroke-linecap: round;
+  opacity: 0.58;
+}
+
+.duck-eye circle:first-child {
+  fill: #101018;
+}
+
+.duck-pupil {
+  fill: #ffcc00;
+  animation: duckStare 5.8s ease-in-out infinite;
+}
+
+.duck-lid {
+  fill: none;
+  stroke: #ffcc00;
+  stroke-width: 12;
+  stroke-linecap: round;
+  opacity: 0;
+  animation: duckBlink 5.8s infinite;
+}
+
+.duck-smile {
+  fill: none;
+  stroke: #0a0a0f;
+  stroke-width: 9;
+  stroke-linecap: round;
+  transform-origin: 87% 46%;
+  animation: duckSmile 3.2s ease-in-out infinite;
+}
+
+.duck-corners path,
+.duck-corners {
+  fill: none;
+  stroke: #ff0033;
+  stroke-width: 8;
+  stroke-linecap: square;
+  opacity: 0.62;
+}
+
+.duck-stage-status {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.76rem 0.86rem;
+  border: 1px solid rgba(255, 204, 0, 0.28);
+  background: rgba(0, 0, 0, 0.62);
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.duck-stage-status strong {
+  color: #ffcc00;
+  font-size: 0.76rem;
+}
+
+.duck-stage-status small {
+  color: #d1d5db;
+  font-size: 0.68rem;
+}
+
+@keyframes duckStageSweep {
+  0% { transform: translateX(-120%); opacity: 0; }
+  22% { opacity: 0.18; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes duckStageFloat {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1.4deg); }
+}
+
+@keyframes duckBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.018); }
+}
+
+@keyframes duckStare {
+  0%, 18%, 100% { transform: translate(0, 0); }
+  28%, 40% { transform: translate(5px, 2px); }
+  52%, 64% { transform: translate(-4px, 1px); }
+}
+
+@keyframes duckBlink {
+  0%, 7%, 10%, 48%, 51%, 100% { opacity: 0; }
+  8%, 9%, 49%, 50% { opacity: 1; }
+}
+
+@keyframes duckSmile {
+  0%, 100% { transform: scaleY(1) translateY(0); }
+  50% { transform: scaleY(1.28) translateY(-2px); }
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1647,11 +1823,28 @@ body::after {
   }
 
   .hero-reel-panel {
-    min-height: 12rem;
+    height: auto;
+    min-height: 19rem;
   }
 
   .hero-tall-screen {
     aspect-ratio: 16 / 9;
-    min-height: 12rem;
+    min-height: 17rem;
+  }
+
+  .duck-stage {
+    min-height: 17rem;
+  }
+
+  .duck-stage-face {
+    width: min(86%, 20rem);
+  }
+
+  .duck-stage-status {
+    left: 0.72rem;
+    right: 0.72rem;
+    bottom: 0.72rem;
+    padding: 0.62rem 0.68rem;
+    letter-spacing: 0.13em;
   }
 }

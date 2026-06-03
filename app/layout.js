@@ -1,4 +1,5 @@
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const plexMono = IBM_Plex_Mono({
@@ -35,7 +36,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${plexMono.variable} ${plexSans.variable}`}>
-      <body className="grid-shell overflow-x-hidden">{children}</body>
+      <body className="grid-shell overflow-x-hidden">
+        {children}
+        <Script src="/assets/duck-widget.js" strategy="afterInteractive" />
+      </body>
     </html>
   );
 }
