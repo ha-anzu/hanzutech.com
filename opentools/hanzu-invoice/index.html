@@ -41,6 +41,19 @@
       --paper: #f5f7f8;
       --ink: #17191d;
     }
+    body.theme-day {
+      --black: #f2f4f5;
+      --panel: #e7eaed;
+      --panel-2: #f8fafb;
+      --chrome: #20242a;
+      --chrome-dim: #58606a;
+      --line: rgba(20, 24, 30, 0.18);
+      color: #111318;
+      background:
+        radial-gradient(circle at 18% 6%, rgba(255, 0, 51, 0.12), transparent 26rem),
+        radial-gradient(circle at 84% 12%, rgba(255, 204, 0, 0.18), transparent 22rem),
+        linear-gradient(180deg, #f4f6f8 0%, #dfe4e8 48%, #f8fafb 100%);
+    }
     * { box-sizing: border-box; }
     html, body { min-height: 100%; max-width: 100%; overflow-x: clip; }
     body {
@@ -65,6 +78,7 @@
       background-size: 48px 48px, 48px 48px, auto;
       opacity: 0.54;
     }
+    body.theme-day::before { opacity: 0.28; filter: invert(1); }
     h1, h2, h3, .brand-mark { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; }
     button, input, textarea, select { font: inherit; }
     .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; letter-spacing: 0.04em; text-transform: uppercase; }
@@ -79,6 +93,15 @@
       clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
       position: relative;
       overflow: hidden;
+      animation: panelRise 0.46s ease both;
+    }
+    body.theme-day .chrome-panel,
+    body.theme-day .toolbar,
+    body.theme-day .control-card {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.78), transparent 18%),
+        linear-gradient(180deg, rgba(248,250,251,0.94), rgba(222,226,230,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.86), inset 0 -1px 0 rgba(255,0,51,0.09), 0 20px 46px rgba(42,50,58,0.18);
     }
     .chrome-panel::after, .control-card::after {
       content: "";
@@ -92,6 +115,9 @@
       pointer-events: none;
     }
     @keyframes sweep { 0% { opacity: 0; transform: translateX(-32%); } 20% { opacity: 0.8; } 100% { opacity: 0; transform: translateX(32%); } }
+    @keyframes panelRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes redScan { 0%, 100% { opacity: 0.18; transform: translateX(-28%); } 45% { opacity: 0.46; } 75% { opacity: 0.12; transform: translateX(38%); } }
+    @keyframes previewWake { from { opacity: 0.72; filter: saturate(0.7); transform: translateY(8px); } to { opacity: 1; filter: saturate(1); transform: translateY(0); } }
     .button {
       display: inline-flex;
       align-items: center;
@@ -109,7 +135,18 @@
       clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
       cursor: pointer;
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
     }
+    .button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.32), transparent);
+      transform: translateX(-140%);
+      transition: transform 0.42s ease;
+    }
+    .button:hover::before { transform: translateX(140%); }
     .button:hover { transform: translateY(-2px); border-color: var(--red); box-shadow: 0 0 24px rgba(255,204,0,0.24), 0 0 38px rgba(255,0,51,0.18); }
     .button.secondary { color: var(--yellow); background: rgba(255,255,255,0.03); border-color: rgba(255,204,0,0.42); }
     .button.danger { color: #fff; background: rgba(255,0,51,0.12); border-color: rgba(255,0,51,0.58); }
@@ -123,6 +160,13 @@
       outline: none;
       border-radius: 0;
     }
+    body.theme-day .input,
+    body.theme-day textarea,
+    body.theme-day select {
+      color: #111318;
+      background: rgba(255,255,255,0.72);
+      border-color: rgba(20,24,30,0.18);
+    }
     textarea { min-height: 5.2rem; resize: vertical; }
     .input:focus, textarea:focus, select:focus { border-color: rgba(255,204,0,0.72); box-shadow: 0 0 0 2px rgba(255,204,0,0.08); }
     label { display: block; margin-bottom: 0.35rem; color: #9ca3af; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
@@ -131,8 +175,40 @@
     .control-card { padding: 1rem; }
     .section-title { color: var(--chrome); font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; }
     .mini-copy { color: #aeb6bd; font-size: 0.75rem; line-height: 1.55; }
+    body.theme-day .mini-copy,
+    body.theme-day label,
+    body.theme-day .text-gray-300,
+    body.theme-day .text-gray-400,
+    body.theme-day .text-gray-500 { color: #4d5660 !important; }
     .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.72rem; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.72rem; }
+    .toggle-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      min-height: 2.25rem;
+      padding: 0.48rem 0.55rem;
+      color: #cfd4d8;
+      border: 1px solid rgba(207,212,216,0.14);
+      background: rgba(255,255,255,0.035);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .check-row input {
+      appearance: none;
+      width: 1rem;
+      height: 1rem;
+      margin: 0;
+      flex: 0 0 auto;
+      border: 1px solid rgba(255,204,0,0.72);
+      background: rgba(0,0,0,0.3);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,0.4);
+    }
+    .check-row input:checked { background: linear-gradient(135deg, var(--red), var(--yellow)); box-shadow: inset 0 0 0 3px rgba(0,0,0,0.78), 0 0 14px rgba(255,0,51,0.32); }
+    body.theme-day .check-row { color: #20242a; background: rgba(255,255,255,0.58); border-color: rgba(20,24,30,0.15); }
     .service-row {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -161,6 +237,7 @@
     .preview-fit { position: relative; overflow: hidden; contain: paint; }
     .preview-fit > .invoice-page { position: absolute; inset: 0 auto auto 0; transform-origin: top left; }
     .invoice-page {
+      position: relative;
       width: 794px;
       min-height: 1123px;
       padding: 48px;
@@ -170,6 +247,18 @@
         linear-gradient(180deg, #f8fafb, #eef1f3);
       box-shadow: 0 24px 80px rgba(0,0,0,0.52);
       font-family: 'IBM Plex Mono', monospace;
+      animation: previewWake 0.42s ease both;
+    }
+    .invoice-page::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(255,0,51,0.74), rgba(255,204,0,0.58), transparent);
+      animation: redScan 5.8s ease-in-out infinite;
+      pointer-events: none;
     }
     .paper-head {
       display: grid;
@@ -211,6 +300,9 @@
     .line-desc { margin-top: 4px; color: #5c656e; line-height: 1.5; white-space: pre-line; }
     .summary-grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 26px; margin-top: 24px; align-items: start; }
     .summary-box { border: 1px solid #cfd4d8; background: rgba(255,255,255,0.7); padding: 15px; }
+    .legal-box { padding: 10px 12px; opacity: 0.78; }
+    .legal-box .paper-kicker { margin-bottom: 5px; font-size: 8px; letter-spacing: 0.14em; }
+    .legal-box .paper-text { font-size: 8.5px; line-height: 1.45; color: #6a737d; }
     .summary-row { display: flex; justify-content: space-between; gap: 1rem; padding: 7px 0; border-bottom: 1px solid #d8dde1; font-size: 12px; }
     .summary-row:last-child { border-bottom: 0; }
     .summary-row.total { margin-top: 4px; padding-top: 13px; border-top: 2px solid #15171b; font-size: 18px; font-weight: 700; }
@@ -219,6 +311,10 @@
     .signature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 34px; align-items: end; }
     .signature-line { border-top: 1px solid #15171b; padding-top: 8px; color: #59616a; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
     .status-pill { display: inline-flex; align-items: center; padding: 0.28rem 0.45rem; border: 1px solid rgba(255,204,0,0.42); color: var(--yellow); background: rgba(255,204,0,0.06); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; }
+    .is-hidden { display: none !important; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
     @media (max-width: 1180px) {
       .app-shell { grid-template-columns: 1fr; }
       .preview-wrap { position: static; }
@@ -287,20 +383,60 @@
             <button type="button" class="button" onclick="downloadPdf()">Download PDF</button>
             <button type="button" class="button secondary" onclick="window.print()">Print</button>
           </div>
+          <div class="grid-2 mt-4">
+            <label>Display Mode
+              <select id="theme-mode" onchange="setTheme(this.value)">
+                <option value="night">Night Chrome</option>
+                <option value="day">Day Chrome</option>
+              </select>
+            </label>
+            <label>Preview Density
+              <select id="preview-density" onchange="updateFromInputs()">
+                <option value="complete">Complete</option>
+                <option value="client">Client Clean</option>
+                <option value="accounting">Accountant Detail</option>
+              </select>
+            </label>
+          </div>
           <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
           <input id="profile-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadProfileFile(event)">
+        </div>
+
+        <div class="control-card">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <h2 class="section-title">Show / Hide Invoice Parts</h2>
+            <button type="button" class="button secondary !min-h-0 !py-2" onclick="showAllSections()">Show All</button>
+          </div>
+          <p class="mini-copy mb-3">Proper preview switches for client copies, accountant copies, quick receipts, and clean proposals.</p>
+          <div class="toggle-grid">
+            <label class="check-row"><input id="vis-header" type="checkbox" checked onchange="setVisibility('header', this.checked)">Header</label>
+            <label class="check-row"><input id="vis-issuer" type="checkbox" checked onchange="setVisibility('issuer', this.checked)">Issuer</label>
+            <label class="check-row"><input id="vis-client" type="checkbox" checked onchange="setVisibility('client', this.checked)">Client</label>
+            <label class="check-row"><input id="vis-meta" type="checkbox" checked onchange="setVisibility('meta', this.checked)">Invoice Info</label>
+            <label class="check-row"><input id="vis-classification" type="checkbox" checked onchange="setVisibility('classification', this.checked)">Classification</label>
+            <label class="check-row"><input id="vis-lines" type="checkbox" checked onchange="setVisibility('lines', this.checked)">Service Lines</label>
+            <label class="check-row"><input id="vis-summary" type="checkbox" checked onchange="setVisibility('summary', this.checked)">Totals</label>
+            <label class="check-row"><input id="vis-payment" type="checkbox" checked onchange="setVisibility('payment', this.checked)">Payment</label>
+            <label class="check-row"><input id="vis-payment-status" type="checkbox" checked onchange="setVisibility('paymentStatus', this.checked)">Payment Status</label>
+            <label class="check-row"><input id="vis-legal" type="checkbox" checked onchange="setVisibility('legal', this.checked)">Legal / IP</label>
+            <label class="check-row"><input id="vis-accounting-notes" type="checkbox" checked onchange="setVisibility('accountingNotes', this.checked)">Acct Notes</label>
+            <label class="check-row"><input id="vis-signatures" type="checkbox" checked onchange="setVisibility('signatures', this.checked)">Signatures</label>
+          </div>
         </div>
 
         <div class="control-card">
           <h2 class="section-title mb-3">Document</h2>
           <div class="grid-2">
             <label>Invoice Title<input id="title" class="input" value="Professional Services Invoice" oninput="updateFromInputs()"></label>
+            <label>Invoice Type<input id="invoice-type" class="input" value="Tax Invoice" oninput="updateFromInputs()"></label>
             <label>Business Category<input id="business-category" class="input" value="Professional Services" oninput="updateFromInputs()"></label>
             <label>Invoice #<input id="invoice-number" class="input" oninput="updateFromInputs()"></label>
             <label>Currency<select id="currency" onchange="updateFromInputs()"><option>USD</option><option>EUR</option><option>GBP</option><option>THB</option><option>AED</option><option>CAD</option><option>AUD</option></select></label>
             <label>Issue Date<input id="issue-date" type="date" class="input" oninput="updateFromInputs()"></label>
             <label>Due Date<input id="due-date" type="date" class="input" oninput="updateFromInputs()"></label>
             <label>PO / SOW Reference<input id="reference" class="input" placeholder="PO-2026-014 / SOW-Design-System" oninput="updateFromInputs()"></label>
+            <label>Project / Engagement<input id="project-name" class="input" placeholder="Digital service design" oninput="updateFromInputs()"></label>
+            <label>Service Period<input id="service-period" class="input" placeholder="Jun 2026 / milestone 01" oninput="updateFromInputs()"></label>
             <label>Payment Terms<select id="payment-terms" onchange="updateFromInputs()"><option>Due on receipt</option><option>Net 7</option><option selected>Net 15</option><option>Net 30</option><option>50% deposit, balance before delivery</option></select></label>
           </div>
         </div>
@@ -343,6 +479,12 @@ City, Country</textarea></label>
             <label>Discount<input id="discount" type="number" min="0" step="0.01" class="input" value="0" oninput="updateFromInputs()"></label>
             <label>Deposit Paid<input id="deposit" type="number" min="0" step="0.01" class="input" value="0" oninput="updateFromInputs()"></label>
           </div>
+          <div class="grid-2 mt-3">
+            <label>Payment Method<input id="payment-method" class="input" value="Bank transfer" oninput="updateFromInputs()"></label>
+            <label>Payment Handler<input id="payment-handler" class="input" placeholder="Person / team receiving payment" oninput="updateFromInputs()"></label>
+            <label>Received Date<input id="payment-received-date" type="date" class="input" oninput="updateFromInputs()"></label>
+            <label>Received Amount<input id="payment-received-amount" type="number" min="0" step="0.01" class="input" value="0" oninput="updateFromInputs()"></label>
+          </div>
           <label class="mt-3">Bank / Payment Details<textarea id="payment-details" oninput="updateFromInputs()">Bank transfer details
 Account holder:
 IBAN / account:
@@ -356,10 +498,10 @@ Payment reference: invoice number</textarea></label>
       <section class="preview-wrap chrome-panel p-4">
         <div id="preview-fit" class="preview-fit">
           <article id="invoice-preview" class="invoice-page" aria-label="Invoice preview">
-            <header class="paper-head">
+            <header id="preview-header" class="paper-head">
               <div>
                 <h2 id="preview-title" class="paper-title">Professional Services Invoice</h2>
-                <p id="preview-subtitle" class="paper-sub">Professional Services · Intellectual / Digital Deliverables</p>
+                <p id="preview-subtitle" class="paper-sub">Professional Services / Intellectual / Digital Deliverables</p>
               </div>
               <div>
                 <div class="paper-logo"><span>HANZU</span> <span>TECH</span></div>
@@ -367,14 +509,14 @@ Payment reference: invoice number</textarea></label>
               </div>
             </header>
 
-            <section class="paper-grid">
-              <div class="paper-card">
+            <section id="preview-parties-grid" class="paper-grid">
+              <div id="preview-issuer-card" class="paper-card">
                 <div class="paper-kicker">Billed From</div>
                 <div id="preview-issuer-name" class="paper-name"></div>
                 <div id="preview-issuer-address" class="paper-text mt-2"></div>
                 <div id="preview-issuer-contact" class="paper-text mt-2"></div>
               </div>
-              <div class="paper-card">
+              <div id="preview-client-card" class="paper-card">
                 <div class="paper-kicker">Billed To</div>
                 <div id="preview-client-name" class="paper-name"></div>
                 <div id="preview-client-address" class="paper-text mt-2"></div>
@@ -382,18 +524,18 @@ Payment reference: invoice number</textarea></label>
               </div>
             </section>
 
-            <section class="paper-grid">
-              <div class="paper-card">
+            <section id="preview-info-grid" class="paper-grid">
+              <div id="preview-meta-card" class="paper-card">
                 <div class="paper-kicker">Invoice Details</div>
                 <table class="meta-table"><tbody id="preview-meta"></tbody></table>
               </div>
-              <div class="paper-card">
+              <div id="preview-classification-card" class="paper-card">
                 <div class="paper-kicker">Classification</div>
                 <table class="meta-table"><tbody id="preview-classification"></tbody></table>
               </div>
             </section>
 
-            <table class="invoice-table">
+            <table id="preview-lines-table" class="invoice-table">
               <thead>
                 <tr>
                   <th>Service</th>
@@ -406,29 +548,29 @@ Payment reference: invoice number</textarea></label>
               <tbody id="preview-lines"></tbody>
             </table>
 
-            <section class="summary-grid">
-              <div class="summary-box">
-                <div class="paper-kicker">Client & Accountant Notes</div>
+            <section id="preview-summary-grid" class="summary-grid">
+              <div id="preview-notes-box" class="summary-box legal-box">
+                <div class="paper-kicker">Legal / IP Notes</div>
                 <p id="preview-terms" class="paper-text"></p>
-                <p id="preview-accounting-notes" class="paper-text mt-3"></p>
+                <p id="preview-accounting-notes" class="paper-text mt-2"></p>
               </div>
-              <div class="summary-box">
+              <div id="preview-summary-box" class="summary-box">
                 <div id="preview-summary"></div>
               </div>
             </section>
 
             <section class="foot-grid">
-              <div class="paper-card">
+              <div id="preview-payment-card" class="paper-card">
                 <div class="paper-kicker">Payment Method</div>
                 <p id="preview-payment" class="paper-text"></p>
               </div>
-              <div class="paper-card">
+              <div id="preview-payment-status-card" class="paper-card">
                 <div class="paper-kicker">Payment Status</div>
                 <table class="meta-table"><tbody id="preview-payment-status"></tbody></table>
               </div>
             </section>
 
-            <section class="signature-row">
+            <section id="preview-signatures" class="signature-row">
               <div class="signature-line">Client / Receiver Signature</div>
               <div class="signature-line">Authorized Signature</div>
             </section>
@@ -452,18 +594,54 @@ Payment reference: invoice number</textarea></label>
       'Custom software development'
     ];
     const currencySymbols = { USD: '$', EUR: '€', GBP: '£', THB: '฿', AED: 'AED ', CAD: 'C$', AUD: 'A$' };
+    const visibilityDefaults = {
+      header: true,
+      issuer: true,
+      client: true,
+      meta: true,
+      classification: true,
+      lines: true,
+      summary: true,
+      payment: true,
+      paymentStatus: true,
+      legal: true,
+      accountingNotes: true,
+      signatures: true
+    };
+    const visibilityInputs = {
+      header: 'vis-header',
+      issuer: 'vis-issuer',
+      client: 'vis-client',
+      meta: 'vis-meta',
+      classification: 'vis-classification',
+      lines: 'vis-lines',
+      summary: 'vis-summary',
+      payment: 'vis-payment',
+      paymentStatus: 'vis-payment-status',
+      legal: 'vis-legal',
+      accountingNotes: 'vis-accounting-notes',
+      signatures: 'vis-signatures'
+    };
+    function normalizeVisibility(value = {}) {
+      return { ...visibilityDefaults, ...(value || {}) };
+    }
     const defaultState = () => {
       const today = new Date();
       const due = new Date(today);
       due.setDate(today.getDate() + 15);
       return {
+        theme: 'night',
+        previewDensity: 'complete',
         title: 'Professional Services Invoice',
+        invoiceType: 'Tax Invoice',
         businessCategory: 'Professional Services',
         invoiceNumber: 'HZ-PRO-' + Math.floor(1000 + Math.random() * 9000),
         currency: 'USD',
         issueDate: toDateInput(today),
         dueDate: toDateInput(due),
         reference: '',
+        projectName: '',
+        servicePeriod: '',
         paymentTerms: 'Net 15',
         issuerName: 'Hanzu Tech OU',
         issuerTax: '',
@@ -476,9 +654,14 @@ Payment reference: invoice number</textarea></label>
         taxRate: 0,
         discount: 0,
         deposit: 0,
+        paymentMethod: 'Bank transfer',
+        paymentHandler: '',
+        paymentReceivedDate: '',
+        paymentReceivedAmount: 0,
         paymentDetails: 'Bank transfer details\nAccount holder:\nIBAN / account:\nSWIFT:\nPayment reference: invoice number',
         terms: 'Digital and intellectual deliverables are supplied according to the approved brief, quote, or statement of work. Unless separately assigned in writing, portfolio rights, source-file access, manufacturing responsibility, and intellectual property transfer are governed by the project agreement.',
         accountingNotes: '',
+        visibility: normalizeVisibility(),
         lines: [
           { service: 'CAD designer', description: 'Digital CAD design services for approved concept development and production-ready documentation.', quantity: 1, rate: 850 },
           { service: 'Custom software development', description: 'Interface/tooling implementation, workflow automation, and delivery support for professional service operations.', quantity: 1, rate: 1250 }
@@ -501,6 +684,43 @@ Payment reference: invoice number</textarea></label>
     }
     function numberValue(id) {
       return Math.max(0, Number(document.getElementById(id).value || 0));
+    }
+    function setTheme(theme) {
+      appState.theme = theme === 'day' ? 'day' : 'night';
+      document.body.classList.toggle('theme-day', appState.theme === 'day');
+      document.body.classList.toggle('theme-night', appState.theme !== 'day');
+      const mode = document.getElementById('theme-mode');
+      if (mode) mode.value = appState.theme;
+      updatePreview();
+    }
+    function setVisibility(key, checked) {
+      appState.visibility = normalizeVisibility(appState.visibility);
+      appState.visibility[key] = !!checked;
+      syncVisibilityControls();
+      updatePreview();
+    }
+    function showAllSections() {
+      appState.visibility = normalizeVisibility();
+      syncVisibilityControls();
+      updatePreview();
+    }
+    function applyDensityPreset(value) {
+      appState.previewDensity = value || 'complete';
+      if (appState.previewDensity === 'client') {
+        appState.visibility = normalizeVisibility({ accountingNotes: false, paymentStatus: false });
+      } else if (appState.previewDensity === 'accounting') {
+        appState.visibility = normalizeVisibility({ legal: false, signatures: false });
+      } else {
+        appState.visibility = normalizeVisibility();
+      }
+      syncVisibilityControls();
+    }
+    function syncVisibilityControls() {
+      appState.visibility = normalizeVisibility(appState.visibility);
+      Object.entries(visibilityInputs).forEach(([key, id]) => {
+        const input = document.getElementById(id);
+        if (input) input.checked = appState.visibility[key];
+      });
     }
     function escapeHtml(value) {
       return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
@@ -555,13 +775,19 @@ Payment reference: invoice number</textarea></label>
       updatePreview();
     }
     function updateFromInputs() {
+      const density = document.getElementById('preview-density').value || 'complete';
+      if (density !== appState.previewDensity) applyDensityPreset(density);
+      appState.theme = document.getElementById('theme-mode').value || 'night';
       appState.title = document.getElementById('title').value.trim() || 'Invoice';
+      appState.invoiceType = document.getElementById('invoice-type').value.trim() || 'Invoice';
       appState.businessCategory = document.getElementById('business-category').value.trim() || 'Professional Services';
       appState.invoiceNumber = document.getElementById('invoice-number').value.trim() || 'HZ-PRO-0000';
       appState.currency = document.getElementById('currency').value || 'USD';
       appState.issueDate = document.getElementById('issue-date').value;
       appState.dueDate = document.getElementById('due-date').value;
       appState.reference = document.getElementById('reference').value.trim();
+      appState.projectName = document.getElementById('project-name').value.trim();
+      appState.servicePeriod = document.getElementById('service-period').value.trim();
       appState.paymentTerms = document.getElementById('payment-terms').value;
       appState.issuerName = document.getElementById('issuer-name').value.trim();
       appState.issuerTax = document.getElementById('issuer-tax').value.trim();
@@ -574,6 +800,10 @@ Payment reference: invoice number</textarea></label>
       appState.taxRate = numberValue('tax-rate');
       appState.discount = numberValue('discount');
       appState.deposit = numberValue('deposit');
+      appState.paymentMethod = document.getElementById('payment-method').value.trim();
+      appState.paymentHandler = document.getElementById('payment-handler').value.trim();
+      appState.paymentReceivedDate = document.getElementById('payment-received-date').value;
+      appState.paymentReceivedAmount = numberValue('payment-received-amount');
       appState.paymentDetails = document.getElementById('payment-details').value.trim();
       appState.terms = document.getElementById('terms').value.trim();
       appState.accountingNotes = document.getElementById('accounting-notes').value.trim();
@@ -581,26 +811,57 @@ Payment reference: invoice number</textarea></label>
       updatePreview();
     }
     function syncInputs() {
+      appState.visibility = normalizeVisibility(appState.visibility);
+      appState.theme = appState.theme || 'night';
+      appState.previewDensity = appState.previewDensity || 'complete';
       const map = {
-        title: 'title', businessCategory: 'business-category', invoiceNumber: 'invoice-number', currency: 'currency',
-        issueDate: 'issue-date', dueDate: 'due-date', reference: 'reference', paymentTerms: 'payment-terms',
+        theme: 'theme-mode', previewDensity: 'preview-density',
+        title: 'title', invoiceType: 'invoice-type', businessCategory: 'business-category', invoiceNumber: 'invoice-number', currency: 'currency',
+        issueDate: 'issue-date', dueDate: 'due-date', reference: 'reference', projectName: 'project-name', servicePeriod: 'service-period', paymentTerms: 'payment-terms',
         issuerName: 'issuer-name', issuerTax: 'issuer-tax', issuerAddress: 'issuer-address', issuerContact: 'issuer-contact',
         clientName: 'client-name', clientTax: 'client-tax', clientAddress: 'client-address', clientContact: 'client-contact',
-        taxRate: 'tax-rate', discount: 'discount', deposit: 'deposit', paymentDetails: 'payment-details', terms: 'terms',
+        taxRate: 'tax-rate', discount: 'discount', deposit: 'deposit',
+        paymentMethod: 'payment-method', paymentHandler: 'payment-handler', paymentReceivedDate: 'payment-received-date', paymentReceivedAmount: 'payment-received-amount',
+        paymentDetails: 'payment-details', terms: 'terms',
         accountingNotes: 'accounting-notes'
       };
       Object.entries(map).forEach(([key, id]) => { document.getElementById(id).value = appState[key] ?? ''; });
+      syncVisibilityControls();
+      setTheme(appState.theme);
       renderServiceLines();
       updatePreview();
     }
     function metaRow(label, value) {
       return `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value || '-')}</td></tr>`;
     }
+    function toggleNode(id, show) {
+      const node = document.getElementById(id);
+      if (node) node.classList.toggle('is-hidden', !show);
+    }
+    function applyVisibility() {
+      const v = normalizeVisibility(appState.visibility);
+      toggleNode('preview-header', v.header);
+      toggleNode('preview-issuer-card', v.issuer);
+      toggleNode('preview-client-card', v.client);
+      toggleNode('preview-parties-grid', v.issuer || v.client);
+      toggleNode('preview-meta-card', v.meta);
+      toggleNode('preview-classification-card', v.classification);
+      toggleNode('preview-info-grid', v.meta || v.classification);
+      toggleNode('preview-lines-table', v.lines);
+      toggleNode('preview-summary-box', v.summary);
+      toggleNode('preview-notes-box', v.legal || v.accountingNotes);
+      toggleNode('preview-payment-card', v.payment);
+      toggleNode('preview-payment-status-card', v.paymentStatus);
+      toggleNode('preview-signatures', v.signatures);
+    }
     function updatePreview() {
       const t = totals();
+      appState.visibility = normalizeVisibility(appState.visibility);
+      document.body.classList.toggle('theme-day', appState.theme === 'day');
+      document.body.classList.toggle('theme-night', appState.theme !== 'day');
       document.getElementById('preview-title').textContent = appState.title;
-      document.getElementById('preview-subtitle').textContent = `${appState.businessCategory} · Intellectual / Digital Deliverables`;
-      document.getElementById('preview-header-meta').innerHTML = `Invoice ${escapeHtml(appState.invoiceNumber)}<br>${escapeHtml(formatDate(appState.issueDate))}`;
+      document.getElementById('preview-subtitle').textContent = `${appState.invoiceType} / ${appState.businessCategory} / Intellectual / Digital Deliverables`;
+      document.getElementById('preview-header-meta').innerHTML = `${escapeHtml(appState.invoiceType)} ${escapeHtml(appState.invoiceNumber)}<br>${escapeHtml(formatDate(appState.issueDate))}`;
       document.getElementById('preview-issuer-name').textContent = appState.issuerName || '-';
       document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || '-';
       document.getElementById('preview-issuer-contact').textContent = [appState.issuerContact, appState.issuerTax ? `Tax/VAT: ${appState.issuerTax}` : ''].filter(Boolean).join('\n');
@@ -608,11 +869,14 @@ Payment reference: invoice number</textarea></label>
       document.getElementById('preview-client-address').textContent = appState.clientAddress || '-';
       document.getElementById('preview-client-contact').textContent = [appState.clientContact, appState.clientTax ? `Tax/VAT: ${appState.clientTax}` : ''].filter(Boolean).join('\n') || '-';
       document.getElementById('preview-meta').innerHTML = [
+        metaRow('Invoice type', appState.invoiceType),
         metaRow('Invoice #', appState.invoiceNumber),
         metaRow('Issue date', formatDate(appState.issueDate)),
         metaRow('Due date', formatDate(appState.dueDate)),
         metaRow('Terms', appState.paymentTerms),
-        metaRow('PO / SOW', appState.reference || '-')
+        metaRow('PO / SOW', appState.reference || '-'),
+        metaRow('Project', appState.projectName || '-'),
+        metaRow('Service period', appState.servicePeriod || '-')
       ].join('');
       document.getElementById('preview-classification').innerHTML = [
         metaRow('Line of business', appState.businessCategory),
@@ -638,15 +902,19 @@ Payment reference: invoice number</textarea></label>
         `<div class="summary-row"><span>Deposit / paid</span><strong>${money(t.deposit)}</strong></div>`,
         `<div class="summary-row balance"><span>Balance due</span><strong>${money(t.balance)}</strong></div>`
       ].join('');
-      document.getElementById('preview-terms').textContent = appState.terms || 'No additional terms provided.';
-      document.getElementById('preview-accounting-notes').textContent = appState.accountingNotes ? `Internal accounting notes: ${appState.accountingNotes}` : '';
-      document.getElementById('preview-payment').textContent = appState.paymentDetails || '-';
+      document.getElementById('preview-terms').textContent = appState.visibility.legal ? (appState.terms || 'No additional terms provided.') : '';
+      document.getElementById('preview-accounting-notes').textContent = appState.visibility.accountingNotes && appState.accountingNotes ? `Internal accounting notes: ${appState.accountingNotes}` : '';
+      document.getElementById('preview-payment').textContent = [appState.paymentMethod ? `Method: ${appState.paymentMethod}` : '', appState.paymentDetails || ''].filter(Boolean).join('\n');
       document.getElementById('preview-payment-status').innerHTML = [
         metaRow('Deposit / paid', money(t.deposit)),
+        metaRow('Received amount', appState.paymentReceivedAmount > 0 ? money(appState.paymentReceivedAmount) : '-'),
+        metaRow('Received date', formatDate(appState.paymentReceivedDate)),
+        metaRow('Received by', appState.paymentHandler || '-'),
         metaRow('Balance due', money(t.balance)),
         metaRow('Due date', formatDate(appState.dueDate)),
         metaRow('Reference', appState.invoiceNumber)
       ].join('');
+      applyVisibility();
       syncPreviewScale();
       document.getElementById('save-status').textContent = 'Updated';
       window.clearTimeout(window.__statusTimer);
@@ -657,12 +925,13 @@ Payment reference: invoice number</textarea></label>
       const fit = document.getElementById('preview-fit');
       const page = document.getElementById('invoice-preview');
       if (!wrap || !fit || !page) return;
-      const available = Math.max(280, wrap.clientWidth - 32);
+      const available = Math.max(280, wrap.clientWidth - 64);
       const scale = Math.min(1, available / page.offsetWidth);
       fit.style.transform = 'none';
       fit.style.width = (page.offsetWidth * scale) + 'px';
       fit.style.height = (page.offsetHeight * scale) + 'px';
-      page.style.transform = `scale(${scale})`;
+      page.style.transform = 'none';
+      page.style.scale = String(scale);
     }
     function snapshot(format = 'hanzu-invoice-1.0') {
       return { format, exportedAt: new Date().toISOString(), state: appState };
@@ -683,7 +952,7 @@ Payment reference: invoice number</textarea></label>
       downloadJson(snapshot(), `hanzu_invoice_${cleanName(appState.invoiceNumber)}.hzinvoice.json`);
     }
     function saveProfileFile() {
-      const { lines, clientName, clientTax, clientAddress, clientContact, invoiceNumber, issueDate, dueDate, reference, deposit, discount, ...profileState } = appState;
+      const { lines, clientName, clientTax, clientAddress, clientContact, invoiceNumber, issueDate, dueDate, reference, projectName, servicePeriod, deposit, discount, paymentReceivedDate, paymentReceivedAmount, ...profileState } = appState;
       downloadJson({ format: 'hanzu-invoice-profile-1.0', exportedAt: new Date().toISOString(), state: profileState }, `hanzu_invoice_profile_${cleanName(appState.issuerName)}.hzprofile.json`);
     }
     function triggerLoadInvoice() { document.getElementById('invoice-file-input').click(); }
@@ -699,6 +968,7 @@ Payment reference: invoice number</textarea></label>
         const data = await readJsonFile(event);
         if (!data || data.format !== 'hanzu-invoice-1.0') throw new Error('Unsupported invoice file format.');
         appState = { ...defaultState(), ...data.state, lines: Array.isArray(data.state.lines) ? data.state.lines : defaultState().lines };
+        appState.visibility = normalizeVisibility(appState.visibility);
         syncInputs();
       } catch (error) {
         alert('Could not load invoice file. Please use a valid Hanzu Invoice JSON export.');
@@ -709,6 +979,7 @@ Payment reference: invoice number</textarea></label>
         const data = await readJsonFile(event);
         if (!data || data.format !== 'hanzu-invoice-profile-1.0') throw new Error('Unsupported profile file format.');
         appState = { ...appState, ...data.state };
+        appState.visibility = normalizeVisibility(appState.visibility);
         syncInputs();
       } catch (error) {
         alert('Could not load profile file. Please use a valid Hanzu Invoice profile export.');
@@ -724,6 +995,11 @@ Payment reference: invoice number</textarea></label>
         ...defaultState(),
         invoiceNumber: 'HZ-PRO-2077',
         reference: 'SOW-DIGITAL-DESIGN-01',
+        projectName: 'Digital service design system',
+        servicePeriod: 'Milestone 01 / June 2026',
+        paymentMethod: 'SWIFT / bank transfer',
+        paymentHandler: 'Project Operations',
+        paymentReceivedAmount: 500,
         issuerTax: 'VAT / tax ID pending',
         issuerAddress: 'Hanzu Tech OU\nSepapaja tn 6, Tallinn\nEstonia',
         clientName: 'Arasaka-style Client Studio',
@@ -737,7 +1013,8 @@ Payment reference: invoice number</textarea></label>
           { service: '3D sculptor', description: 'Organic sculpt pass, detail refinement, and printable model preparation for approved concept direction.', quantity: 1, rate: 900 },
           { service: 'Custom software development', description: 'Invoice/workflow interface customization, local export logic, and responsive smoke-test support.', quantity: 1, rate: 1800 }
         ],
-        accountingNotes: 'Revenue category: professional services. Products are intellectual/digital deliverables. Verify VAT treatment by client jurisdiction.'
+        accountingNotes: 'Revenue category: professional services. Products are intellectual/digital deliverables. Verify VAT treatment by client jurisdiction.',
+        visibility: normalizeVisibility()
       };
       syncInputs();
     }

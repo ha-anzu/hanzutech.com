@@ -12,6 +12,14 @@ Hanzu Invoice is a local-first OpenTools invoice builder for professional digita
 
 The tool includes invoice number, issue date, due date, PO/SOW reference, issuer/client tax IDs, service category, tax rate, discount, deposit, balance due, payment instructions, payment terms, deliverables/IP notes, and private accountant notes.
 
+The control center also includes display mode, preview density, project/engagement, service period, payment handler, received date, received amount, and section visibility toggles. Each major invoice section can be hidden for clean client copies, detailed accountant copies, or quick payment confirmations.
+
+## Display Modes
+
+- Night Chrome: default black/red/yellow control surface inspired by the current renovation direction
+- Day Chrome: brighter operator mode with the same clipped-panel interface and a readable white invoice preview
+- Preview density: Complete, Client Clean, and Accountant Detail presets adjust the section checkboxes without deleting data
+
 ## Export Formats
 
 - `hanzu-invoice-1.0`: complete invoice JSON, including client and line items
