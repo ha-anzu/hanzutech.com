@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com data:; img-src 'self' data:; connect-src 'self'; form-action 'self' mailto:; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
+  <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark">
+  <title>Hanzu Invoice | Professional Services Invoice Builder</title>
+  <meta name="description" content="A local-first Hanzu invoice builder for professional digital design services, client-ready PDFs, and accountant-friendly records.">
+  <link rel="canonical" href="https://hanzutech.com/opentools/hanzu-invoice/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hanzu Invoice | Hanzu Tech">
+  <meta property="og:description" content="Build professional services invoices for CAD, 3D, jewelry design, graphics, production management, industrial design, and custom software work.">
+  <meta property="og:url" content="https://hanzutech.com/opentools/hanzu-invoice/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --black: #030306;
+      --panel: #090a0f;
+      --panel-2: #11131a;
+      --chrome: #cfd4d8;
+      --chrome-dim: #7d858c;
+      --red: #ff0033;
+      --red-soft: rgba(255, 0, 51, 0.18);
+      --yellow: #ffcc00;
+      --line: rgba(207, 212, 216, 0.18);
+      --paper: #f5f7f8;
+      --ink: #17191d;
+    }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; max-width: 100%; overflow-x: clip; }
+    body {
+      margin: 0;
+      color: #f5f7f8;
+      font-family: 'IBM Plex Mono', monospace;
+      background:
+        radial-gradient(circle at 18% 6%, rgba(255, 0, 51, 0.18), transparent 26rem),
+        radial-gradient(circle at 84% 12%, rgba(255, 204, 0, 0.10), transparent 22rem),
+        linear-gradient(180deg, #060609 0%, #0b0c12 46%, #030306 100%);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+        repeating-linear-gradient(180deg, rgba(255,255,255,0.024) 0 1px, transparent 1px 5px);
+      background-size: 48px 48px, 48px 48px, auto;
+      opacity: 0.54;
+    }
+    h1, h2, h3, .brand-mark { font-family: 'IBM Plex Sans', sans-serif; font-weight: 700; }
+    button, input, textarea, select { font: inherit; }
+    .brand-mark { display: inline-flex; align-items: baseline; gap: 0.14em; letter-spacing: 0.04em; text-transform: uppercase; }
+    .brand-hanzu { color: var(--red); text-shadow: 0 0 12px rgba(255,0,51,0.55); }
+    .brand-tech { color: var(--yellow); text-shadow: 0 0 12px rgba(255,204,0,0.42); }
+    .chrome-panel, .toolbar, .control-card {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.07), transparent 18%),
+        linear-gradient(180deg, rgba(14,15,22,0.96), rgba(3,3,6,0.96));
+      border: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(255,0,51,0.12), 0 22px 50px rgba(0,0,0,0.34);
+      clip-path: polygon(0 0, calc(100% - 22px) 0, 100% 22px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
+      position: relative;
+      overflow: hidden;
+    }
+    .chrome-panel::after, .control-card::after {
+      content: "";
+      position: absolute;
+      left: -45%;
+      right: -45%;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(207,212,216,0.86), rgba(255,0,51,0.78), transparent);
+      animation: sweep 5.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      pointer-events: none;
+    }
+    @keyframes sweep { 0% { opacity: 0; transform: translateX(-32%); } 20% { opacity: 0.8; } 100% { opacity: 0; transform: translateX(32%); } }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.55rem;
+      padding: 0.7rem 0.9rem;
+      border: 1px solid rgba(255,204,0,0.72);
+      color: #050507;
+      background: linear-gradient(135deg, #ff0033, #ff4a32 60%, #ffcc00 122%);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .button:hover { transform: translateY(-2px); border-color: var(--red); box-shadow: 0 0 24px rgba(255,204,0,0.24), 0 0 38px rgba(255,0,51,0.18); }
+    .button.secondary { color: var(--yellow); background: rgba(255,255,255,0.03); border-color: rgba(255,204,0,0.42); }
+    .button.danger { color: #fff; background: rgba(255,0,51,0.12); border-color: rgba(255,0,51,0.58); }
+    .input, textarea, select {
+      width: 100%;
+      min-height: 2.55rem;
+      color: #f8fafc;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(207,212,216,0.18);
+      padding: 0.68rem 0.72rem;
+      outline: none;
+      border-radius: 0;
+    }
+    textarea { min-height: 5.2rem; resize: vertical; }
+    .input:focus, textarea:focus, select:focus { border-color: rgba(255,204,0,0.72); box-shadow: 0 0 0 2px rgba(255,204,0,0.08); }
+    label { display: block; margin-bottom: 0.35rem; color: #9ca3af; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .app-shell { display: grid; grid-template-columns: minmax(320px, 465px) minmax(0, 1fr); gap: 1.2rem; }
+    .controls { display: grid; gap: 0.9rem; align-content: start; }
+    .control-card { padding: 1rem; }
+    .section-title { color: var(--chrome); font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase; }
+    .mini-copy { color: #aeb6bd; font-size: 0.75rem; line-height: 1.55; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.72rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.72rem; }
+    .service-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      align-items: start;
+      padding: 0.72rem 0;
+      border-top: 1px solid rgba(207,212,216,0.12);
+    }
+    .service-row:first-child { border-top: 0; }
+    .service-row label:first-child,
+    .service-row label:nth-child(2) { grid-column: 1 / -1; }
+    .service-row label:nth-child(5) { grid-column: 1 / 2; }
+    .service-row .icon-btn { align-self: end; justify-self: end; }
+    .icon-btn {
+      width: 2.55rem;
+      height: 2.55rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,0,51,0.5);
+      color: var(--red);
+      background: rgba(255,0,51,0.08);
+      cursor: pointer;
+    }
+    .preview-wrap { position: sticky; top: 5.4rem; align-self: start; overflow: auto; padding-bottom: 1rem; }
+    .preview-fit { position: relative; overflow: hidden; contain: paint; }
+    .preview-fit > .invoice-page { position: absolute; inset: 0 auto auto 0; transform-origin: top left; }
+    .invoice-page {
+      width: 794px;
+      min-height: 1123px;
+      padding: 48px;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(255,0,51,0.06), transparent 16%),
+        linear-gradient(180deg, #f8fafb, #eef1f3);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.52);
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .paper-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1.5rem;
+      padding-bottom: 26px;
+      border-bottom: 3px solid #15171b;
+      position: relative;
+    }
+    .paper-head::after { content: ""; position: absolute; left: 0; bottom: -3px; width: 36%; height: 3px; background: var(--red); }
+    .paper-title { font-family: 'IBM Plex Sans', sans-serif; font-size: 46px; line-height: 0.95; text-transform: uppercase; letter-spacing: 0; color: #101216; }
+    .paper-sub { margin-top: 10px; color: #59616a; font-size: 12px; line-height: 1.6; text-transform: uppercase; letter-spacing: 0.12em; }
+    .paper-logo { text-align: right; font-family: 'IBM Plex Sans', sans-serif; font-size: 24px; font-weight: 700; text-transform: uppercase; white-space: nowrap; }
+    .paper-logo span:first-child { color: var(--red); }
+    .paper-logo span:last-child { color: #111318; }
+    .paper-meta { margin-top: 8px; color: #59616a; font-size: 11px; line-height: 1.7; text-align: right; }
+    .paper-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
+    .paper-card { border: 1px solid #cfd4d8; padding: 18px; background: rgba(255,255,255,0.62); }
+    .paper-kicker { margin-bottom: 9px; color: #6a737d; font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
+    .paper-name { color: #121417; font-size: 16px; font-weight: 700; line-height: 1.35; }
+    .paper-text { color: #424951; font-size: 11px; line-height: 1.65; white-space: pre-line; }
+    .meta-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+    .meta-table td { padding: 5px 0; border-bottom: 1px solid #d6dade; vertical-align: top; }
+    .meta-table td:first-child { color: #6a737d; text-transform: uppercase; letter-spacing: 0.08em; }
+    .meta-table td:last-child { text-align: right; font-weight: 700; color: #15171b; }
+    .invoice-table { width: 100%; border-collapse: collapse; margin-top: 26px; font-size: 11px; }
+    .invoice-table th {
+      padding: 10px 8px;
+      color: #f8fafc;
+      background: #111318;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .invoice-table td { padding: 11px 8px; border-bottom: 1px solid #d7dce0; vertical-align: top; color: #22262b; }
+    .invoice-table th:nth-child(n+3), .invoice-table td:nth-child(n+3) { text-align: right; white-space: nowrap; }
+    .line-title { font-weight: 700; color: #111318; }
+    .line-desc { margin-top: 4px; color: #5c656e; line-height: 1.5; white-space: pre-line; }
+    .summary-grid { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 26px; margin-top: 24px; align-items: start; }
+    .summary-box { border: 1px solid #cfd4d8; background: rgba(255,255,255,0.7); padding: 15px; }
+    .summary-row { display: flex; justify-content: space-between; gap: 1rem; padding: 7px 0; border-bottom: 1px solid #d8dde1; font-size: 12px; }
+    .summary-row:last-child { border-bottom: 0; }
+    .summary-row.total { margin-top: 4px; padding-top: 13px; border-top: 2px solid #15171b; font-size: 18px; font-weight: 700; }
+    .summary-row.balance { color: var(--red); font-weight: 700; }
+    .foot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px; }
+    .signature-row { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 34px; align-items: end; }
+    .signature-line { border-top: 1px solid #15171b; padding-top: 8px; color: #59616a; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; }
+    .status-pill { display: inline-flex; align-items: center; padding: 0.28rem 0.45rem; border: 1px solid rgba(255,204,0,0.42); color: var(--yellow); background: rgba(255,204,0,0.06); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.10em; }
+    @media (max-width: 1180px) {
+      .app-shell { grid-template-columns: 1fr; }
+      .preview-wrap { position: static; }
+    }
+    @media (max-width: 720px) {
+      .toolbar { clip-path: none; }
+      .chrome-panel::after, .control-card::after { display: none; }
+      .control-card, .chrome-panel { clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 12px 100%, 0 calc(100% - 12px)); }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .service-row { grid-template-columns: 1fr 1fr; }
+      .button { width: 100%; white-space: normal; }
+      .preview-wrap { margin-left: -1rem; margin-right: -1rem; padding-left: 1rem; }
+    }
+    @media print {
+      body { background: #fff; }
+      nav, .controls, .hero-copy, .print-hidden { display: none !important; }
+      main { padding: 0 !important; }
+      .app-shell { display: block; }
+      .preview-wrap { position: static; padding: 0; overflow: visible; }
+      .preview-fit { transform: none !important; width: auto !important; height: auto !important; }
+      .invoice-page { width: auto; min-height: auto; box-shadow: none; padding: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="toolbar fixed top-0 left-0 w-full z-50 px-4 py-3">
+    <div class="max-w-[1500px] mx-auto flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+      <a href="/" class="brand-mark text-2xl" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+      <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em]">
+        <a href="/opentools/" class="text-yellow-300 hover:text-white">OpenTools</a>
+        <a href="/opentools/jeweler-invoice-2.0/" class="text-gray-400 hover:text-white">Jeweler Invoice 2.0</a>
+        <span class="status-pill">Local-first</span>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-28 px-4 pb-14">
+    <section class="max-w-[1500px] mx-auto mb-5 hero-copy">
+      <div class="chrome-panel p-5 md:p-6">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <h1 class="text-4xl md:text-6xl uppercase text-red-500" style="text-shadow:0 0 20px rgba(255,0,51,0.4)">Hanzu Invoice</h1>
+            <p class="mt-3 max-w-3xl text-gray-300 leading-7">Professional services invoicing for intellectual and digital work: design, CAD, 3D, manufacturing coordination, industrial design, and software systems.</p>
+          </div>
+          <div class="text-sm text-gray-400 leading-6 max-w-xl">
+            Built for two recipients: a polished client document and a tidy accountant record with PO/SOW, VAT/tax ID, service category, tax, deposit, balance, payment terms, and exportable JSON.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-[1500px] mx-auto app-shell">
+      <aside class="controls">
+        <div class="control-card">
+          <div class="flex items-center justify-between gap-3 mb-4">
+            <h2 class="section-title">Invoice Controls</h2>
+            <span id="save-status" class="text-[0.68rem] text-gray-500 uppercase tracking-[0.12em]">Ready</span>
+          </div>
+          <div class="grid-2">
+            <button type="button" class="button" onclick="newInvoice()">New Invoice</button>
+            <button type="button" class="button secondary" onclick="loadHanzuDemo()">Load Hanzu Demo</button>
+            <button type="button" class="button secondary" onclick="saveInvoiceFile()">Save Invoice JSON</button>
+            <button type="button" class="button secondary" onclick="triggerLoadInvoice()">Load Invoice JSON</button>
+            <button type="button" class="button secondary" onclick="saveProfileFile()">Save Profile</button>
+            <button type="button" class="button secondary" onclick="triggerLoadProfile()">Load Profile</button>
+            <button type="button" class="button" onclick="downloadPdf()">Download PDF</button>
+            <button type="button" class="button secondary" onclick="window.print()">Print</button>
+          </div>
+          <input id="invoice-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadInvoiceFile(event)">
+          <input id="profile-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadProfileFile(event)">
+        </div>
+
+        <div class="control-card">
+          <h2 class="section-title mb-3">Document</h2>
+          <div class="grid-2">
+            <label>Invoice Title<input id="title" class="input" value="Professional Services Invoice" oninput="updateFromInputs()"></label>
+            <label>Business Category<input id="business-category" class="input" value="Professional Services" oninput="updateFromInputs()"></label>
+            <label>Invoice #<input id="invoice-number" class="input" oninput="updateFromInputs()"></label>
+            <label>Currency<select id="currency" onchange="updateFromInputs()"><option>USD</option><option>EUR</option><option>GBP</option><option>THB</option><option>AED</option><option>CAD</option><option>AUD</option></select></label>
+            <label>Issue Date<input id="issue-date" type="date" class="input" oninput="updateFromInputs()"></label>
+            <label>Due Date<input id="due-date" type="date" class="input" oninput="updateFromInputs()"></label>
+            <label>PO / SOW Reference<input id="reference" class="input" placeholder="PO-2026-014 / SOW-Design-System" oninput="updateFromInputs()"></label>
+            <label>Payment Terms<select id="payment-terms" onchange="updateFromInputs()"><option>Due on receipt</option><option>Net 7</option><option selected>Net 15</option><option>Net 30</option><option>50% deposit, balance before delivery</option></select></label>
+          </div>
+        </div>
+
+        <div class="control-card">
+          <h2 class="section-title mb-3">Issuer</h2>
+          <div class="grid-2">
+            <label>Legal Name<input id="issuer-name" class="input" value="Hanzu Tech OU" oninput="updateFromInputs()"></label>
+            <label>Tax / VAT ID<input id="issuer-tax" class="input" placeholder="Company VAT / tax registration" oninput="updateFromInputs()"></label>
+          </div>
+          <label class="mt-3">Registered Address<textarea id="issuer-address" oninput="updateFromInputs()">Registered company address
+Jurisdiction / Country</textarea></label>
+          <label class="mt-3">Contact<input id="issuer-contact" class="input" value="hello@hanzutech.com | hanzutech.com" oninput="updateFromInputs()"></label>
+        </div>
+
+        <div class="control-card">
+          <h2 class="section-title mb-3">Client</h2>
+          <div class="grid-2">
+            <label>Client Name<input id="client-name" class="input" value="Client Company" oninput="updateFromInputs()"></label>
+            <label>Client Tax / VAT ID<input id="client-tax" class="input" placeholder="Optional but accountant-friendly" oninput="updateFromInputs()"></label>
+          </div>
+          <label class="mt-3">Billing Address<textarea id="client-address" oninput="updateFromInputs()">Client billing address
+City, Country</textarea></label>
+          <label class="mt-3">Client Contact<input id="client-contact" class="input" placeholder="Accounts payable email / contact" oninput="updateFromInputs()"></label>
+        </div>
+
+        <div class="control-card">
+          <div class="flex items-center justify-between gap-3 mb-3">
+            <h2 class="section-title">Service Lines</h2>
+            <button type="button" class="button secondary !min-h-0 !py-2" onclick="addServiceLine()">Add Line</button>
+          </div>
+          <p class="mini-copy mb-3">All line items are categorized as intellectual or digital professional services. Presets can be edited freely.</p>
+          <div id="service-lines"></div>
+        </div>
+
+        <div class="control-card">
+          <h2 class="section-title mb-3">Accounting & Payment</h2>
+          <div class="grid-3">
+            <label>Tax Rate %<input id="tax-rate" type="number" min="0" step="0.01" class="input" value="0" oninput="updateFromInputs()"></label>
+            <label>Discount<input id="discount" type="number" min="0" step="0.01" class="input" value="0" oninput="updateFromInputs()"></label>
+            <label>Deposit Paid<input id="deposit" type="number" min="0" step="0.01" class="input" value="0" oninput="updateFromInputs()"></label>
+          </div>
+          <label class="mt-3">Bank / Payment Details<textarea id="payment-details" oninput="updateFromInputs()">Bank transfer details
+Account holder:
+IBAN / account:
+SWIFT:
+Payment reference: invoice number</textarea></label>
+          <label class="mt-3">Terms, Deliverables & IP Notes<textarea id="terms" oninput="updateFromInputs()">Digital and intellectual deliverables are supplied according to the approved brief, quote, or statement of work. Unless separately assigned in writing, portfolio rights, source-file access, manufacturing responsibility, and intellectual property transfer are governed by the project agreement.</textarea></label>
+          <label class="mt-3">Private Notes For Accountant<textarea id="accounting-notes" oninput="updateFromInputs()" placeholder="Internal notes: revenue category, VAT handling, project code, receipt status."></textarea></label>
+        </div>
+      </aside>
+
+      <section class="preview-wrap chrome-panel p-4">
+        <div id="preview-fit" class="preview-fit">
+          <article id="invoice-preview" class="invoice-page" aria-label="Invoice preview">
+            <header class="paper-head">
+              <div>
+                <h2 id="preview-title" class="paper-title">Professional Services Invoice</h2>
+                <p id="preview-subtitle" class="paper-sub">Professional Services · Intellectual / Digital Deliverables</p>
+              </div>
+              <div>
+                <div class="paper-logo"><span>HANZU</span> <span>TECH</span></div>
+                <div id="preview-header-meta" class="paper-meta"></div>
+              </div>
+            </header>
+
+            <section class="paper-grid">
+              <div class="paper-card">
+                <div class="paper-kicker">Billed From</div>
+                <div id="preview-issuer-name" class="paper-name"></div>
+                <div id="preview-issuer-address" class="paper-text mt-2"></div>
+                <div id="preview-issuer-contact" class="paper-text mt-2"></div>
+              </div>
+              <div class="paper-card">
+                <div class="paper-kicker">Billed To</div>
+                <div id="preview-client-name" class="paper-name"></div>
+                <div id="preview-client-address" class="paper-text mt-2"></div>
+                <div id="preview-client-contact" class="paper-text mt-2"></div>
+              </div>
+            </section>
+
+            <section class="paper-grid">
+              <div class="paper-card">
+                <div class="paper-kicker">Invoice Details</div>
+                <table class="meta-table"><tbody id="preview-meta"></tbody></table>
+              </div>
+              <div class="paper-card">
+                <div class="paper-kicker">Classification</div>
+                <table class="meta-table"><tbody id="preview-classification"></tbody></table>
+              </div>
+            </section>
+
+            <table class="invoice-table">
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Deliverable / Scope</th>
+                  <th>Qty</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody id="preview-lines"></tbody>
+            </table>
+
+            <section class="summary-grid">
+              <div class="summary-box">
+                <div class="paper-kicker">Client & Accountant Notes</div>
+                <p id="preview-terms" class="paper-text"></p>
+                <p id="preview-accounting-notes" class="paper-text mt-3"></p>
+              </div>
+              <div class="summary-box">
+                <div id="preview-summary"></div>
+              </div>
+            </section>
+
+            <section class="foot-grid">
+              <div class="paper-card">
+                <div class="paper-kicker">Payment Method</div>
+                <p id="preview-payment" class="paper-text"></p>
+              </div>
+              <div class="paper-card">
+                <div class="paper-kicker">Payment Status</div>
+                <table class="meta-table"><tbody id="preview-payment-status"></tbody></table>
+              </div>
+            </section>
+
+            <section class="signature-row">
+              <div class="signature-line">Client / Receiver Signature</div>
+              <div class="signature-line">Authorized Signature</div>
+            </section>
+          </article>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const servicePresets = [
+      'CAD designer',
+      '3D artist',
+      '3D sculptor',
+      '3D print specialist',
+      'Jewelry designer',
+      'CAD jewelry specialist / design engineering',
+      'Graphic designer',
+      'Production management and manufacturing coordination',
+      'Industrial designer',
+      'Custom software development'
+    ];
+    const currencySymbols = { USD: '$', EUR: '€', GBP: '£', THB: '฿', AED: 'AED ', CAD: 'C$', AUD: 'A$' };
+    const defaultState = () => {
+      const today = new Date();
+      const due = new Date(today);
+      due.setDate(today.getDate() + 15);
+      return {
+        title: 'Professional Services Invoice',
+        businessCategory: 'Professional Services',
+        invoiceNumber: 'HZ-PRO-' + Math.floor(1000 + Math.random() * 9000),
+        currency: 'USD',
+        issueDate: toDateInput(today),
+        dueDate: toDateInput(due),
+        reference: '',
+        paymentTerms: 'Net 15',
+        issuerName: 'Hanzu Tech OU',
+        issuerTax: '',
+        issuerAddress: 'Registered company address\nJurisdiction / Country',
+        issuerContact: 'hello@hanzutech.com | hanzutech.com',
+        clientName: 'Client Company',
+        clientTax: '',
+        clientAddress: 'Client billing address\nCity, Country',
+        clientContact: '',
+        taxRate: 0,
+        discount: 0,
+        deposit: 0,
+        paymentDetails: 'Bank transfer details\nAccount holder:\nIBAN / account:\nSWIFT:\nPayment reference: invoice number',
+        terms: 'Digital and intellectual deliverables are supplied according to the approved brief, quote, or statement of work. Unless separately assigned in writing, portfolio rights, source-file access, manufacturing responsibility, and intellectual property transfer are governed by the project agreement.',
+        accountingNotes: '',
+        lines: [
+          { service: 'CAD designer', description: 'Digital CAD design services for approved concept development and production-ready documentation.', quantity: 1, rate: 850 },
+          { service: 'Custom software development', description: 'Interface/tooling implementation, workflow automation, and delivery support for professional service operations.', quantity: 1, rate: 1250 }
+        ]
+      };
+    };
+    let appState = defaultState();
+
+    function toDateInput(date) {
+      return date.toISOString().slice(0, 10);
+    }
+    function formatDate(value) {
+      if (!value) return '-';
+      const date = new Date(value + 'T00:00:00');
+      return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+    function money(value) {
+      const symbol = currencySymbols[appState.currency] || appState.currency + ' ';
+      return symbol + Number(value || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function numberValue(id) {
+      return Math.max(0, Number(document.getElementById(id).value || 0));
+    }
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+    }
+    function lineTotal(line) {
+      return Math.max(0, Number(line.quantity || 0)) * Math.max(0, Number(line.rate || 0));
+    }
+    function totals() {
+      const subtotal = appState.lines.reduce((sum, line) => sum + lineTotal(line), 0);
+      const discount = Math.min(subtotal, Math.max(0, Number(appState.discount || 0)));
+      const taxable = Math.max(0, subtotal - discount);
+      const tax = taxable * (Math.max(0, Number(appState.taxRate || 0)) / 100);
+      const total = taxable + tax;
+      const deposit = Math.min(total, Math.max(0, Number(appState.deposit || 0)));
+      const balance = Math.max(0, total - deposit);
+      return { subtotal, discount, taxable, tax, total, deposit, balance };
+    }
+    function renderServiceLines() {
+      const wrap = document.getElementById('service-lines');
+      wrap.innerHTML = appState.lines.map((line, index) => `
+        <div class="service-row">
+          <label>Service
+            <select onchange="setLine(${index}, 'service', this.value)">
+              ${servicePresets.map((preset) => `<option ${line.service === preset ? 'selected' : ''}>${escapeHtml(preset)}</option>`).join('')}
+            </select>
+          </label>
+          <label>Scope
+            <textarea oninput="setLine(${index}, 'description', this.value)">${escapeHtml(line.description)}</textarea>
+          </label>
+          <label>Qty<input type="number" min="0" step="0.01" class="input" value="${Number(line.quantity || 0)}" oninput="setLine(${index}, 'quantity', this.value)"></label>
+          <label>Rate<input type="number" min="0" step="0.01" class="input" value="${Number(line.rate || 0)}" oninput="setLine(${index}, 'rate', this.value)"></label>
+          <label>Total<input class="input" value="${money(lineTotal(line))}" readonly></label>
+          <button type="button" class="icon-btn" title="Remove line" onclick="removeServiceLine(${index})">×</button>
+        </div>
+      `).join('');
+    }
+    function setLine(index, key, value) {
+      if (!appState.lines[index]) return;
+      appState.lines[index][key] = key === 'quantity' || key === 'rate' ? Math.max(0, Number(value || 0)) : value;
+      renderServiceLines();
+      updatePreview();
+    }
+    function addServiceLine() {
+      appState.lines.push({ service: servicePresets[Math.min(appState.lines.length, servicePresets.length - 1)], description: 'Professional digital service deliverable.', quantity: 1, rate: 0 });
+      renderServiceLines();
+      updatePreview();
+    }
+    function removeServiceLine(index) {
+      appState.lines.splice(index, 1);
+      if (!appState.lines.length) addServiceLine();
+      renderServiceLines();
+      updatePreview();
+    }
+    function updateFromInputs() {
+      appState.title = document.getElementById('title').value.trim() || 'Invoice';
+      appState.businessCategory = document.getElementById('business-category').value.trim() || 'Professional Services';
+      appState.invoiceNumber = document.getElementById('invoice-number').value.trim() || 'HZ-PRO-0000';
+      appState.currency = document.getElementById('currency').value || 'USD';
+      appState.issueDate = document.getElementById('issue-date').value;
+      appState.dueDate = document.getElementById('due-date').value;
+      appState.reference = document.getElementById('reference').value.trim();
+      appState.paymentTerms = document.getElementById('payment-terms').value;
+      appState.issuerName = document.getElementById('issuer-name').value.trim();
+      appState.issuerTax = document.getElementById('issuer-tax').value.trim();
+      appState.issuerAddress = document.getElementById('issuer-address').value.trim();
+      appState.issuerContact = document.getElementById('issuer-contact').value.trim();
+      appState.clientName = document.getElementById('client-name').value.trim();
+      appState.clientTax = document.getElementById('client-tax').value.trim();
+      appState.clientAddress = document.getElementById('client-address').value.trim();
+      appState.clientContact = document.getElementById('client-contact').value.trim();
+      appState.taxRate = numberValue('tax-rate');
+      appState.discount = numberValue('discount');
+      appState.deposit = numberValue('deposit');
+      appState.paymentDetails = document.getElementById('payment-details').value.trim();
+      appState.terms = document.getElementById('terms').value.trim();
+      appState.accountingNotes = document.getElementById('accounting-notes').value.trim();
+      renderServiceLines();
+      updatePreview();
+    }
+    function syncInputs() {
+      const map = {
+        title: 'title', businessCategory: 'business-category', invoiceNumber: 'invoice-number', currency: 'currency',
+        issueDate: 'issue-date', dueDate: 'due-date', reference: 'reference', paymentTerms: 'payment-terms',
+        issuerName: 'issuer-name', issuerTax: 'issuer-tax', issuerAddress: 'issuer-address', issuerContact: 'issuer-contact',
+        clientName: 'client-name', clientTax: 'client-tax', clientAddress: 'client-address', clientContact: 'client-contact',
+        taxRate: 'tax-rate', discount: 'discount', deposit: 'deposit', paymentDetails: 'payment-details', terms: 'terms',
+        accountingNotes: 'accounting-notes'
+      };
+      Object.entries(map).forEach(([key, id]) => { document.getElementById(id).value = appState[key] ?? ''; });
+      renderServiceLines();
+      updatePreview();
+    }
+    function metaRow(label, value) {
+      return `<tr><td>${escapeHtml(label)}</td><td>${escapeHtml(value || '-')}</td></tr>`;
+    }
+    function updatePreview() {
+      const t = totals();
+      document.getElementById('preview-title').textContent = appState.title;
+      document.getElementById('preview-subtitle').textContent = `${appState.businessCategory} · Intellectual / Digital Deliverables`;
+      document.getElementById('preview-header-meta').innerHTML = `Invoice ${escapeHtml(appState.invoiceNumber)}<br>${escapeHtml(formatDate(appState.issueDate))}`;
+      document.getElementById('preview-issuer-name').textContent = appState.issuerName || '-';
+      document.getElementById('preview-issuer-address').textContent = appState.issuerAddress || '-';
+      document.getElementById('preview-issuer-contact').textContent = [appState.issuerContact, appState.issuerTax ? `Tax/VAT: ${appState.issuerTax}` : ''].filter(Boolean).join('\n');
+      document.getElementById('preview-client-name').textContent = appState.clientName || '-';
+      document.getElementById('preview-client-address').textContent = appState.clientAddress || '-';
+      document.getElementById('preview-client-contact').textContent = [appState.clientContact, appState.clientTax ? `Tax/VAT: ${appState.clientTax}` : ''].filter(Boolean).join('\n') || '-';
+      document.getElementById('preview-meta').innerHTML = [
+        metaRow('Invoice #', appState.invoiceNumber),
+        metaRow('Issue date', formatDate(appState.issueDate)),
+        metaRow('Due date', formatDate(appState.dueDate)),
+        metaRow('Terms', appState.paymentTerms),
+        metaRow('PO / SOW', appState.reference || '-')
+      ].join('');
+      document.getElementById('preview-classification').innerHTML = [
+        metaRow('Line of business', appState.businessCategory),
+        metaRow('Product type', 'Intellectual / Digital'),
+        metaRow('Tax rate', Number(appState.taxRate || 0).toFixed(2) + '%'),
+        metaRow('Currency', appState.currency)
+      ].join('');
+      document.getElementById('preview-lines').innerHTML = appState.lines.map((line) => `
+        <tr>
+          <td><div class="line-title">${escapeHtml(line.service)}</div></td>
+          <td><div class="line-desc">${escapeHtml(line.description)}</div></td>
+          <td>${Number(line.quantity || 0).toLocaleString()}</td>
+          <td>${money(line.rate)}</td>
+          <td>${money(lineTotal(line))}</td>
+        </tr>
+      `).join('');
+      document.getElementById('preview-summary').innerHTML = [
+        `<div class="summary-row"><span>Subtotal</span><strong>${money(t.subtotal)}</strong></div>`,
+        `<div class="summary-row"><span>Discount</span><strong>${money(t.discount)}</strong></div>`,
+        `<div class="summary-row"><span>Taxable amount</span><strong>${money(t.taxable)}</strong></div>`,
+        `<div class="summary-row"><span>Tax</span><strong>${money(t.tax)}</strong></div>`,
+        `<div class="summary-row total"><span>Total</span><strong>${money(t.total)}</strong></div>`,
+        `<div class="summary-row"><span>Deposit / paid</span><strong>${money(t.deposit)}</strong></div>`,
+        `<div class="summary-row balance"><span>Balance due</span><strong>${money(t.balance)}</strong></div>`
+      ].join('');
+      document.getElementById('preview-terms').textContent = appState.terms || 'No additional terms provided.';
+      document.getElementById('preview-accounting-notes').textContent = appState.accountingNotes ? `Internal accounting notes: ${appState.accountingNotes}` : '';
+      document.getElementById('preview-payment').textContent = appState.paymentDetails || '-';
+      document.getElementById('preview-payment-status').innerHTML = [
+        metaRow('Deposit / paid', money(t.deposit)),
+        metaRow('Balance due', money(t.balance)),
+        metaRow('Due date', formatDate(appState.dueDate)),
+        metaRow('Reference', appState.invoiceNumber)
+      ].join('');
+      syncPreviewScale();
+      document.getElementById('save-status').textContent = 'Updated';
+      window.clearTimeout(window.__statusTimer);
+      window.__statusTimer = window.setTimeout(() => { document.getElementById('save-status').textContent = 'Ready'; }, 900);
+    }
+    function syncPreviewScale() {
+      const wrap = document.querySelector('.preview-wrap');
+      const fit = document.getElementById('preview-fit');
+      const page = document.getElementById('invoice-preview');
+      if (!wrap || !fit || !page) return;
+      const available = Math.max(280, wrap.clientWidth - 32);
+      const scale = Math.min(1, available / page.offsetWidth);
+      fit.style.transform = 'none';
+      fit.style.width = (page.offsetWidth * scale) + 'px';
+      fit.style.height = (page.offsetHeight * scale) + 'px';
+      page.style.transform = `scale(${scale})`;
+    }
+    function snapshot(format = 'hanzu-invoice-1.0') {
+      return { format, exportedAt: new Date().toISOString(), state: appState };
+    }
+    function downloadJson(data, filename) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+    function cleanName(value) {
+      return String(value || 'draft').replace(/[^a-z0-9_-]+/gi, '_').replace(/^_+|_+$/g, '').slice(0, 60) || 'draft';
+    }
+    function saveInvoiceFile() {
+      downloadJson(snapshot(), `hanzu_invoice_${cleanName(appState.invoiceNumber)}.hzinvoice.json`);
+    }
+    function saveProfileFile() {
+      const { lines, clientName, clientTax, clientAddress, clientContact, invoiceNumber, issueDate, dueDate, reference, deposit, discount, ...profileState } = appState;
+      downloadJson({ format: 'hanzu-invoice-profile-1.0', exportedAt: new Date().toISOString(), state: profileState }, `hanzu_invoice_profile_${cleanName(appState.issuerName)}.hzprofile.json`);
+    }
+    function triggerLoadInvoice() { document.getElementById('invoice-file-input').click(); }
+    function triggerLoadProfile() { document.getElementById('profile-file-input').click(); }
+    async function readJsonFile(event) {
+      const file = event.target.files && event.target.files[0];
+      event.target.value = '';
+      if (!file) return null;
+      return JSON.parse(await file.text());
+    }
+    async function loadInvoiceFile(event) {
+      try {
+        const data = await readJsonFile(event);
+        if (!data || data.format !== 'hanzu-invoice-1.0') throw new Error('Unsupported invoice file format.');
+        appState = { ...defaultState(), ...data.state, lines: Array.isArray(data.state.lines) ? data.state.lines : defaultState().lines };
+        syncInputs();
+      } catch (error) {
+        alert('Could not load invoice file. Please use a valid Hanzu Invoice JSON export.');
+      }
+    }
+    async function loadProfileFile(event) {
+      try {
+        const data = await readJsonFile(event);
+        if (!data || data.format !== 'hanzu-invoice-profile-1.0') throw new Error('Unsupported profile file format.');
+        appState = { ...appState, ...data.state };
+        syncInputs();
+      } catch (error) {
+        alert('Could not load profile file. Please use a valid Hanzu Invoice profile export.');
+      }
+    }
+    function newInvoice() {
+      if (!confirm('Start a new Hanzu invoice? Unsaved changes will be cleared.')) return;
+      appState = defaultState();
+      syncInputs();
+    }
+    function loadHanzuDemo() {
+      appState = {
+        ...defaultState(),
+        invoiceNumber: 'HZ-PRO-2077',
+        reference: 'SOW-DIGITAL-DESIGN-01',
+        issuerTax: 'VAT / tax ID pending',
+        issuerAddress: 'Hanzu Tech OU\nSepapaja tn 6, Tallinn\nEstonia',
+        clientName: 'Arasaka-style Client Studio',
+        clientTax: 'Client VAT ID',
+        clientAddress: 'Client registered address\nBangkok, Thailand',
+        clientContact: 'accounts@example.com',
+        taxRate: 7,
+        deposit: 500,
+        lines: [
+          { service: 'CAD jewelry specialist / design engineering', description: 'Parametric CAD development, production constraints review, and factory-ready digital handoff.', quantity: 1, rate: 1450 },
+          { service: '3D sculptor', description: 'Organic sculpt pass, detail refinement, and printable model preparation for approved concept direction.', quantity: 1, rate: 900 },
+          { service: 'Custom software development', description: 'Invoice/workflow interface customization, local export logic, and responsive smoke-test support.', quantity: 1, rate: 1800 }
+        ],
+        accountingNotes: 'Revenue category: professional services. Products are intellectual/digital deliverables. Verify VAT treatment by client jurisdiction.'
+      };
+      syncInputs();
+    }
+    async function downloadPdf() {
+      const element = document.getElementById('invoice-preview');
+      const { jsPDF } = window.jspdf;
+      const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#f8fafb' });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
+      const imgWidth = canvas.width * ratio;
+      const imgHeight = canvas.height * ratio;
+      pdf.addImage(imgData, 'PNG', (pageWidth - imgWidth) / 2, 0, imgWidth, imgHeight);
+      pdf.save(`Hanzu_Invoice_${cleanName(appState.invoiceNumber)}.pdf`);
+    }
+    window.addEventListener('resize', syncPreviewScale);
+    syncInputs();
+  </script>
+</body>
+</html>
