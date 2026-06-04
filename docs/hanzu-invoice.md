@@ -20,10 +20,6 @@ The control center also includes display mode, preview density, project/engageme
 - Day Chrome: brighter operator mode with the same clipped-panel interface and a readable white invoice preview
 - Preview density: Complete, Client Clean, and Accountant Detail presets adjust the section checkboxes without deleting data
 
-## Console Layout
-
-The main desktop layout follows the full workstation mockup: top system bar, left navigation rail, tab strip, dense invoice control panels, A4 preview viewport, right action rail, and local-first footer status. Mobile collapses the side/action rails and keeps the controls and preview stacked without horizontal overflow.
-
 ## Export Formats
 
 - `hanzu-invoice-1.0`: complete invoice JSON, including client and line items
