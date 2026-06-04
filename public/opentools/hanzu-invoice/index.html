@@ -330,44 +330,363 @@
     }
     @media print {
       body { background: #fff; }
-      nav, .controls, .hero-copy, .print-hidden { display: none !important; }
+      nav, .controls, .hero-copy, .print-hidden, .app-topbar, .side-rail, .action-rail, .tabs-bar, .console-footer { display: none !important; }
       main { padding: 0 !important; }
       .app-shell { display: block; }
       .preview-wrap { position: static; padding: 0; overflow: visible; }
       .preview-fit { transform: none !important; width: auto !important; height: auto !important; }
       .invoice-page { width: auto; min-height: auto; box-shadow: none; padding: 32px; }
     }
+    body.exact-console {
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 16% 10%, rgba(255, 0, 51, 0.12), transparent 24rem),
+        linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px),
+        linear-gradient(180deg, #050609, #0a0b0f 42%, #020203);
+      background-size: auto, 26px 26px, 26px 26px, auto;
+    }
+    .exact-frame {
+      height: 100vh;
+      padding: 8px;
+      display: grid;
+      grid-template-rows: 62px minmax(0, 1fr) 28px;
+      gap: 8px;
+      color: #e8edf1;
+    }
+    .app-topbar {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr) 270px 170px;
+      align-items: center;
+      gap: 10px;
+      padding: 0 16px;
+      border: 1px solid rgba(207,212,216,0.24);
+      background: linear-gradient(180deg, rgba(16,18,22,0.98), rgba(4,5,7,0.98));
+      clip-path: polygon(12px 0, calc(100% - 18px) 0, 100% 18px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 12px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 18px 40px rgba(0,0,0,0.45);
+    }
+    .app-title {
+      justify-self: center;
+      color: var(--red);
+      font: 700 1.18rem/1 'IBM Plex Sans', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      text-shadow: 0 0 16px rgba(255,0,51,0.5);
+    }
+    .local-mode {
+      padding: 8px 14px;
+      border: 1px solid rgba(207,212,216,0.18);
+      background: rgba(255,255,255,0.035);
+      clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+      font-size: 0.62rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #9aa3aa;
+    }
+    .local-mode span { color: var(--red); }
+    .open-tools-link {
+      justify-self: end;
+      color: #f8fafc;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .console-grid {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 168px minmax(500px, 0.95fr) minmax(560px, 1.05fr) 78px;
+      gap: 8px;
+    }
+    .side-rail,
+    .action-rail,
+    .console-panel,
+    .preview-console {
+      border: 1px solid rgba(207,212,216,0.18);
+      background: linear-gradient(180deg, rgba(13,15,18,0.96), rgba(2,3,5,0.96));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(255,0,51,0.12), 0 18px 48px rgba(0,0,0,0.38);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    }
+    .side-rail {
+      display: grid;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 12px;
+      padding: 14px;
+      min-height: 0;
+    }
+    .rail-button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 46px;
+      padding: 9px 10px;
+      margin-bottom: 7px;
+      color: #cfd4d8;
+      border: 1px solid rgba(207,212,216,0.12);
+      background: rgba(255,255,255,0.035);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+    .rail-button.active {
+      color: var(--red);
+      border-color: rgba(255,0,51,0.76);
+      box-shadow: inset 3px 0 0 var(--red), 0 0 18px rgba(255,0,51,0.16);
+    }
+    .rail-icon {
+      width: 20px;
+      text-align: center;
+      color: #aeb6bd;
+      font-size: 1rem;
+    }
+    .system-card {
+      padding: 14px;
+      border: 1px solid rgba(207,212,216,0.18);
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #aeb6bd;
+    }
+    .system-card div { display: flex; justify-content: space-between; padding-top: 9px; border-top: 1px solid rgba(207,212,216,0.12); margin-top: 8px; }
+    .ok { color: #57d17d; }
+    .user-chip { display: flex; align-items: center; gap: 10px; font-size: 0.7rem; text-transform: uppercase; }
+    .user-chip strong { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid rgba(255,0,51,0.7); color: var(--red); }
+    .console-panel { min-height: 0; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; overflow: hidden; }
+    .tabs-bar {
+      display: flex;
+      gap: 4px;
+      padding: 10px 10px 6px;
+      border-bottom: 1px solid rgba(207,212,216,0.12);
+    }
+    .tab-chip {
+      min-height: 30px;
+      padding: 8px 13px;
+      border: 1px solid rgba(207,212,216,0.13);
+      background: rgba(255,255,255,0.035);
+      color: #b9c0c6;
+      font-size: 0.63rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 0 100%);
+    }
+    .tab-chip.active { color: #fff; border-color: rgba(255,0,51,0.7); box-shadow: inset 0 -2px 0 var(--red); }
+    .controls {
+      display: block;
+      min-height: 0;
+      overflow: auto;
+      padding: 8px 10px 10px;
+      scrollbar-color: rgba(255,0,51,0.45) rgba(255,255,255,0.05);
+    }
+    .control-card {
+      margin-bottom: 8px;
+      padding: 12px 14px;
+      background: linear-gradient(180deg, rgba(10,12,15,0.92), rgba(4,5,8,0.92));
+      border-color: rgba(207,212,216,0.16);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    }
+    .control-card:first-child { order: 1; }
+    .section-title {
+      color: var(--red);
+      font-size: 0.73rem;
+      letter-spacing: 0.09em;
+    }
+    label {
+      color: #a6adb4;
+      font-size: 0.58rem;
+      letter-spacing: 0.06em;
+    }
+    .input, textarea, select {
+      min-height: 30px;
+      padding: 6px 8px;
+      background: rgba(0,0,0,0.36);
+      border-color: rgba(207,212,216,0.18);
+      color: #eef2f5;
+      font-size: 0.72rem;
+    }
+    textarea { min-height: 52px; }
+    .button {
+      min-height: 34px;
+      padding: 7px 10px;
+      font-size: 0.64rem;
+    }
+    .service-row {
+      grid-template-columns: minmax(130px, 0.9fr) minmax(180px, 1.35fr) 60px 78px 88px 34px;
+      align-items: end;
+      gap: 5px;
+      padding: 7px 0;
+    }
+    .service-row label:first-child,
+    .service-row label:nth-child(2) { grid-column: auto; }
+    .service-row textarea { min-height: 34px; }
+    .icon-btn { width: 30px; height: 30px; }
+    .console-footer {
+      display: grid;
+      grid-template-columns: 1fr 120px 140px 250px;
+      gap: 8px;
+      padding: 8px 10px 10px;
+      border-top: 1px solid rgba(207,212,216,0.12);
+    }
+    .console-footer .button { width: 100%; }
+    .save-preview { background: linear-gradient(90deg, #8f1014, #d31324) !important; color: #fff; border-color: rgba(255,0,51,0.86); }
+    .preview-console {
+      min-width: 0;
+      min-height: 0;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.05), transparent 18%),
+        linear-gradient(180deg, rgba(11,13,16,0.96), rgba(3,4,6,0.96));
+    }
+    .preview-wrap {
+      position: static;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 0;
+      background: #f3f5f6;
+      clip-path: polygon(5% 0, 100% 0, 100% 96%, 96% 100%, 0 100%, 0 5%);
+    }
+    .invoice-page {
+      box-shadow: 0 0 0 1px rgba(17,19,24,0.3), 0 24px 60px rgba(0,0,0,0.34);
+    }
+    .action-rail {
+      display: grid;
+      grid-template-rows: auto auto auto 1fr auto auto auto auto;
+      gap: 10px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .paper-badge {
+      min-height: 74px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(207,212,216,0.14);
+      color: #cfd4d8;
+      font-size: 0.7rem;
+      line-height: 1.5;
+      text-transform: uppercase;
+    }
+    .action-btn {
+      min-height: 68px;
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      border: 1px solid rgba(207,212,216,0.18);
+      background: rgba(255,255,255,0.035);
+      color: #cfd4d8;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+      cursor: pointer;
+    }
+    .action-btn.red { color: var(--red); border-color: rgba(255,0,51,0.62); }
+    .action-btn.yellow { color: var(--yellow); border-color: rgba(255,204,0,0.48); }
+    .bottom-status {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      padding: 0 16px;
+      border: 1px solid rgba(207,212,216,0.12);
+      color: #5d646b;
+      font-size: 0.58rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(0,0,0,0.42);
+      clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px);
+    }
+    .backup-button { color: var(--yellow); border: 1px solid rgba(255,204,0,0.42); padding: 4px 14px; }
+    body.theme-day {
+      background: #050609;
+      color: #e8edf1;
+    }
+    body.theme-day .chrome-panel,
+    body.theme-day .toolbar,
+    body.theme-day .control-card,
+    body.theme-day .console-panel,
+    body.theme-day .side-rail,
+    body.theme-day .action-rail,
+    body.theme-day .preview-console,
+    body.theme-day .app-topbar { background: linear-gradient(180deg, rgba(16,18,22,0.98), rgba(4,5,7,0.98)); color: #e8edf1; }
+    body.theme-day .input,
+    body.theme-day textarea,
+    body.theme-day select { color: #eef2f5; background: rgba(0,0,0,0.36); border-color: rgba(207,212,216,0.18); }
+    body.theme-day .mini-copy,
+    body.theme-day label,
+    body.theme-day .text-gray-300,
+    body.theme-day .text-gray-400,
+    body.theme-day .text-gray-500 { color: #a6adb4 !important; }
+    @media (max-width: 1180px) {
+      body.exact-console { overflow: auto; }
+      .exact-frame { height: auto; min-height: 100vh; grid-template-rows: auto auto auto; }
+      .app-topbar { grid-template-columns: 1fr; gap: 6px; padding: 12px; }
+      .app-title { justify-self: start; }
+      .console-grid { grid-template-columns: 1fr; }
+      .side-rail, .action-rail { display: none; }
+      .console-panel { min-height: 780px; }
+      .preview-console { min-height: 720px; }
+    }
+    @media (max-width: 720px) {
+      .exact-frame { padding: 0; gap: 0; }
+      .console-panel, .preview-console { clip-path: none; border-left: 0; border-right: 0; }
+      .service-row { grid-template-columns: 1fr 1fr; }
+      .service-row label:first-child,
+      .service-row label:nth-child(2) { grid-column: 1 / -1; }
+      .console-footer { grid-template-columns: 1fr; }
+      .preview-console { min-height: 560px; padding: 10px; }
+    }
   </style>
 </head>
-<body>
-  <nav class="toolbar fixed top-0 left-0 w-full z-50 px-4 py-3">
-    <div class="max-w-[1500px] mx-auto flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+<body class="exact-console">
+  <main class="exact-frame">
+    <header class="app-topbar">
       <a href="/" class="brand-mark text-2xl" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
-      <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.16em]">
-        <a href="/opentools/" class="text-yellow-300 hover:text-white">OpenTools</a>
-        <a href="/opentools/jeweler-invoice-2.0/" class="text-gray-400 hover:text-white">Jeweler Invoice 2.0</a>
-        <span class="status-pill">Local-first</span>
-      </div>
-    </div>
-  </nav>
+      <div class="app-title">Hanzu Invoice</div>
+      <div class="local-mode"><span>●</span> Local Mode<br>All changes saved locally</div>
+      <a class="open-tools-link" href="/opentools/">OpenTools ↗</a>
+    </header>
 
-  <main class="pt-28 px-4 pb-14">
-    <section class="max-w-[1500px] mx-auto mb-5 hero-copy">
-      <div class="chrome-panel p-5 md:p-6">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <h1 class="text-4xl md:text-6xl uppercase text-red-500" style="text-shadow:0 0 20px rgba(255,0,51,0.4)">Hanzu Invoice</h1>
-            <p class="mt-3 max-w-3xl text-gray-300 leading-7">Professional services invoicing for intellectual and digital work: design, CAD, 3D, manufacturing coordination, industrial design, and software systems.</p>
-          </div>
-          <div class="text-sm text-gray-400 leading-6 max-w-xl">
-            Built for two recipients: a polished client document and a tidy accountant record with PO/SOW, VAT/tax ID, service category, tax, deposit, balance, payment terms, and exportable JSON.
-          </div>
+    <section class="console-grid">
+      <aside class="side-rail">
+        <div>
+          <div class="rail-button active"><span class="rail-icon">▧</span><span>Invoice Builder</span></div>
+          <div class="rail-button"><span class="rail-icon">▦</span><span>Dashboard</span></div>
+          <div class="rail-button"><span class="rail-icon">▤</span><span>Invoices</span></div>
+          <div class="rail-button"><span class="rail-icon">▥</span><span>Estimates</span></div>
+          <div class="rail-button"><span class="rail-icon">◉</span><span>Clients</span></div>
+          <div class="rail-button"><span class="rail-icon">▣</span><span>Items / Services</span></div>
+          <div class="rail-button"><span class="rail-icon">▱</span><span>Payments</span></div>
+          <div class="rail-button"><span class="rail-icon">▥</span><span>Reports</span></div>
+          <div class="rail-button"><span class="rail-icon">⇪</span><span>Exports</span></div>
+          <div class="rail-button"><span class="rail-icon">⚙</span><span>Settings</span></div>
         </div>
-      </div>
-    </section>
+        <div></div>
+        <div class="system-card">
+          System Status
+          <div><span>Local DB</span><span class="ok">OK</span></div>
+          <div><span>Backup</span><span class="ok">OK</span></div>
+          <div><span>Encryption</span><span class="ok">Active</span></div>
+        </div>
+        <div class="user-chip"><strong>HT</strong><span>Hanzu Tech<br><small>Administrator</small></span></div>
+      </aside>
 
-    <section class="max-w-[1500px] mx-auto app-shell">
-      <aside class="controls">
+      <section class="console-panel">
+        <div class="tabs-bar">
+          <div class="tab-chip active">Invoice</div>
+          <div class="tab-chip">Clients</div>
+          <div class="tab-chip">Products / Services</div>
+          <div class="tab-chip">Templates</div>
+          <div class="tab-chip">Settings</div>
+          <div class="tab-chip">Data Vault</div>
+        </div>
+        <div class="controls">
         <div class="control-card">
           <div class="flex items-center justify-between gap-3 mb-4">
             <h2 class="section-title">Invoice Controls</h2>
@@ -493,10 +812,17 @@ Payment reference: invoice number</textarea></label>
           <label class="mt-3">Terms, Deliverables & IP Notes<textarea id="terms" oninput="updateFromInputs()">Digital and intellectual deliverables are supplied according to the approved brief, quote, or statement of work. Unless separately assigned in writing, portfolio rights, source-file access, manufacturing responsibility, and intellectual property transfer are governed by the project agreement.</textarea></label>
           <label class="mt-3">Private Notes For Accountant<textarea id="accounting-notes" oninput="updateFromInputs()" placeholder="Internal notes: revenue category, VAT handling, project code, receipt status."></textarea></label>
         </div>
-      </aside>
+        <div class="console-footer">
+          <button type="button" class="button secondary" onclick="newInvoice()">New Invoice</button>
+          <button type="button" class="button secondary" onclick="saveInvoiceFile()">Save Draft</button>
+          <button type="button" class="button secondary" onclick="saveProfileFile()">Save & Close</button>
+          <button type="button" class="button save-preview" onclick="downloadPdf()">Save & Preview →</button>
+        </div>
+      </section>
 
-      <section class="preview-wrap chrome-panel p-4">
-        <div id="preview-fit" class="preview-fit">
+      <section class="preview-console">
+        <div class="preview-wrap">
+          <div id="preview-fit" class="preview-fit">
           <article id="invoice-preview" class="invoice-page" aria-label="Invoice preview">
             <header id="preview-header" class="paper-head">
               <div>
@@ -575,9 +901,26 @@ Payment reference: invoice number</textarea></label>
               <div class="signature-line">Authorized Signature</div>
             </section>
           </article>
+          </div>
         </div>
       </section>
+
+      <aside class="action-rail">
+        <div class="paper-badge"><strong>A4</strong><br>210 x 297 mm</div>
+        <button type="button" class="action-btn" onclick="syncPreviewScale()">Fit Width</button>
+        <button type="button" class="action-btn">100%</button>
+        <div class="paper-badge">Page<br>1 / 1</div>
+        <div></div>
+        <button type="button" class="action-btn red" onclick="downloadPdf()">Export PDF</button>
+        <button type="button" class="action-btn yellow" onclick="saveInvoiceFile()">Export JSON</button>
+        <button type="button" class="action-btn" onclick="window.print()">Print</button>
+      </aside>
     </section>
+
+    <footer class="bottom-status">
+      <span>Local-first. Private. Secure. All data stored locally on this device.</span>
+      <span class="backup-button">Back Up Now</span>
+    </footer>
   </main>
 
   <script>
@@ -925,7 +1268,7 @@ Payment reference: invoice number</textarea></label>
       const fit = document.getElementById('preview-fit');
       const page = document.getElementById('invoice-preview');
       if (!wrap || !fit || !page) return;
-      const available = Math.max(280, wrap.clientWidth - 64);
+      const available = Math.max(280, wrap.clientWidth - 48);
       const scale = Math.min(1, available / page.offsetWidth);
       fit.style.transform = 'none';
       fit.style.width = (page.offsetWidth * scale) + 'px';
@@ -1035,6 +1378,5 @@ Payment reference: invoice number</textarea></label>
     window.addEventListener('resize', syncPreviewScale);
     syncInputs();
   </script>
-  <script src="/assets/duck-widget.js" defer></script>
 </body>
 </html>
