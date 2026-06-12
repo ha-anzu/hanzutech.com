@@ -696,6 +696,12 @@ Payment reference: invoice number</textarea></label>
     function formatDate(value) {
       if (!value) return '-';
       const date = new Date(value + 'T00:00:00');
+      if (appState.currency === 'THB') {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      }
       return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
     }
     function money(value) {
@@ -1041,25 +1047,52 @@ Payment reference: invoice number</textarea></label>
     async function downloadPdf() {
       const element = document.getElementById('invoice-preview');
       const { jsPDF } = window.jspdf;
-      const previousScale = element.style.scale;
-      const previousTransform = element.style.transform;
-      element.style.scale = '1';
-      element.style.transform = 'none';
+      const exportHost = document.createElement('div');
+      const exportPage = element.cloneNode(true);
+      exportHost.style.position = 'fixed';
+      exportHost.style.left = '-10000px';
+      exportHost.style.top = '0';
+      exportHost.style.width = '794px';
+      exportHost.style.background = '#f8fafb';
+      exportHost.style.pointerEvents = 'none';
+      exportHost.style.zIndex = '-1';
+      exportPage.style.position = 'relative';
+      exportPage.style.scale = '1';
+      exportPage.style.transform = 'none';
+      exportPage.style.width = '794px';
+      exportPage.style.minHeight = '1123px';
+      exportPage.style.margin = '0';
+      exportPage.style.boxShadow = 'none';
+      exportHost.appendChild(exportPage);
+      document.body.appendChild(exportHost);
       try {
-        const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#f8fafb' });
+        const canvas = await html2canvas(exportPage, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#f8fafb',
+          windowWidth: 794,
+          width: exportPage.scrollWidth,
+          height: exportPage.scrollHeight
+        });
         const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'a4');
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
-        const ratio = Math.min(pageWidth / canvas.width, pageHeight / canvas.height);
-        const imgWidth = canvas.width * ratio;
-        const imgHeight = canvas.height * ratio;
-        pdf.addImage(imgData, 'PNG', (pageWidth - imgWidth) / 2, 0, imgWidth, imgHeight);
+        const imgWidth = pageWidth;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
+        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+        while (heightLeft > 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
         pdf.save(`Hanzu_Invoice_${cleanName(appState.invoiceNumber)}.pdf`);
       } finally {
-        element.style.scale = previousScale;
-        element.style.transform = previousTransform;
-        syncPreviewScale();
+        exportHost.remove();
       }
     }
     window.addEventListener('resize', syncPreviewScale);
