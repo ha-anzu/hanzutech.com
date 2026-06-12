@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self' https://www.goldapi.io; base-uri 'self'; frame-ancestors 'none'; upgrade-insecure-requests; block-all-mixed-content">
+  <script>
+    if (location.protocol === 'http:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      location.replace('https://' + location.host + location.pathname + location.search + location.hash);
+    }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="light">
+  <title>Jewelry Pricing | Hanzu Tech</title>
+  <meta name="description" content="A local-first jewelry pricing tool for client quotes and internal factory worksheets.">
+  <link rel="canonical" href="https://hanzutech.com/opentools/jewelry-pricing/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Jewelry Pricing | Hanzu Tech">
+  <meta property="og:description" content="Price jewelry across materials, export client quotes, and keep factory costing records.">
+  <meta property="og:url" content="https://hanzutech.com/opentools/jewelry-pricing/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+  <script src="./pricing-engine.js" defer></script>
+  <script src="./app-state.js" defer></script>
+  <script src="./exports.js" defer></script>
+  <script src="./render.js" defer></script>
+</head>
+<body>
+  <div class="top-bar no-print" data-top-nav-wrap>
+    <a href="/" class="brand-mark" aria-label="Hanzu Tech Home"><span class="brand-hanzu">HANZU</span><span class="brand-tech">TECH</span></a>
+    <button type="button" class="mobile-nav-toggle" data-mobile-nav-toggle aria-label="Toggle menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+    <nav class="top-nav">
+      <a href="/services" class="neon-yellow">Services</a>
+      <a href="/opentools" class="neon-yellow">OpenTools</a>
+      <a href="/opentools/jeweler-invoice-2.0/" class="neon-yellow">Jeweler Invoice 2.0</a>
+      <a href="/about" class="neon-yellow">Contact Shard</a>
+    </nav>
+  </div>
+
+  <main class="page">
+    <section class="shell page-header no-print">
+      <div class="header-flex">
+        <div>
+          <p class="doc-label">OpenTools</p>
+          <h1 class="faulty-neon" style="font-size: clamp(2.4rem, 6vw, 4.8rem); margin: 0;">Jewelry Pricing</h1>
+          <p class="text-muted" style="margin: 0.35rem 0 0;">Client quote plus internal factory worksheet.</p>
+        </div>
+        <div class="session-pill">
+          <p class="doc-label">Session</p>
+          <strong class="neon-yellow">Local-only</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell summary-grid no-print" style="margin-top: 1rem;">
+      <div class="kpi"><span>COGS / pc</span><strong id="kpi-cogs">$0.00</strong></div>
+      <div class="kpi"><span>Sell / pc</span><strong id="kpi-sell">$0.00</strong></div>
+      <div class="kpi"><span>Margin</span><strong id="kpi-margin">0%</strong></div>
+      <div class="kpi"><span>Batch revenue</span><strong id="kpi-batch">$0.00</strong></div>
+    </section>
+
+    <section class="shell workspace" style="margin-top: 1rem;">
+      <aside class="controls-pane panel no-print">
+        <div class="section-title-row">
+          <div>
+            <p class="doc-label">Pricing Controls</p>
+            <p class="text-muted" style="font-size: 0.78rem; margin: 0.2rem 0 0;">No data is stored unless you export it.</p>
+          </div>
+          <button type="button" class="button" onclick="newBlankPricing()">New Blank</button>
+        </div>
+
+        <div class="action-grid" style="margin-top: 0.7rem;">
+          <button type="button" class="button" onclick="loadCrimsonPetalSample()">Load Sample</button>
+          <button type="button" class="button secondary" onclick="exportClientQuotePdf()">Export Client PDF</button>
+          <button type="button" class="button secondary" onclick="exportFactoryWorksheetPdf()">Export Factory PDF</button>
+          <button type="button" class="button" onclick="savePricingFile()">Save Pricing</button>
+          <button type="button" class="button secondary" onclick="triggerFileInput('pricing-file-input')">Load Pricing</button>
+          <button type="button" class="button" onclick="saveCompanyProfile()">Save Company</button>
+          <button type="button" class="button secondary" onclick="triggerFileInput('company-profile-input')">Load Company</button>
+          <button type="button" class="button secondary" onclick="applyApiKey()">Set API Key</button>
+        </div>
+        <input id="pricing-file-input" type="file" accept=".json,application/json" class="hidden" onchange="loadPricingFile(event)">
+        <input id="company-profile-input" type="file" accept=".json,application/json" class="hidden" onchange="loadCompanyProfile(event)">
+
+        <section class="input-block">
+          <h2>Show / Hide Document Sections</h2>
+          <div class="section-toggle-grid">
+            <label class="section-toggle"><input data-visibility-key="quoteHeader" type="checkbox" checked onchange="updatePreview()">Quote Header</label>
+            <label class="section-toggle"><input data-visibility-key="quoteClient" type="checkbox" checked onchange="updatePreview()">Quote Client</label>
+            <label class="section-toggle"><input data-visibility-key="quoteImage" type="checkbox" checked onchange="updatePreview()">Quote Image</label>
+            <label class="section-toggle"><input data-visibility-key="quotePayment" type="checkbox" checked onchange="updatePreview()">Quote Payment</label>
+            <label class="section-toggle"><input data-visibility-key="quoteTerms" type="checkbox" checked onchange="updatePreview()">Quote Terms</label>
+            <label class="section-toggle"><input data-visibility-key="quoteSignatures" type="checkbox" checked onchange="updatePreview()">Quote Signatures</label>
+            <label class="section-toggle"><input data-visibility-key="factoryRouting" type="checkbox" checked onchange="updatePreview()">Factory Routing</label>
+            <label class="section-toggle"><input data-visibility-key="factoryQc" type="checkbox" checked onchange="updatePreview()">Factory QC</label>
+            <label class="section-toggle"><input data-visibility-key="factoryActuals" type="checkbox" checked onchange="updatePreview()">Factory Actuals</label>
+            <label class="section-toggle"><input data-visibility-key="factoryApprovals" type="checkbox" checked onchange="updatePreview()">Approvals</label>
+          </div>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Issuer / Legal / Payment</h2>
+          <label>Legal name<input id="issuer-legal-name" oninput="updatePreview()" placeholder="Legal company name"></label>
+          <label>Quote title<input id="quote-title" oninput="updatePreview()" placeholder="Jewelry Quote"></label>
+          <label>Header subtitle<input id="quote-subtitle" oninput="updatePreview()" placeholder="Optional subtitle"></label>
+          <label>Address<textarea id="issuer-address" rows="2" oninput="updatePreview()" placeholder="Company address"></textarea></label>
+          <div class="grid-three">
+            <label>VAT<input id="issuer-vat" oninput="updatePreview()"></label>
+            <label>Registry<input id="issuer-registry" oninput="updatePreview()"></label>
+            <label>Contact<input id="issuer-contact" oninput="updatePreview()"></label>
+          </div>
+          <div class="grid-two">
+            <label>Bank<input id="bank-name" oninput="updatePreview()"></label>
+            <label>Branch<input id="bank-branch" oninput="updatePreview()"></label>
+          </div>
+          <div class="grid-two">
+            <label>Account holder<input id="bank-account-holder" oninput="updatePreview()"></label>
+            <label>Account number<input id="bank-account-number" oninput="updatePreview()"></label>
+          </div>
+          <div class="grid-two">
+            <label>IBAN<input id="bank-iban" oninput="updatePreview()"></label>
+            <label>SWIFT / BIC<input id="bank-swift" oninput="updatePreview()"></label>
+          </div>
+          <label>Bank address<input id="bank-address" oninput="updatePreview()"></label>
+          <div class="grid-two">
+            <label>Payment method
+              <select id="payment-method" onchange="updatePreview()">
+                <option value="">Select method</option>
+                <option value="CASH">CASH</option>
+                <option value="TT">TT</option>
+                <option value="CC">CC</option>
+                <option value="SWIFT">SWIFT</option>
+                <option value="PAYPAL">PAYPAL</option>
+                <option value="WISE">WISE</option>
+              </select>
+            </label>
+            <label>Handled by<input id="payment-handler" oninput="updatePreview()"></label>
+          </div>
+          <div class="grid-two">
+            <label>Received date<input id="payment-received-date" type="date" oninput="updatePreview()"></label>
+            <label>Received amount<input id="payment-received-amount" type="number" step="0.01" oninput="updatePreview()"></label>
+          </div>
+          <div class="grid-two">
+            <div>
+              <label for="company-logo-upload" class="upload-compact">Upload company logo</label>
+              <input id="company-logo-upload" type="file" accept="image/*" class="hidden" onchange="handleCompanyLogoUpload(event)">
+            </div>
+            <button type="button" class="clear-upload-btn" onclick="clearCompanyLogo()">Clear company logo</button>
+          </div>
+          <div class="grid-two">
+            <div>
+              <label for="bank-logo-upload" class="upload-compact">Upload bank logo</label>
+              <input id="bank-logo-upload" type="file" accept="image/*" class="hidden" onchange="handleBankLogoUpload(event)">
+            </div>
+            <button type="button" class="clear-upload-btn" onclick="clearBankLogo()">Clear bank logo</button>
+          </div>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Client / Quote Meta</h2>
+          <label>Client name<input id="client-name" oninput="updatePreview()"></label>
+          <label>Client contact<input id="client-contact" oninput="updatePreview()"></label>
+          <label>Customer VAT<input id="client-vat" oninput="updatePreview()"></label>
+          <label>Client address<textarea id="client-address" rows="3" oninput="updatePreview()"></textarea></label>
+          <div class="grid-three">
+            <label>Quote #<input id="quote-number" oninput="updatePreview()"></label>
+            <label>Quote date<input id="quote-date" type="date" oninput="updatePreview()"></label>
+            <label>Valid until<input id="valid-until" type="date" oninput="updatePreview()"></label>
+          </div>
+          <label>Currency
+            <select id="quote-currency" onchange="updatePreview()">
+              <option value="USD">USD - US Dollar</option>
+              <option value="THB">THB - Thai Baht</option>
+              <option value="EUR">EUR - Euro</option>
+              <option value="GBP">GBP - British Pound</option>
+              <option value="AUD">AUD - Australian Dollar</option>
+              <option value="CAD">CAD - Canadian Dollar</option>
+              <option value="SGD">SGD - Singapore Dollar</option>
+              <option value="MYR">MYR - Malaysian Ringgit</option>
+              <option value="PHP">PHP - Philippine Peso</option>
+              <option value="JPY">JPY - Japanese Yen</option>
+              <option value="CHF">CHF - Swiss Franc</option>
+            </select>
+          </label>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Design / Factory Identifiers</h2>
+          <label>Design name<input id="design-name" oninput="updatePreview()"></label>
+          <div class="grid-four">
+            <label>SKU<input id="sku" oninput="updatePreview()"></label>
+            <label>Revision<input id="revision" oninput="updatePreview()"></label>
+            <label>Batch #<input id="batch-number" oninput="updatePreview()"></label>
+            <label>Stage
+              <select id="production-stage" onchange="updatePreview()">
+                <option value="prototype">Prototype</option>
+                <option value="sample">Sample</option>
+                <option value="first-run">First run</option>
+                <option value="repeat-run">Repeat run</option>
+                <option value="scale-run">Scale run</option>
+              </select>
+            </label>
+          </div>
+          <label>Design description<textarea id="design-description" rows="4" oninput="updatePreview()"></textarea></label>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Pricing Settings</h2>
+          <div class="grid-four">
+            <label>Batch size<input id="batch-size" type="number" min="1" step="1" oninput="applyVolumeDefault()"></label>
+            <label>Labor reduction %<input id="volume-reduction" type="number" min="0" max="95" step="0.1" oninput="updatePreview()"></label>
+            <label>Overhead %<input id="overhead-percent" type="number" step="0.1" oninput="updatePreview()"></label>
+            <label>Contingency %<input id="contingency-percent" type="number" step="0.1" oninput="updatePreview()"></label>
+          </div>
+          <div class="grid-two">
+            <label>Freight / import / admin<input id="freight-admin-cost" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Selected channel
+              <select id="selected-channel" onchange="updatePreview()">
+                <option value="wholesale">Wholesale / Trade</option>
+                <option value="direct">Direct / Custom</option>
+                <option value="premium">Premium / Limited</option>
+                <option value="custom">Custom</option>
+              </select>
+            </label>
+          </div>
+          <div class="grid-four">
+            <label>Wholesale x<input id="channel-wholesale" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Direct x<input id="channel-direct" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Premium x<input id="channel-premium" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Custom x<input id="channel-custom" type="number" step="0.01" oninput="updatePreview()"></label>
+          </div>
+          <p id="spot-status" class="text-muted" style="font-size: 0.7rem; margin: 0;">Manual rates loaded.</p>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Reference Images</h2>
+          <div class="grid-two">
+            <label id="reference-upload-label-0" for="image-upload-0" class="upload-compact">Upload reference image 1</label>
+            <button type="button" class="clear-upload-btn" onclick="clearReferenceImage(0)">Clear</button>
+          </div>
+          <input id="image-upload-0" type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 0)">
+          <div class="grid-two">
+            <label id="reference-upload-label-1" for="image-upload-1" class="upload-compact">Upload reference image 2</label>
+            <button type="button" class="clear-upload-btn" onclick="clearReferenceImage(1)">Clear</button>
+          </div>
+          <input id="image-upload-1" type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 1)">
+          <div class="grid-two">
+            <label id="reference-upload-label-2" for="image-upload-2" class="upload-compact">Upload reference image 3</label>
+            <button type="button" class="clear-upload-btn" onclick="clearReferenceImage(2)">Clear</button>
+          </div>
+          <input id="image-upload-2" type="file" accept="image/*" class="hidden" onchange="handleImageUpload(event, 2)">
+        </section>
+
+        <section class="input-block">
+          <div class="section-title-row"><h2>Metals / Materials</h2><button type="button" class="mini-link" onclick="addMaterialRow()">Add Material</button></div>
+          <div id="materials-container"></div>
+        </section>
+
+        <section class="input-block">
+          <div class="section-title-row"><h2>Gemstones</h2><button type="button" class="mini-link" onclick="addStoneRow()">Add Stone</button></div>
+          <div id="stones-container"></div>
+        </section>
+
+        <section class="input-block">
+          <div class="section-title-row"><h2>Findings / Components</h2><button type="button" class="mini-link" onclick="addComponentRow()">Add Component</button></div>
+          <div id="components-container"></div>
+        </section>
+
+        <section class="input-block">
+          <div class="section-title-row"><h2>Labor / Processes</h2><button type="button" class="mini-link" onclick="addLaborRow()">Add Labor</button></div>
+          <div id="labor-container"></div>
+        </section>
+
+        <section class="input-block">
+          <div class="section-title-row"><h2>Finishing / Packaging</h2><button type="button" class="mini-link" onclick="addFinishingRow()">Add Cost</button></div>
+          <div id="finishing-container"></div>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Factory Routing / QC / Risk</h2>
+          <p class="doc-label">Routing</p>
+          <div id="routing-checklist-container" class="section-toggle-grid"></div>
+          <p class="doc-label">QC</p>
+          <div id="qc-checklist-container" class="section-toggle-grid"></div>
+          <p class="doc-label">Risk Flags</p>
+          <div id="risk-flags-container" class="section-toggle-grid"></div>
+        </section>
+
+        <section class="input-block form-stack">
+          <h2>Notes / Actuals</h2>
+          <label>Client notes<textarea id="client-notes" rows="3" oninput="updatePreview()"></textarea></label>
+          <label>Payment notes<textarea id="payment-notes" rows="3" oninput="updatePreview()"></textarea></label>
+          <label>Legal terms<textarea id="legal-terms" rows="5" oninput="updatePreview()"></textarea></label>
+          <label>Supplier evidence notes<textarea id="supplier-evidence-notes" rows="3" oninput="updatePreview()"></textarea></label>
+          <label>Factory notes<textarea id="factory-notes" rows="3" oninput="updatePreview()"></textarea></label>
+          <label>Approval notes<textarea id="approval-notes" rows="3" oninput="updatePreview()"></textarea></label>
+          <div class="grid-two">
+            <label>Actual material<input id="actual-material-cost" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Actual labor<input id="actual-labor-cost" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Actual rework<input id="actual-rework-cost" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Actual other<input id="actual-other-cost" type="number" step="0.01" oninput="updatePreview()"></label>
+            <label>Actual COGS override<input id="actual-cogs" type="number" step="0.01" oninput="updatePreview()"></label>
+          </div>
+        </section>
+      </aside>
+
+      <section class="preview-pane panel">
+        <div class="document-stack">
+          <div class="document-preview-fit">
+            <article id="client-quote-document" class="document-sheet">
+              <header class="document-header" data-visible-section="quoteHeader">
+                <div class="document-branding">
+                  <div id="quote-company-logo-wrap" class="document-logo-wrap is-hidden"><img id="quote-company-logo" src="" alt="Company logo"></div>
+                  <div>
+                    <p id="quote-preview-company" class="doc-label">YOUR COMPANY NAME</p>
+                    <h2 id="quote-preview-title" class="doc-title">Jewelry Quote</h2>
+                    <p id="quote-preview-subtitle" class="doc-subtitle"></p>
+                  </div>
+                </div>
+                <div style="text-align: right;">
+                  <p class="doc-label">Quote</p>
+                  <p id="quote-preview-number" class="doc-title" style="font-size: 18px;">-</p>
+                  <p class="doc-subtitle">Date <span id="quote-preview-date">-</span></p>
+                  <p class="doc-subtitle">Valid <span id="quote-preview-valid">-</span></p>
+                </div>
+              </header>
+
+              <section class="doc-section doc-two" data-visible-section="quoteClient">
+                <div class="doc-field">
+                  <strong>Client</strong>
+                  <span id="quote-preview-client">Client name</span><br>
+                  <span id="quote-preview-client-contact">-</span><br>
+                  <span id="quote-preview-client-address">-</span>
+                </div>
+                <div class="doc-field">
+                  <strong>Issuer</strong>
+                  <span id="quote-preview-issuer-address">Company address</span><br>
+                  <span id="quote-preview-issuer-contact">-</span>
+                </div>
+              </section>
+
+              <section class="doc-section quote-layout">
+                <div id="quote-reference-wrap" class="reference-frame" data-visible-section="quoteImage">
+                  <img id="quote-reference-image" src="" alt="Reference jewelry">
+                </div>
+                <div>
+                  <h3>Design Summary</h3>
+                  <div class="doc-three">
+                    <div class="doc-field"><strong>Design</strong><span id="quote-preview-design">Custom jewelry design</span></div>
+                    <div class="doc-field"><strong>SKU</strong><span id="quote-preview-sku">-</span></div>
+                    <div class="doc-field"><strong>Revision</strong><span id="quote-preview-revision">-</span></div>
+                  </div>
+                  <div class="doc-field" style="margin-top: 8px;"><strong>Description</strong><span id="quote-preview-description">-</span></div>
+                  <div class="doc-two" style="margin-top: 8px;">
+                    <div class="doc-field"><strong>Material / finish</strong><span id="quote-preview-material">-</span></div>
+                    <div class="doc-field"><strong>Gemstones</strong><span id="quote-preview-gems">-</span></div>
+                  </div>
+                  <div class="price-box" style="margin-top: 12px;">
+                    <span><span id="quote-preview-channel">Direct / Custom</span> unit price</span>
+                    <strong id="quote-preview-unit-price">$0.00</strong>
+                    <span>Qty <span id="quote-preview-quantity">1</span> / Total <span id="quote-preview-total-price">$0.00</span></span>
+                  </div>
+                </div>
+              </section>
+
+              <section class="doc-section" data-visible-section="quotePayment">
+                <h3>Payment</h3>
+                <div class="doc-three">
+                  <div class="doc-field"><strong>Method</strong><span id="quote-preview-payment-method">-</span></div>
+                  <div class="doc-field"><strong>Handled by</strong><span id="quote-preview-payment-handler">-</span></div>
+                  <div class="doc-field"><strong>Notes</strong><span id="quote-preview-payment-notes">-</span></div>
+                </div>
+                <div class="doc-three" style="margin-top: 8px;">
+                  <div class="doc-field"><strong>Bank</strong><span id="quote-preview-bank-name">-</span></div>
+                  <div class="doc-field"><strong>Account</strong><span id="quote-preview-bank-account">-</span></div>
+                  <div class="doc-field"><strong>SWIFT / IBAN</strong><span id="quote-preview-bank-wire">-</span></div>
+                </div>
+              </section>
+
+              <section class="doc-section" data-visible-section="quoteTerms">
+                <h3>Notes And Terms</h3>
+                <div class="doc-two">
+                  <div class="doc-field"><strong>Client notes</strong><span id="quote-preview-client-notes">-</span></div>
+                  <div class="doc-field"><strong>Terms</strong><span id="quote-preview-legal-terms">-</span></div>
+                </div>
+              </section>
+
+              <section class="signature-grid" data-visible-section="quoteSignatures">
+                <div class="signature-line">Prepared by</div>
+                <div class="signature-line">Client approval</div>
+                <div class="signature-line">Date</div>
+              </section>
+              <footer id="quote-preview-footer" class="document-footer">All rights reserved.</footer>
+            </article>
+          </div>
+
+          <div class="document-preview-fit">
+            <article id="factory-worksheet-document" class="document-sheet">
+              <header class="document-header">
+                <div>
+                  <p id="factory-preview-company" class="doc-label">INTERNAL FACTORY RECORD</p>
+                  <h2 id="factory-preview-title" class="doc-title">Factory Pricing Worksheet</h2>
+                  <p class="doc-subtitle">Internal costing, production, QC, and margin record</p>
+                </div>
+                <div style="text-align: right;">
+                  <p class="doc-label">Quote</p>
+                  <p id="factory-preview-number" class="doc-title" style="font-size: 18px;">-</p>
+                  <p class="doc-subtitle">Date <span id="factory-preview-date">-</span></p>
+                </div>
+              </header>
+
+              <section class="doc-section">
+                <h3>Production Identity</h3>
+                <div class="doc-three">
+                  <div class="doc-field"><strong>Design</strong><span id="factory-preview-design">-</span></div>
+                  <div class="doc-field"><strong>SKU / Revision</strong><span id="factory-preview-sku">-</span> / <span id="factory-preview-revision">-</span></div>
+                  <div class="doc-field"><strong>Batch</strong><span id="factory-preview-batch">-</span></div>
+                  <div class="doc-field"><strong>Stage</strong><span id="factory-preview-stage">-</span></div>
+                  <div class="doc-field"><strong>Quantity</strong><span id="factory-preview-quantity">1</span></div>
+                  <div class="doc-field"><strong>Description</strong><span id="factory-preview-description">-</span></div>
+                </div>
+              </section>
+
+              <section class="doc-section">
+                <h3>Metals / Materials</h3>
+                <table class="doc-table">
+                  <thead><tr><th>Material</th><th>Finished</th><th>Used</th><th>Factor</th><th>Unit/g</th><th class="numeric">Cost</th></tr></thead>
+                  <tbody id="factory-material-body"></tbody>
+                </table>
+              </section>
+
+              <section class="doc-section">
+                <h3>Gemstones</h3>
+                <table class="doc-table">
+                  <thead><tr><th>Stone</th><th>Qty</th><th>Carats</th><th>Rate/ct</th><th class="numeric">Cost</th></tr></thead>
+                  <tbody id="factory-stone-body"></tbody>
+                </table>
+              </section>
+
+              <section class="doc-section">
+                <h3>Findings / Components</h3>
+                <table class="doc-table">
+                  <thead><tr><th>Description</th><th>Qty</th><th>Unit cost</th><th class="numeric">Cost</th></tr></thead>
+                  <tbody id="factory-component-body"></tbody>
+                </table>
+              </section>
+
+              <section class="doc-section">
+                <h3>Labor / Processes</h3>
+                <table class="doc-table">
+                  <thead><tr><th>Process</th><th>Qty</th><th>Unit cost</th><th class="numeric">Base cost</th></tr></thead>
+                  <tbody id="factory-labor-body"></tbody>
+                </table>
+              </section>
+
+              <section class="doc-section">
+                <h3>Finishing / Packaging / Other</h3>
+                <table class="doc-table">
+                  <thead><tr><th>Description</th><th>Qty</th><th>Unit cost</th><th class="numeric">Cost</th></tr></thead>
+                  <tbody id="factory-finishing-body"></tbody>
+                </table>
+              </section>
+
+              <section class="doc-section">
+                <h3>Cost Summary</h3>
+                <div class="factory-summary">
+                  <div class="doc-field"><strong>Materials</strong><span id="factory-material-total">$0.00</span></div>
+                  <div class="doc-field"><strong>Labor base</strong><span id="factory-labor-base">$0.00</span></div>
+                  <div class="doc-field"><strong>Labor reduction</strong><span id="factory-volume-reduction">0%</span></div>
+                  <div class="doc-field"><strong>Adjusted labor</strong><span id="factory-labor-adjusted">$0.00</span></div>
+                  <div class="doc-field"><strong>Overhead</strong><span id="factory-overhead">$0.00</span></div>
+                  <div class="doc-field"><strong>Finishing / other</strong><span id="factory-finishing-total">$0.00</span></div>
+                  <div class="doc-field"><strong>Freight / admin</strong><span id="factory-freight-admin">$0.00</span></div>
+                  <div class="doc-field"><strong>Contingency</strong><span id="factory-contingency">$0.00</span></div>
+                  <div class="doc-field"><strong>COGS / pc</strong><span id="factory-cogs">$0.00</span></div>
+                  <div class="doc-field"><strong>Batch COGS</strong><span id="factory-batch-cogs">$0.00</span></div>
+                </div>
+              </section>
+
+              <section class="doc-section">
+                <h3>Channel Pricing And Margins</h3>
+                <table class="doc-table">
+                  <thead><tr><th>Channel</th><th>Multiplier</th><th>Sell / pc</th><th>Batch revenue</th><th>Margin</th></tr></thead>
+                  <tbody id="factory-channel-body"></tbody>
+                </table>
+              </section>
+
+              <section class="doc-section" data-visible-section="factoryRouting">
+                <h3>Routing Checklist</h3>
+                <div id="factory-routing-list" class="check-list"></div>
+              </section>
+
+              <section class="doc-section" data-visible-section="factoryQc">
+                <h3>QC Checklist And Risk Flags</h3>
+                <div class="doc-two">
+                  <div><p class="doc-label">QC</p><div id="factory-qc-list" class="check-list"></div></div>
+                  <div><p class="doc-label">Risk</p><div id="factory-risk-list" class="check-list"></div></div>
+                </div>
+              </section>
+
+              <section class="doc-section" data-visible-section="factoryActuals">
+                <h3>Actual Cost Variance</h3>
+                <table class="doc-table"><tbody id="factory-actuals-body"></tbody></table>
+              </section>
+
+              <section class="doc-section">
+                <h3>Factory Notes</h3>
+                <div class="doc-three">
+                  <div class="doc-field"><strong>Supplier evidence</strong><span id="factory-preview-supplier-notes">-</span></div>
+                  <div class="doc-field"><strong>Production notes</strong><span id="factory-preview-factory-notes">-</span></div>
+                  <div class="doc-field"><strong>Approval notes</strong><span id="factory-preview-approval-notes">-</span></div>
+                </div>
+              </section>
+
+              <section class="signature-grid" data-visible-section="factoryApprovals">
+                <div class="signature-line">Prepared by</div>
+                <div class="signature-line">Production approval</div>
+                <div class="signature-line">Finance approval</div>
+              </section>
+              <footer class="document-footer">Internal worksheet. Keep supplier rates, labor, COGS, and margins private.</footer>
+            </article>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
